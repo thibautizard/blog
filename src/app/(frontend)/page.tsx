@@ -1,59 +1,44 @@
-import { headers as getHeaders } from 'next/headers.js'
-import Image from 'next/image'
-import { getPayload } from 'payload'
 import React from 'react'
-import { fileURLToPath } from 'url'
-
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
+import './global.css'
+import { getPayload } from 'payload'
 import config from '@/payload.config'
-import './styles.css'
+import { RichText } from './_components/rich-text'
+
+const PostPreview = ({
+  title,
+  content,
+  createdAt,
+}: {
+  title: string
+  createdAt: string
+  content?: SerializedEditorState | null
+}) => (
+  <div>
+    <h2 className="text-2xl font-semibold mb-2">{title}</h2>
+    <p className="text-sm text-gray-500 mb-2">
+      {new Date(createdAt).toLocaleDateString('fr-FR', {
+        dateStyle: 'long',
+      })}
+    </p>
+    {content && <RichText data={content} />}
+  </div>
+)
 
 export default async function HomePage() {
-  const headers = await getHeaders()
-  const payloadConfig = await config
-  const payload = await getPayload({ config: payloadConfig })
-  const { user } = await payload.auth({ headers })
+  const payload = await getPayload({ config })
+  const posts = await payload.find({ collection: 'posts' })
 
-  const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
+  if (posts.totalDocs === 0) return null
 
-  return (
-    <div className="home">
-      <div className="content">
-        <picture>
-          <source srcSet="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg" />
-          <Image
-            alt="Payload Logo"
-            height={65}
-            src="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg"
-            width={65}
-          />
-        </picture>
-        {!user && <h1>Welcome to your new project.</h1>}
-        {user && <h1>Welcome back, {user.email}</h1>}
-        <div className="links">
-          <a
-            className="admin"
-            href={payloadConfig.routes.admin}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Go to admin panel
-          </a>
-          <a
-            className="docs"
-            href="https://payloadcms.com/docs"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Documentation
-          </a>
-        </div>
-      </div>
-      <div className="footer">
-        <p>Update this page by editing</p>
-        <a className="codeLink" href={fileURL}>
-          <code>app/(frontend)/page.tsx</code>
-        </a>
-      </div>
-    </div>
-  )
+  const PostsList = posts.docs.map((post) => (
+    <PostPreview
+      key={post.id}
+      title={post.title}
+      createdAt={post.createdAt}
+      content={post.content}
+    />
+  ))
+
+  return PostsList
 }

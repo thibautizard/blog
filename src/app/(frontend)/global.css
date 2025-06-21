@@ -1,0 +1,28 @@
+@import 'tailwindcss';
+
+:root {
+  --background: #fff;
+  --foreground: #000;
+}
+
+.root {
+  isolation: isolate; /* For Base UI portals to work */
+}
+
+@theme inline {
+  --font-montserrat: var(--font-montserrat);
+  --font-merriweather: var(--font-merriweather);
+}
+
+body {
+  font-family: var(--font-merriweather);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-montserrat);
+}
