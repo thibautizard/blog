@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Avatar } from '@base-ui-components/react/avatar'
 import { Tooltip } from '@base-ui-components/react/tooltip'
 
-import ProfilePicture from '../_assets/pp.png'
+import ProfilePicture from '@/assets/pp.png'
 
 export const Header = () => (
   <div className="flex justify-between items-center">

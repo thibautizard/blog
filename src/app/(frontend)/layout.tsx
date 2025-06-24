@@ -1,7 +1,7 @@
 import { Montserrat, Merriweather } from 'next/font/google'
 import { Tooltip } from '@base-ui-components/react/tooltip'
 import React from 'react'
-import { Header } from './_components/header'
+import { Header } from '../../components/header'
 import './global.css'
 
 const montserrat = Montserrat({
