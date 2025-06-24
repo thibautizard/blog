@@ -2,6 +2,7 @@ import React from 'react'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { RichText } from '@/components/rich-text'
+import PostTitle from '@/components/post-title'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -21,8 +22,8 @@ async function PostView({ params }: Props) {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-2">{postData.title}</h2>
-      <RichText data={postData.content} />
+      <PostTitle title={postData.title} />
+      <RichText data={postData.content} className="post-content" />
     </div>
   )
 }

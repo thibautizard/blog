@@ -5,34 +5,35 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { RichText } from '@/components/rich-text'
 import Link from 'next/link'
+import PostTitle from '@/components/post-title'
 
 const PostPreview = ({
   title,
-  content,
+  excerpt,
   slug,
   createdAt,
 }: {
   title: string
   slug: string
   createdAt: string
-  content?: SerializedEditorState | null
+  excerpt?: string | null
 }) => (
-  <div>
-    <h2 className="text-2xl font-semibold mb-2">
-      <Link href={`/posts/${slug}`}>{title}</Link>
-    </h2>
-    <p className="text-sm text-gray-500 mb-2">
-      {new Date(createdAt).toLocaleDateString('fr-FR', {
-        dateStyle: 'long',
-      })}
-    </p>
-    {content && <RichText data={content} />}
+  <div className="hover:scale-101 transition-all duration-500 cursor-pointer">
+    <Link href={`/posts/${slug}`}>
+      <PostTitle title={title} />
+      <p className="text-sm text-gray-500 mb-2">
+        {new Date(createdAt).toLocaleDateString('fr-FR', {
+          dateStyle: 'long',
+        })}
+      </p>
+      {excerpt && <p className="text-base mb-2">{excerpt}</p>}
+    </Link>
   </div>
 )
 
 export default async function HomePage() {
   const payload = await getPayload({ config })
-  const posts = await payload.find({ collection: 'posts' })
+  const posts = await payload.find({ collection: 'posts', where: { published: { equals: true } } })
 
   if (posts.totalDocs === 0) return null
 
@@ -42,7 +43,7 @@ export default async function HomePage() {
       title={post.title}
       slug={post.slug}
       createdAt={post.createdAt}
-      content={post.content}
+      excerpt={post.excerpt}
     />
   ))
 

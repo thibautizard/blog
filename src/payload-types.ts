@@ -159,6 +159,9 @@ export interface Post {
   id: number;
   title: string;
   slug: string;
+  author: number | User;
+  published: boolean;
+  excerpt?: string | null;
   content: {
     root: {
       type: string;
@@ -278,6 +281,9 @@ export interface MediaSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  author?: T;
+  published?: T;
+  excerpt?: T;
   content?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -14,6 +14,23 @@ export const Posts: CollectionConfig = {
       required: true,
     },
     {
+      name: 'author',
+      type: 'relationship',
+      relationTo: 'users',
+      required: true,
+    },
+    {
+      name: 'published',
+      type: 'checkbox',
+      defaultValue: false,
+      required: true,
+    },
+    {
+      name: 'excerpt',
+      type: 'text',
+      required: false,
+    },
+    {
       name: 'content',
       type: 'richText',
       required: true,

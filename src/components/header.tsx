@@ -7,7 +7,7 @@ import ProfilePicture from '@/assets/pp.png'
 export const Header = () => (
   <div className="flex justify-between items-center">
     <h1 className="text-2xl font-montserrat font-bold tracking-tighter">
-      <Link href="/">frenchdev</Link>
+      <Link href="/posts">frenchdev</Link>
     </h1>
     <div className="flex items-center gap-3">
       <span className="font-merriweather italic">by</span>
