@@ -1,13 +1,18 @@
 import { Avatar } from "@base-ui-components/react/avatar";
 import { Tooltip } from "@base-ui-components/react/tooltip";
 import Link from "next/link";
-
 import ProfilePicture from "@/assets/pp.jpeg";
+import { SparklesText } from "@/components/magicui/sparkles-text";
 
 const FrenchDev = (
-	<h1 className="text-2xl font-montserrat font-bold tracking-tighter">
-		<Link href="/posts">frenchdev</Link>
-	</h1>
+	<SparklesText
+		sparklesCount={10}
+		colors={{ first: "#3b82f6", second: "#a855f7" }}
+	>
+		<h1 className="text-2xl font-montserrat font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
+			<Link href="/posts">frenchdev</Link>
+		</h1>
+	</SparklesText>
 );
 
 const PP = (
