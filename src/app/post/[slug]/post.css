@@ -1,15 +1,47 @@
-a {
-    color: blue;
+/* Code */
+
+pre {
+    margin : 16px 0;
+    overflow-x: auto;
+    padding: 1rem 0;
+    border-radius: 10px;
+    font-size: .8   rem;
 }
+   
+pre [data-line] {
+    padding: 0 1rem;
+}
+
+[data-highlighted-line] {
+    border-left: 4px solid #c084fc;
+    background-color: #022a4b;
+    display: block;
+    padding-right: 1em;
+}
+
+/* Useful links */
 
 .useful-links {
     margin-top: 40px;
     
     h4 {
+        font-size: 1.2rem;
         font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    li:first-child {
+        font-size: .6rem;
     }
     
     a {
+        color: #60a5fa;
         font-size: 0.8rem;
         text-decoration: underline;
         font-family: "Merriweather", serif;
