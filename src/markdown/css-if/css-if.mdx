@@ -1,4 +1,5 @@
 import SpecialComponent from "./components/special-component";
+import BadgeOld from "./components/badge-old";
 
 export const metadata = {
 	title: "Utiliser if dans du... CSS 😱",
@@ -10,23 +11,102 @@ Le CSS n'en finit plus de se transformer et d'__incorporer toujours plus de nouv
 
 C'est encore le cas avec l'arrivée de la très attendue (et inespérée !) fonction `if()` pour gérer des __styles conditionnels__.
 
-Prenons un exemple avec des badges de statut.
+Prenons un cas d'usage assez banal avec ces badges reflétant un statut :
 
-```html
-<div class="badge" data-status="pending">
-    Pending
+
+<div className="flex flex-wrap max-w-[300px] justify-center gap-3 my-8 mx-auto">
+	<BadgeOld status="pending" />
+	<BadgeOld status="success" />
+	<BadgeOld status="error" />
+	<BadgeOld status="warning" />
+	<BadgeOld status="info" />
 </div>
+
+Chaque badge porte un attribut `data-status`. On souhaite alors différencier le style de chaque badge en fonction de la valeur de cet attribut.
+
+Jusqu'à présent, on pouvait définir des variables CSS à la portée limitée dont on manipulera ensuite la valeur :
+
+```css
+.badge {
+    --color: #0ea5e9; /* fallback color */
+    --background-color: #cffafe; /* fallback background color */
+
+    border: 1px solid var(--color);
+    background-color: var(--background-color);
+    color: var(--color);
+
+   /* ... */
+}
+```
+	
+<br/>
+
+<BadgeOld status="pending" />
+```css
+.badge[data-status="pending"] { 
+    --color: #9333ea;
+    --border-color: #f5f3ff;
+}
 ```
 
-### Compatibilité avec navigateurs
+<br/>
 
-Comme souvent, __c'est Chrome qui prend la tête du support__ en embarquant le `if()` dès sa version 137 (sortie fin mai 2025). Les autres navigateurs sont encore aux fraises sur le sujet donc __prudence avant d'envoyer ça en production__.
+<BadgeOld status="success" />
+```css
+.badge[data-status="success"] { 
+    --color: #16a34a;
+    --background-color: #dcfce7;
+}
+```
 
-Le revers de la médaille c'est que le CSS __s'éloigne de sa nature très déclarative__ et **devient** __de plus en plus proche d'un langage de programmation__ avec un coût d'entrée plus élevé pour les nouveaux arrivants. 
+<br/>
 
-Or c'est cet aspect déclaratif qui permet de limiter la casse lorsqu'on envoie du CSS trop récent dans des navigateurs avec des versions anciennes puisqu'__il leur suffit alors de zapper les propriétés ou valeurs inconnues__ — là où le compilateur de Javascript crashe salement lorsqu'il tombe sur une syntaxe inconnue ou invalide dans la version maximum de JS supportée par celui-ci. 
+<BadgeOld status="error" />
+```css
+.badge[data-status="error"] { 
+    --color: #ef4444;
+    --background-color: #fee2e2;
+}
+```
 
-À voir donc si ce surplus de logique dans le CSS ne va pas aggraver les problèmes de rétrocompatibilité puisque l'interprétation en deviendra plus délicate.
+Ici on conditionne bien l'application d'un style en fonction de la valeur de l'attribut `data-status`. Mais cette forme conditionnelle est implicite et nécessite d'écrire plusieurs sélecteurs CSS tournant autour des valeurs possibles que peut prendre l'attribut `data-status`.
+
+Avec la nouvelle fonction `if()`, on peut au sein du même sélecteur définir les changements de valeur pour chaque variante :
+
+```css {2}
+.badge {
+	--status: attr(data-status type(<custom-indent>));
+
+	color: if(
+		style(--status: pending): #9333ea;
+		style(--status: success): #16a34a;
+		style(--status: error): #ef4444;
+		else: #0ea5e9);
+
+	background-color: if(
+		style(--status: pending): #f5f3ff;
+		style(--status: success): #dcfce7;
+		style(--status: error): #fee2e2;
+		else: #cffafe);
+}
+
+```
+
+Tout se joue dans la définition d'une unique propriété CSS custom `--status` sorte de jumeau de l'attribut HTML `data-status` dont on va pouvoir comparer la valeur pour redéfinir le style d'autres propriétés CSS.
+
+La syntaxe est un poil moins verbeuse  🤏 et surtout beaucoup plus claire à la première lecture !
+
+### Compatibilité avec les navigateurs
+
+Comme souvent, __c'est Chrome qui a pris les devants en termes de support__ en embarquant le `if()` dès la version 137 (sortie fin mai 2025). La plupart des autres navigateurs non basés sur Chromium sont encore aux fraises sur le sujet donc __prudence prudence avant d'envoyer ça en production__.
+
+### Quelques réserves
+
+Le revers de la médaille avec ces syntaxes plus "programmatiques" c'est que le CSS __s'éloigne de sa nature très déclarative__ et **devient** __de plus en plus proche d'un langage de programmation__ avec un coût de maîtrise qui s'élève progressivement. 
+
+Or c'est cet aspect déclaratif commun à HTML et CSS qui permettait de limiter la casse lorsqu'on envoyait du CSS trop récent dans des navigateurs avec des versions anciennes puisqu'__il leur suffit alors de zapper les propriétés ou valeurs inconnues__ — là où le compilateur de Javascript crashe salement s'il croise une syntaxe inconnue postérieur à sa version maximum supportée. 
+
+À voir donc si ce surplus de logique dans le CSS ne va pas __aggraver les problèmes de rétrocompatibilité__ puisque l'interprétation en deviendra plus délicate.
 
 <div className="video-container">
 	<iframe
