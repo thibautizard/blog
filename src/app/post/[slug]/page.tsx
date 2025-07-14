@@ -1,4 +1,5 @@
 import { getAllPosts } from "@/lib/posts";
+import "./post.css";
 
 export const dynamicParams = false;
 
