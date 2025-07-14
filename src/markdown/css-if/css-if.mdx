@@ -6,36 +6,38 @@ export const metadata = {
 	excerpt: "Il est dorénavant possible d'utiliser un if dans son propre CSS !",
 };
 
-Il est dorénavant possible d'utiliser un if dans son propre CSS !
+Le CSS n'en finit plus de se transformer et d'__incorporer toujours plus de nouvelles fonctionnalités__ qui requéraient auparavant de passer par des pré-processeurs type Sass ou Less.
 
+C'est encore le cas avec l'arrivée de la très attendue (et inespérée !) fonction `if()` pour gérer des __styles conditionnels__.
 
-```CSS
-.useful-links {
-    margin-top: 40px;
-    
-    h4 {
-        font-weight: 600;
-    }
-    
-    a {
-        font-size: 0.8rem;
-        text-decoration: underline;
-        font-family: "Merriweather", serif;
-    }
-}
-```
-<br/>
+Prenons un exemple avec des badges de statut.
 
-```js {1}
-const a = 1;
-
-if (a === 1) {
-    console.log("a is 1");
-}
+```html
+<div class="badge" data-status="pending">
+    Pending
+</div>
 ```
 
+Comme souvent, __c'est Chrome qui prend la tête du support__ en embarquant le `if()` dès sa version 137 (sortie fin mai 2025). Les autres navigateurs sont encore aux fraises sur le sujet donc __prudence avant d'envoyer ça en production__.
+
+Le revers de la médaille c'est que le CSS __s'éloigne de sa nature très déclarative__ et devient __de plus en plus proche d'un langage de programmation__ avec un coût d'entrée plus élevé pour les nouveaux arrivants. 
+
+Or c'est cette nature déclarative qui permet de limiter la casse lorsqu'on envoie du CSS trop récent dans des navigateurs avec des versions anciennes puisqu'__il suffit de zapper les propriétés ou valeurs inconnues__, là où le javascript crash lorsque le compilateur tombe sur une syntaxe inconnue ou invalide dans certaines versions. Je me demande donc si ce surplus de logique dans le CSS ne va pas aggraver les problèmes de rétrocompatibilité puisque l'interprétation en deviendra plus délicate.
+
+<div className="video-container">
+	<iframe
+	width="560"
+	height="315"
+	src="https://www.youtube.com/embed/Apn8ucs7AL0"
+	title="YouTube video player"
+	frameBorder="0"
+	allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+	allowFullScreen
+	style={{ margin: "2rem auto", maxWidth: "100%" }}
+	/>
+</div>
 
 <div className="useful-links">
-#### Liens utiles
+#### Liens additionnels
 - 🔗 [Documentation MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/if)
 </div>

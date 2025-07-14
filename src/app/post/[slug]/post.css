@@ -1,3 +1,7 @@
+/* Text */
+p {
+    margin-bottom: 16px;
+}
 /* Code */
 
 pre {
@@ -17,6 +21,11 @@ pre [data-line] {
     background-color: #022a4b;
     display: block;
     padding-right: 1em;
+}
+
+/* 📺 Videos */
+iframe {
+    margin: 0 auto;
 }
 
 /* Useful links */
