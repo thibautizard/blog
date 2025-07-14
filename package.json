@@ -13,7 +13,11 @@
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-beta.0",
+    "@mdx-js/loader": "^3.1.0",
+    "@mdx-js/react": "^3.1.0",
+    "@next/mdx": "^15.3.5",
     "@tailwindcss/postcss": "^4.1.10",
+    "@types/mdx": "^2.0.13",
     "better-commits": "^1.17.0",
     "cross-env": "^7.0.3",
     "graphql": "^16.8.1",
