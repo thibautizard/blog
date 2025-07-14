@@ -10,12 +10,14 @@ async function getPosts() {
 
 	for (const file of files) {
 		if (file.endsWith(".mdx")) {
+			const slug = file.replace(/\.mdx$/, "");
 			const filePath = path.join(postsDir, file);
 			const content = await fs.promises.readFile(filePath, "utf8");
 			const { data } = matter(content);
 			posts.push({
 				name: data.title || file.replace(/\.mdx$/, ""),
-				slug: data.slug || file.replace(/\.mdx$/, ""),
+				excerpt: data.excerpt || "",
+				slug,
 			});
 		}
 	}
@@ -30,7 +32,10 @@ export default async function HomePage() {
 			<ul>
 				{posts.map((post) => (
 					<li key={post.name}>
-						<Link href={`/posts/${post.slug}`}>{post.name}</Link>
+						<Link href={`/posts/${post.slug}`}>
+							<h2 className="text-2xl font-bold mb-1">{post.name}</h2>
+							<p className="text-sm text-gray-500">{post.excerpt}</p>
+						</Link>
 					</li>
 				))}
 			</ul>

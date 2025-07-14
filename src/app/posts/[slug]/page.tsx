@@ -11,7 +11,10 @@ async function getPost(slug: string) {
 			const filePath = path.join(postsDir, file);
 			const content = await fs.promises.readFile(filePath, "utf8");
 			const { data } = matter(content);
-			return data;
+			return {
+				...data,
+				content,
+			};
 		}
 	}
 
@@ -25,6 +28,6 @@ export default async function PostView({
 }) {
 	const { slug } = await params;
 	const post = await getPost(slug);
-
-	return <pre>{JSON.stringify(post, null, 2)}</pre>;
+	console.log("post", post);
+	return <div>{post?.content}</div>;
 }
