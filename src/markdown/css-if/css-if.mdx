@@ -4,7 +4,7 @@ import BadgeOld from "./components/badge-old";
 export const metadata = {
 	title: "Utiliser if dans du... CSS 😱",
 	date: "2025-07-14",
-	excerpt: "Il est dorénavant possible d'utiliser un if dans son propre CSS !",
+	excerpt: "Il est dorénavant possible de mettre des if dans son propre CSS.",
 };
 
 Le CSS n'en finit plus de se transformer et d'__incorporer toujours plus de nouvelles fonctionnalités__ qui requéraient auparavant de passer par des pré-processeurs type Sass ou Less.
@@ -26,7 +26,7 @@ Chaque badge porte un attribut `data-status`. On souhaite alors différencier la
 
 ### Sans `if()`
 
-Plusieurs solutions sont possibles. Personellement, j'ai l'habitude de __créer des variables CSS__ pour contrôler les propriétés CSS qui m'intéressent et d'en modifier ensuite les valeurs dans différents sous-sélecteurs CSS qui reprennent tous les `[data-status="XXX"]` possibles.
+Plusieurs solutions sont possibles. Personellement, j'ai l'habitude de __créer des variables CSS__ pour contrôler les propriétés qui m'intéressent et d'en modifier ensuite les valeurs dans les différents sous-sélecteurs de type `[data-status="XXX"]`.
 
 
 ```css
@@ -71,11 +71,11 @@ Plusieurs solutions sont possibles. Personellement, j'ai l'habitude de __créer 
 }
 ```
 
-L'inconvénient de cette approche est que la forme conditionnelle n'est pas forcément explicite et nécessite d'écrire plusieurs sélecteurs CSS.
+L'inconvénient de cette approche est que __la forme conditionnelle n'est pas forcément explicite__ et nécessite plusieurs sélecteurs CSS pour cibler tous les états possibles du badge.
 
 ### Avec `if()`
 
-Avec cette nouvelle fonction `if()`, on peut au sein d'un même sélecteur d'élément visé définir tous les changements pour chaque valeur de `data-status` :
+Grâce à cette nouvelle fonction `if()`, on peut définir tous ces changements dans le même sélecteur :
 
 ```css {2}
 .badge {
@@ -95,9 +95,9 @@ Avec cette nouvelle fonction `if()`, on peut au sein d'un même sélecteur d'él
 }
 ```
 
-Tout se joue dans la définition d'une unique propriété CSS custom `--status` qui récupère la valeur de l'attribut HTML `[data-status]` et qu'on peut ensuite comparer au sein de nos différentes conditions pour décider la bonne valeur à donner à nos propriétés CSS pour chaque cas.
+Tout se joue dans la définition d'une propriété CSS custom `--status` qui récupère automatiquement la valeur de l'attribut HTML `[data-status]` laquelle peut ensuite __être comparée pour assigner les styles adéquats si la condition est vérifiée__.
 
-La syntaxe est un poil moins verbeuse  🤏 et surtout beaucoup plus claire à la première lecture !
+La syntaxe est un poil moins verbeuse  🤏 et surtout plus claire dans l'intention.
 
 ### Compatibilité avec les navigateurs
 
@@ -105,7 +105,7 @@ Comme souvent, __c'est Chrome qui a pris les devants en termes de support__ en e
 
 ### Est-ce une si bonne idée ?
 
-Oui, dans la mesure où on peut définir et régler de __façon bien plus élégante__ et __maintenable__ certains problèmes de layout et de style. L'exemple proposé par __[Una Kravets](https://www.youtube.com/@UnaKravets)__ pour classer des tickets dans différentes colonnes dans la vidéo qu'elle consacre à la fonction `if()` est particulièrement ingénieux et permet bien de sentir l'intérêt de cette nouvelle fonctionnalité.
+Plutôt, dans la mesure où on peut régler de __façon bien plus élégante__ et __maintenable__ certains problèmes de layout et de style. L'exemple proposé par __[Una Kravets](https://www.youtube.com/@UnaKravets)__ pour classer des tickets dans différentes colonnes est particulièrement ingénieux et permet bien de sentir l'intérêt de cette nouvelle fonctionnalité 👇
 
 <div className="video-container">
 	<iframe
@@ -120,11 +120,11 @@ Oui, dans la mesure où on peut définir et régler de __façon bien plus élég
 	/>
 </div>
 
-Le revers de la médaille cependant avec ces syntaxes plus "programmatiques" qui émergent c'est qu'elles tendent à __éloigner le CSS de sa nature très déclarative__ et à le rapprocher d'un langage de programmation avec un coût d'entrée et de maîtrise qui s'élève de plus en plus. 
+Le revers de la médaille cependant avec ces syntaxes plus "programmatiques" qui émergent c'est qu'elles tendent à __éloigner le CSS de sa nature très déclarative__ et à le rapprocher d'un langage de programmation avec un coût d'entrée et de maîtrise de plus en plus élevé. 
 
-Or c'est précisément cet aspect déclaratif commun à HTML et CSS qui permet de limiter la casse lorsqu'on envoyait du CSS trop récent dans des navigateurs avec des versions anciennes puisqu'__il suffisait à l'interpréteur de zapper les propriétés ou valeurs inconnues__ — là où le compilateur de Javascript crashe méchamment s'il croise une syntaxe inconnue postérieur à sa version maximum supportée. 
+Or c'est précisément cet aspect déclaratif commun à HTML et CSS qui permet de limiter la casse lorsqu'on envoyait du CSS trop récent dans des navigateurs avec des versions anciennes puisqu'__il suffit à l'interpréteur de zapper les propriétés ou valeurs inconnues__ — là où un compilateur Javascript crashe méchamment s'il croise une syntaxe inconnue postérieur à sa version maximum supportée. 
 
-À voir donc si ce surplus de logique dans le CSS ne va pas __aggraver les problèmes de rétrocompatibilité__ puisque l'interprétation en deviendra plus délicate — même si des outils comme [PostCSS](https://postcss.org/) permettent généralement de lever cette difficulté en transpilant le CSS moderne pour le rendre compatible avec les anciennes versions de navigateurs.
+À voir donc si ce surplus de logique dans le CSS ne va pas __aggraver les problèmes de rétrocompatibilité et compliquer le débuggage__ puisque l'interprétation en deviendra plus délicate — même si des outils comme [PostCSS](https://postcss.org/) permettent généralement de mitiger cette difficulté en transpilant le CSS moderne pour le rendre compatible avec les anciennes versions de navigateurs.
 
 
 <div className="useful-links">

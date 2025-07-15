@@ -25,7 +25,7 @@ pre {
     overflow-x: auto;
     padding: 1rem 0;
     border-radius: 10px;
-    font-size: .8   rem;
+    font-size: .8rem;
 }
    
 pre [data-line] {
@@ -62,12 +62,12 @@ iframe {
     }
 
     li:first-child {
-        font-size: .6rem;
+        font-size: .8rem;
     }
     
     a {
         color: #60a5fa;
-        font-size: 0.8rem;
+        font-size: 1rem;
         text-decoration: underline;
         font-family: "Merriweather", serif;
     }
