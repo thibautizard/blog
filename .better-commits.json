@@ -20,6 +20,12 @@
         "emoji": "🐛"
       },
       {
+        "value": "write",
+        "label": "write",
+        "hint": "A new post or edit",
+        "emoji": "📝"
+      },
+      {
         "value": "style",
         "label": "style",
         "hint": "Modify or enhance overall styling or components",
