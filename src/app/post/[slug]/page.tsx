@@ -27,7 +27,7 @@ export default async function PostView({
 	return (
 		<div>
 			<header className="flex flex-col gap-2 mb-4">
-				<h2 className="text-3xl font-bold">{metadata.title}</h2>
+				<h2 className="text-3xl font-bold text-balance">{metadata.title}</h2>
 				{formattedDate && (
 					<div className="text-sm text-gray-500">{formattedDate}</div>
 				)}
