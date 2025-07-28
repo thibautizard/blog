@@ -1,4 +1,5 @@
 import { Tooltip } from "@base-ui-components/react/tooltip";
+import { Analytics } from "@vercel/analytics/next";
 import { DM_Sans, Merriweather, Montserrat } from "next/font/google";
 import { Header } from "../components/header";
 import "./global.css";
@@ -44,6 +45,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 						<main className="space-y-8">{children}</main>
 					</Tooltip.Provider>
 				</div>
+				<Analytics />
 			</body>
 		</html>
 	);
