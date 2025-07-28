@@ -1,9 +1,30 @@
 export const metadata = {
-  title: "Créer des formulaires modernes et type-safe avec Tanstack Form 📝",
+  title: "Créer des formulaires modernes et typesafe avec Tanstack Form 📝",
   date: "2025-07-28",
   excerpt:
-    "Comment créer des formulaires modernes et type-safe avec Tanstack Form",
+    "Comment créer des formulaires modernes et typesafe avec Tanstack Form",
   publish: false,
 };
 
-Créer des formulaires modernes et type-safe avec Tanstack Form
+**Les formulaires sont un incontournable dans le développement web et mobile** mais souvent **un cauchemar à gérer** : validation à la fois front et back, récupération et affichage des erreurs, filtres, contraintes multiples, accessibilité, interdépendances entre les champs, sérialisation et déserialisation des valeurs, sauvegarde de l'état du formulaire etc. 
+
+S'ajoutent les **différentes décisions UX à prendre** : faut-il souligner les erreurs de saisie à mesure que l'utilisateur tape pour être le plus réactif possible - au risque de l'agacer ou de le perturber s'il n'a pas encore fini de taper ce qu'il souhaite ? Doit-on plutôt attendre qu'il sorte du champ pour lui signaler de potentielles erreurs ? Ou n'activer la validation qu'au moment de soumettre le formulaire — auquel cas on risque de voir apparaître soudainement beaucoup d'erreurs qui auraient pu être anticipées et décourager l'utilisateur de reprendre du début son formulaire 😵‍💫
+
+De plus, pour s'épargner la création *ex nihilo* de composants aussi complexes que des sélecteurs de dates ou autres menus filtrants, **on aura tôt fait de s'en remettre à des librairies externes de composants pour garnir nos formulaires dont on devra ensuite s'assurer de la bonne connexion avec notre logique de validation et de gestion des erreurs**.
+
+Bref, si on veut adresser toute la complexité inhérente aux formulaires on se retrouve très vite avec **des implémentations verbeuses et peu maintenables en raison de leur forte spécificité** : chaque développeur crée sa petite variante utile dans le contexte de son site ou de son application. D'où l'intérêt de recourir à une **librairie agnostique** du point de vue des frameworks qui va réaliser un bon compromis **entre une API standardisée pour itérer rapidement d'un formulaire un autre tout en se montrant suffisamment flexible et complète pour couvrir tous les cas d'usage** et son **coût d'apprentissage**.
+
+
+### *New kid in town*
+
+Si jusqu'à présent ce terrain était dominé par **[React Hook Form](https://react-hook-form.com/)** et **[Formik](https://formik.org/)**, une nouvelle librairie venue de la galaxie TanStack vient de se faire une place avec des promesses alléchantes : **[TanStack Form](https://tanstack.com/form/latest/docs/framework/react/overview)**.
+
+Compatible avec React, Vue, Solid et bien d'autres frameworks front, **[TanStack Form](https://tanstack.com/form/latest/docs/framework/react/overview)** pourvoit complètement au besoin de typer l'intégralité du formulaire pour en sécuriser et accélérer le développement. À l'échelle de plus grosses applications, il offre la possiblité particulièrement intéressante de "composer" ses formulaires à l'aide d'options et de composants réutilisables pour éviter d'en répéter les éléments communs d'une page à une autre.
+
+
+
+<div className="useful-links">
+  #### Liens additionnels - 🔗 
+  [Documentation officielle de TanStack Form](https://tanstack.com/form/latest/docs/overview)
+  [LogRocket — TanStack Form vs. React Hook Form](https://blog.logrocket.com/tanstack-form-vs-react-hook-form)
+</div>

@@ -31,7 +31,8 @@
     "editor.formatOnSave": true
   },
   "[mdx]": {
-    "editor.wordWrap": "on"
+    "editor.wordWrap": "on",
+    "editor.defaultFormatter": "unifiedjs.vscode-mdx"
   },
   "editor.formatOnSaveMode": "file",
   "typescript.tsdk": "node_modules/typescript/lib",
