@@ -2,46 +2,46 @@ import SpecialComponent from "./components/special-component";
 import BadgeOld from "./components/badge-old";
 
 export const metadata = {
-	title: "Utiliser if dans du... CSS 😱",
-	date: "2025-07-14",
-	excerpt: "Il est dorénavant possible de mettre des if dans son propre CSS.",
+  title: "Utiliser if dans du... CSS 😱",
+  date: "2025-07-14",
+  excerpt: "Il est dorénavant possible de mettre des if dans son propre CSS.",
+  publish: true,
 };
 
-Le CSS n'en finit plus de se transformer et d'__incorporer toujours plus de nouvelles fonctionnalités__ qui requéraient auparavant de passer par des pré-processeurs type Sass ou Less.
+Le CSS n'en finit plus de se transformer et d'**incorporer toujours plus de nouvelles fonctionnalités** qui requéraient auparavant de passer par des pré-processeurs type Sass ou Less.
 
 C'est encore le cas avec l'arrivée de la très attendue (et inespérée !) fonction `if()` pour styliser un élément en fonction de la valeur d'un de ses attributs.
 
 Prenons un cas d'usage assez banal avec ces badges reflétant un statut :
 
-
 <div className="flex flex-wrap max-w-[300px] justify-center gap-3 my-8 mx-auto">
-	<BadgeOld status="pending" />
-	<BadgeOld status="success" />
-	<BadgeOld status="error" />
-	<BadgeOld status="warning" />
-	<BadgeOld status="info" />
+  <BadgeOld status="pending" />
+  <BadgeOld status="success" />
+  <BadgeOld status="error" />
+  <BadgeOld status="warning" />
+  <BadgeOld status="info" />
 </div>
 
 Chaque badge porte un attribut `data-status`. On souhaite alors différencier la couleur de chaque badge en fonction de la valeur passée à `data-status` (`pending`, `success`, `error`, etc.).
 
 ### Sans `if()`
 
-Plusieurs solutions sont possibles. Personellement, j'ai l'habitude de __créer des variables CSS__ pour contrôler les propriétés qui m'intéressent et d'en modifier ensuite les valeurs dans les différents sous-sélecteurs de type `[data-status="XXX"]`.
-
+Plusieurs solutions sont possibles. Personellement, j'ai l'habitude de **créer des variables CSS** pour contrôler les propriétés qui m'intéressent et d'en modifier ensuite les valeurs dans les différents sous-sélecteurs de type `[data-status="XXX"]`.
 
 ```css
 .badge {
-	--color: #0ea5e9; /* fallback color */
-    --background-color: #cffafe; /* fallback background color */
+  --color: #0ea5e9; /* fallback color */
+  --background-color: #cffafe; /* fallback background color */
 
-    border: 1px solid var(--color);
-    background-color: var(--background-color);
-    color: var(--color);
+  border: 1px solid var(--color);
+  background-color: var(--background-color);
+  color: var(--color);
 
-   /* ... */
+  /* ... */
 }
-````
-<br/>
+```
+
+<br />
 
 <BadgeOld status="pending" />
 ```css
@@ -51,7 +51,7 @@ Plusieurs solutions sont possibles. Personellement, j'ai l'habitude de __créer 
 }
 ```
 
-<br/>
+<br />
 
 <BadgeOld status="success" />
 ```css
@@ -61,7 +61,7 @@ Plusieurs solutions sont possibles. Personellement, j'ai l'habitude de __créer 
 }
 ```
 
-<br/>
+<br />
 
 <BadgeOld status="error" />
 ```css
@@ -71,7 +71,7 @@ Plusieurs solutions sont possibles. Personellement, j'ai l'habitude de __créer 
 }
 ```
 
-L'inconvénient de cette approche est que __la forme conditionnelle n'est pas forcément explicite__ et nécessite plusieurs sélecteurs CSS pour cibler tous les états possibles du badge.
+L'inconvénient de cette approche est que **la forme conditionnelle n'est pas forcément explicite** et nécessite plusieurs sélecteurs CSS pour cibler tous les états possibles du badge.
 
 ### Avec `if()`
 
@@ -79,55 +79,52 @@ Grâce à cette nouvelle fonction `if()`, on peut définir tous ces changements 
 
 ```css {2}
 .badge {
-	--status: attr(data-status type(<custom-indent>));
+  --status: attr(data-status type(<custom-indent>));
 
-	color: if(
-		style(--status: pending): #9333ea;
-		style(--status: success): #16a34a;
-		style(--status: error): #ef4444;
-		else: #0ea5e9);
+  color: if(
+    style(--status: pending): #9333ea; style(--status: success): #16a34a;
+      style(--status: error): #ef4444; else: #0ea5e9
+  );
 
-	background-color: if(
-		style(--status: pending): #f5f3ff;
-		style(--status: success): #dcfce7;
-		style(--status: error): #fee2e2;
-		else: #cffafe);
+  background-color: if(
+    style(--status: pending): #f5f3ff; style(--status: success): #dcfce7;
+      style(--status: error): #fee2e2; else: #cffafe
+  );
 }
 ```
 
-Tout se joue dans la définition d'une propriété CSS custom `--status` qui récupère automatiquement la valeur de l'attribut HTML `[data-status]` laquelle peut ensuite __être comparée pour assigner les styles adéquats si la condition est vérifiée__.
+Tout se joue dans la définition d'une propriété CSS custom `--status` qui récupère automatiquement la valeur de l'attribut HTML `[data-status]` laquelle peut ensuite **être comparée pour assigner les styles adéquats si la condition est vérifiée**.
 
-La syntaxe est un poil moins verbeuse  🤏 et surtout plus claire dans l'intention.
+La syntaxe est un poil moins verbeuse 🤏 et surtout plus claire dans l'intention.
 
 ### Compatibilité avec les navigateurs
 
-Comme souvent, __c'est Chrome qui a pris les devants en termes de support__ en embarquant le `if()` dès la version 137 (sortie fin mai 2025). La plupart des autres navigateurs non basés sur Chromium sont encore aux fraises sur le sujet, __la prudence est donc de mise avant d'envoyer ça en production__.
+Comme souvent, **c'est Chrome qui a pris les devants en termes de support** en embarquant le `if()` dès la version 137 (sortie fin mai 2025). La plupart des autres navigateurs non basés sur Chromium sont encore aux fraises sur le sujet, **la prudence est donc de mise avant d'envoyer ça en production**.
 
 ### Est-ce une si bonne idée ?
 
-Plutôt, dans la mesure où on peut régler de __façon bien plus élégante__ et __maintenable__ certains problèmes de layout et de style. L'exemple proposé par __[Una Kravets](https://www.youtube.com/@UnaKravets)__ pour classer des tickets dans différentes colonnes est particulièrement ingénieux et permet bien de sentir l'intérêt de cette nouvelle fonctionnalité 👇
+Plutôt, dans la mesure où on peut régler de **façon bien plus élégante** et **maintenable** certains problèmes de layout et de style. L'exemple proposé par **[Una Kravets](https://www.youtube.com/@UnaKravets)** pour classer des tickets dans différentes colonnes est particulièrement ingénieux et permet bien de sentir l'intérêt de cette nouvelle fonctionnalité 👇
 
 <div className="video-container">
-	<iframe
-	width="560"
-	height="315"
-	src="https://www.youtube.com/embed/Apn8ucs7AL0"
-	title="YouTube video player"
-	frameBorder="0"
-	allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-	allowFullScreen
-	style={{ margin: "2rem auto", maxWidth: "100%" }}
-	/>
+  <iframe
+    width="560"
+    height="315"
+    src="https://www.youtube.com/embed/Apn8ucs7AL0"
+    title="YouTube video player"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowFullScreen
+    style={{ margin: "2rem auto", maxWidth: "100%" }}
+  />
 </div>
 
-Le revers de la médaille cependant avec ces syntaxes plus "programmatiques" qui émergent c'est qu'elles tendent à __éloigner le CSS de sa nature très déclarative__ et à le rapprocher d'un langage de programmation avec un coût d'entrée et de maîtrise de plus en plus élevé. 
+Le revers de la médaille cependant avec ces syntaxes plus "programmatiques" qui émergent c'est qu'elles tendent à **éloigner le CSS de sa nature très déclarative** et à le rapprocher d'un langage de programmation avec un coût d'entrée et de maîtrise de plus en plus élevé.
 
-Or c'est précisément cet aspect déclaratif commun à HTML et CSS qui permet de limiter la casse lorsqu'on envoyait du CSS trop récent dans des navigateurs avec des versions anciennes puisqu'__il suffit à l'interpréteur de zapper les propriétés ou valeurs inconnues__ — là où un compilateur Javascript crashe méchamment s'il croise une syntaxe inconnue postérieur à sa version maximum supportée. 
+Or c'est précisément cet aspect déclaratif commun à HTML et CSS qui permet de limiter la casse lorsqu'on envoyait du CSS trop récent dans des navigateurs avec des versions anciennes puisqu'**il suffit à l'interpréteur de zapper les propriétés ou valeurs inconnues** — là où un compilateur Javascript crashe méchamment s'il croise une syntaxe inconnue postérieur à sa version maximum supportée.
 
-À voir donc si ce surplus de logique dans le CSS ne va pas __aggraver les problèmes de rétrocompatibilité et compliquer le débuggage__ puisque l'interprétation en deviendra plus délicate — même si des outils comme [PostCSS](https://postcss.org/) permettent généralement de mitiger cette difficulté en transpilant le CSS moderne pour le rendre compatible avec les anciennes versions de navigateurs.
-
+À voir donc si ce surplus de logique dans le CSS ne va pas **aggraver les problèmes de rétrocompatibilité et compliquer le débuggage** puisque l'interprétation en deviendra plus délicate — même si des outils comme [PostCSS](https://postcss.org/) permettent généralement de mitiger cette difficulté en transpilant le CSS moderne pour le rendre compatible avec les anciennes versions de navigateurs.
 
 <div className="useful-links">
-#### Liens additionnels
-- 🔗 [Documentation MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/if)
+  #### Liens additionnels - 🔗 [Documentation
+  MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/if)
 </div>

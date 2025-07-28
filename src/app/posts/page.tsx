@@ -2,8 +2,13 @@ import Link from "next/link";
 import { formatDateForPost } from "@/lib/dates";
 import { getAllPosts } from "@/lib/posts";
 
+const canPublish = ({ metadata }: { metadata: { publish: boolean } }) =>
+	process.env.NODE_ENV === "development" || metadata?.publish;
+
 export default async function HomePage() {
 	const posts = await getAllPosts();
+	posts.reverse();
+
 	return (
 		<div>
 			<ul className="space-y-6">
@@ -11,6 +16,7 @@ export default async function HomePage() {
 					const { metadata } = await import(
 						`@/markdown/${post.slug}/${post.slug}.mdx`
 					);
+					if (!canPublish({ metadata })) return null;
 					const formattedDate = formatDateForPost(metadata.date);
 					return (
 						<li key={post.slug}>
