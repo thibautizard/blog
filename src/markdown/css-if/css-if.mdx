@@ -4,7 +4,7 @@ import BadgeOld from "./components/badge-old";
 export const metadata = {
   title: "Utiliser if dans du... CSS 😱",
   date: "2025-07-14",
-  excerpt: "Il est dorénavant possible de mettre des if dans son propre CSS.",
+  excerpt: "Tous aux abris : il est dorénavant possible de mettre des if dans son propre CSS.",
   publish: true,
 };
 
@@ -82,13 +82,17 @@ Grâce à cette nouvelle fonction `if()`, on peut définir tous ces changements 
   --status: attr(data-status type(<custom-indent>));
 
   color: if(
-    style(--status: pending): #9333ea; style(--status: success): #16a34a;
-      style(--status: error): #ef4444; else: #0ea5e9
+     style(--status: pending): #9333ea; 
+     style(--status: success): #16a34a;
+     style(--status: error): #ef4444; 
+     else: #0ea5e9
   );
 
   background-color: if(
-    style(--status: pending): #f5f3ff; style(--status: success): #dcfce7;
-      style(--status: error): #fee2e2; else: #cffafe
+    style(--status: pending): #f5f3ff,
+    style(--status: success): #dcfce7,
+    style(--status: error): #fee2e2,
+    else: #cffafe
   );
 }
 ```
@@ -125,6 +129,6 @@ Or c'est précisément cet aspect déclaratif commun à HTML et CSS qui permet d
 À voir donc si ce surplus de logique dans le CSS ne va pas **aggraver les problèmes de rétrocompatibilité et compliquer le débuggage** puisque l'interprétation en deviendra plus délicate — même si des outils comme [PostCSS](https://postcss.org/) permettent généralement de mitiger cette difficulté en transpilant le CSS moderne pour le rendre compatible avec les anciennes versions de navigateurs.
 
 <div className="useful-links">
-  #### Liens additionnels - 🔗 [Documentation
-  MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/if)
+  #### Liens additionnels - 🔗 
+  - [Documentation MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/if)
 </div>

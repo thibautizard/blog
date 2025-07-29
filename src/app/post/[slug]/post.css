@@ -1,74 +1,77 @@
 /* Text */
-p {
-    margin-bottom: 16px;
+p,
+ul {
+  margin-bottom: 16px;
 }
 
 h3 {
-    margin-top: 40px;
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-    font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-size: 1.7rem;
+  line-height: 1.2;
+  font-weight: 600;
+  max-width: 500px;
 }
 
 p > code {
-    background-color: #f5f3ff;
-    padding: 2px 4px;
-    border-radius: 4px;
-    font-size: .9rem;
-    font-family: var(--font-dm-sans);
-    font-weight: 600;
+  background-color: #f5f3ff;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-family: var(--font-dm-sans);
+  font-weight: 600;
 }
 /* Code */
 
 pre {
-    margin : 16px 0;
-    overflow-x: auto;
-    padding: 1rem 0;
-    border-radius: 10px;
-    font-size: .8rem;
+  margin: 16px 0;
+  overflow-x: auto;
+  padding: 1rem 0;
+  border-radius: 10px;
+  font-size: 0.8rem;
 }
-   
+
 pre [data-line] {
-    padding: 0 1rem;
+  padding: 0 1rem;
 }
 
 [data-highlighted-line] {
-    border-left: 4px solid #c084fc;
-    background-color: #022a4b;
-    display: block;
-    padding-right: 1em;
+  border-left: 4px solid #c084fc;
+  background-color: #022a4b;
+  display: block;
+  padding-right: 1em;
 }
 
 /* 📺 Videos */
 iframe {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 /* Useful links */
 
 .useful-links {
-    margin-top: 40px;
-    
-    h4 {
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
+  margin-top: 40px;
 
-    li {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
+  h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
 
-    li:first-child {
-        font-size: .8rem;
-    }
-    
-    a {
-        color: #60a5fa;
-        font-size: 1rem;
-        text-decoration: underline;
-        font-family: "Merriweather", serif;
-    }
+  li {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  li:first-child {
+    font-size: 0.8rem;
+  }
+
+  a {
+    color: #60a5fa;
+    font-size: 1rem;
+    text-decoration: underline;
+    font-family: "Merriweather", serif;
+  }
 }
