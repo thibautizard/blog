@@ -4,6 +4,8 @@ import Link from "next/link";
 import { SparklesText } from "@/components/magicui/sparkles-text";
 
 const url = "https://api.github.com/users/thibautizard";
+const DEFAULT_PROFILE_PICTURE_URL =
+	"https://avatars.githubusercontent.com/u/22802349?v=4";
 
 const profilePictureUrl = await fetch(url)
 	.then((response) => response.json())
@@ -13,7 +15,7 @@ const profilePictureUrl = await fetch(url)
 	})
 	.catch((error) => console.error("Error fetching user data:", error))
 	.finally(() => {
-		return "https://avatars.githubusercontent.com/u/22802349?v=4";
+		return DEFAULT_PROFILE_PICTURE_URL;
 	});
 
 export const Header = () => (
