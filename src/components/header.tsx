@@ -16,33 +16,8 @@ const profilePictureUrl = await fetch(url)
 		return "https://avatars.githubusercontent.com/u/22802349?v=4";
 	});
 
-const FrenchDev = (
-	<SparklesText
-		sparklesCount={10}
-		className="grid"
-		colors={{ first: "#3b82f6", second: "#a855f7" }}
-	>
-		<h1 className="text-2xl select-none font-montserrat font-bold tracking-tighter pr-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
-			<Link href="/posts">frenchdev</Link>
-		</h1>
-	</SparklesText>
-);
-
-const PP = (
-	<Avatar.Root className="rounded-full">
-		<Avatar.Image
-			className="rounded-full size-10 object-cover"
-			src={profilePictureUrl}
-			width="48"
-			height="48"
-			alt="Thibaut Izard GitHub profile picture"
-		/>
-		<Avatar.Fallback className="size-10">TI</Avatar.Fallback>
-	</Avatar.Root>
-);
-
 export const Header = () => (
-	<div className="select-none flex justify-between items-center">
+	<div className="select-none mb-12 flex justify-between items-center">
 		{FrenchDev}
 		<div className="flex items-center gap-3">
 			<span className="font-merriweather italic">by</span>
@@ -59,4 +34,29 @@ export const Header = () => (
 			</Tooltip.Root>
 		</div>
 	</div>
+);
+
+var FrenchDev = (
+	<SparklesText
+		sparklesCount={10}
+		className="grid"
+		colors={{ first: "#3b82f6", second: "#a855f7" }}
+	>
+		<h1 className="text-2xl select-none font-montserrat font-bold tracking-tighter pr-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
+			<Link href="/posts">frenchdev</Link>
+		</h1>
+	</SparklesText>
+);
+
+var PP = (
+	<Avatar.Root className="rounded-full">
+		<Avatar.Image
+			className="rounded-full size-10 object-cover"
+			src={profilePictureUrl}
+			width="48"
+			height="48"
+			alt="Thibaut Izard GitHub profile picture"
+		/>
+		<Avatar.Fallback className="size-10">TI</Avatar.Fallback>
+	</Avatar.Root>
 );
