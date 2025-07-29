@@ -12,19 +12,19 @@ export const metadata = {
 
 **Les formulaires sont un cauchemar incontournable dans le développement web et mobile** : validation synchrone et asynchrone, récupération et affichage des erreurs, contraintes multiples, accessibilité, sérialisation et déserialisation des valeurs, responsivité, sauvegarde de l'état etc. 
 
-À ces impondérables s'ajoutent les **différentes décisions UX à prendre** : faut-il révéler les erreurs à mesure que l'utilisateur tape afin d'être le plus réactif possible mais au risque de l'agacer ou de le perturber s'il n'est pas allé au bout de sa saisie ? Doit-on plutôt attendre qu'il sorte du champ pour les lui signaler ? Ou attendre la soumission volontaire du formulaire quitte à faire apparaître à l'écran une flopée d'erreurs avertissant l'utilisateur qu'il doit tout reprendre depuis le début au moment où il pensait en avoir fini ? 🔫
+À ces impondérables s'ajoutent les **différentes décisions UX à prendre** : faut-il **révéler les erreurs à mesure que l'utilisateur tape** afin d'être le plus réactif possible au risque de le perturber s'il n'est pas allé au bout de sa saisie ? Ou alors le faire avec un délai ? Doit-on plutôt attendre **qu'il sorte du champ pour les lui signaler** ? Ou n'engager une validation globale qu'au moment de la soumission du formulaire quitte à faire apparaître à l'écran une flopée d'erreurs avertissant l'utilisateur qu'il doit tout reprendre depuis le début au moment où il pensait en avoir fini ? 🔫
 
-D'autant plus que pour s'épargner la création *ex nihilo* de certains composants complexes tels qu'un sélecteur de date ou un menu filtrant, **on aura tôt fait de s'en remettre à des librairies UI externes de composants** pour garnir nos formulaires dont on devra ensuite **assurer la bonne connexion avec notre logique de validation et de gestion des erreurs**.
+D'autant plus que pour s'épargner la création de certains composants complexes tels qu'un sélecteur de dates, **on aura tôt fait de s'en remettre à des librairies UI externes de composants** pour garnir nos formulaires dont on devra ensuite **assurer la bonne connexion avec notre propre logique de validation et de gestion des erreurs**. On tombe alors rapidement sur des cas particuliers qui nous obligent à tordre dans tous les sens une logique d'abord simple et à alourdir le code.
 
 Bref, dès lors qu'on veut adresser toute la complexité inhérente aux formulaires on se retrouve vite embourbé dans **des implémentations verbeuses et peu maintenables en raison de leur forte spécificité** : chaque développeur crée son petit système de gestion de formulaires adapté au contexte de son site ou de son application. 
 
-Mais quelles qualités devrait présenter une **librairie de formulaires digne de ce nom** pour remplacer tout ce foutoir ?
+Mais quelles qualités devrait présenter une **librairie de formulaires digne de ce nom** pour remplacer ce qui se transforme vite en foutoir ?
 
 - 👉 **Standardisation** : une API facilement réutilisable d'un projet à un autre
 - 👉 **Flexibilité et robustesse** : couvrir tous les cas d'usage sans perdre en lisibilité et sur le plan des performances
 - 👉 **Abordable** : avec un coût d'apprentissage le plus faible possible
 
-La bonne nouvelle ? Je pense l'avoir trouvée 😁 !
+La bonne nouvelle ? Un sérieux candidat vient de rentrer en lice pour devenir votre prochain couteau suisse dans la gestion de formulaires 😁 !
 
 ### *The new kid in town*
 
@@ -49,7 +49,7 @@ import { useForm } from "@tanstack/react-form"
 const form = useForm({ ... })
 ```
 
-Ce hook `useForm` va prendre plusieurs options avec, pour commencer, **les valeurs par défaut des champs du formulaire**.
+Ce hook `useForm` va prendre plusieurs options avec, pour commencer, **les valeurs par défaut des différents champs de notre formulaire**.
 
 ```tsx {4-7}
 import { useForm } from "@tanstack/react-form"
@@ -62,7 +62,7 @@ const form = useForm({
  })
 ```
 
-Tout aussi indispensable,on peut y ajouter **une fonction** `onSubmit` qui sera appelée à chaque tentative de validation.
+Tout aussi capital, on peut y ajouter **une fonction** `onSubmit` qui sera appelée à chaque tentative de validation.
 
 ```tsx {8-10}
 import { useForm } from "@tanstack/react-form"
@@ -78,9 +78,9 @@ const form = useForm({
  })
 ```
 
-Cet objet `form` renvoyée par le hook `useForm` va ensuite pouvoir être **consommé par notre composant front** pour bâtir le formulaire. Celui-ci contient à la fois des **composants parents qui vont venir envelopper nos inputs pour nous aider à les contrôler avec toute la puissance de TanStack Form** tout en exposant en temps réel les **différents états du formulaire et de ses champs** (est-il valide ? quelles sont les erreurs ? a-t-il déjà été touché ? etc.).
+Cet objet `form` renvoyée par le hook `useForm` va ensuite pouvoir être **consommé par notre composant front** pour bâtir le formulaire. Celui-ci contient à la fois des **composants parents qui vont venir envelopper nos inputs pour les contrôler avec toute la puissance de TanStack Form** et les **différents états du formulaire et de ses champs** (est-il valide ? quelles sont les erreurs ? a-t-il déjà été touché ? etc.).
 
-Première brique essentielle : **le composant** `form.Field` dont l'attribut `name` correspondra à l'un des champs du formulaire  déclarés dans `useForm()`.
+Première brique à poser ici : **le composant** `form.Field` dont l'attribut `name` correspondra à l'un des champs du formulaire déclarés dans `useForm()`.
 
 ```tsx {16-26}
 import { useForm } from "@tanstack/react-form"
@@ -126,9 +126,9 @@ const LoginForm = () => {
 }
 ```
 
-Plutôt que de lui passer un `children`sous la forme `<form.Field>{children}</form.Field>`, on recourt ici à la bonne vieille technique des `renderProps` pour **fournir à notre input sous-jacent un objet `field` contenant les différents états du champ en temps réel** et adapter l'`input` qu'on souhaite rendre aux valeurs de celui-ci.
+Plutôt que de lui passer un `children`sous la forme `<form.Field>{children}</form.Field>`, on recourt ici à la bonne vieille technique des `renderProps` pour **fournir à notre input sous-jacent un objet `field` contenant les différents états du champ** et adapter à celui-ci l'`input` qu'on souhaite rendre.
 
-Dernière étape pour assurer la validation du formulaire : **désactiver le comportement par défaut du bouton de soumission qui survient lorsqu'un bouton** `<button type="submit">` se trouve dans votre élément `<form>`. Ceci est crucial pour empêcher le rechargement de la page qu'on souhaite éviter dans le cadre d'une SPA car celui-ci nous ferait sortir de notre routing et court-circuiterait les opérations de TanStack Form. On va plutôt lui préférer la méthode `form.handleSubmit()` pour déclencher les étapes de validations et soumettre notre formulaire.
+Dernière étape pour assurer la validation du formulaire : **désactiver le comportement par défaut du bouton de soumission qui survient lorsqu'un bouton** `<button type="submit">` se trouve dans un élément `<form>`. Cette sécurité est cruciale pour empêcher le rechargement de la page qu'on souhaite éviter dans le cadre d'une SPA car il nous ferait sortir de notre routing et court-circuiterait les opérations de TanStack Form. On va ainsi lui préférer la méthode `form.handleSubmit()` pour déclencher les étapes de validation et soumettre notre formulaire dans le flow prévu par TanStack Form.
 
 ```tsx {12-13}
 import { useForm } from "@tanstack/react-form"
@@ -178,11 +178,11 @@ const LoginForm = () => {
 }
 ```
 
-Voilà en deux coups de cuillère à pot un bon début de formulaire de connexion. Ne reste plus qu'à **ajouter la validation des champs** et la **gestion des erreurs**.
+Voilà en deux coups de cuillère à pot un bon début de formulaire de connexion. Ne reste plus qu'à **ajouter la validation des champs** et la **gestion des erreurs** que nous verrons dans les parties suivantes.
 
 <div className="useful-links">
   #### Liens additionnels - 🔗 
-  - <span className="font-bold">📄</span> [Documentation officielle de TanStack Form](https://tanstack.com/form/latest/docs/overview)
-  - <span className="font-bold">📺</span> [Tutos Youtube de Balastrong](https://www.youtube.com/watch?v=Pf1qn35bgjs&list=PLOQjd5dsGSxInTKUWTxyqSKwZCjDIUs0Y&index=1)
-  - <span className="font-bold">📄</span> [LogRocket — TanStack Form vs. React Hook Form](https://blog.logrocket.com/tanstack-form-vs-react-hook-form)
+  - [Documentation officielle de TanStack Form](https://tanstack.com/form/latest/docs/overview)
+  - [Tutos Youtube de Balastrong](https://www.youtube.com/watch?v=Pf1qn35bgjs&list=PLOQjd5dsGSxInTKUWTxyqSKwZCjDIUs0Y&index=1)
+  - [LogRocket — TanStack Form vs. React Hook Form](https://blog.logrocket.com/tanstack-form-vs-react-hook-form)
 </div>
