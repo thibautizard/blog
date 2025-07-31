@@ -10,9 +10,9 @@ export const metadata = {
 
 Le CSS n'en finit plus de se transformer et d'**incorporer toujours plus de nouvelles fonctionnalités** qui requéraient auparavant de passer par des pré-processeurs type Sass ou Less.
 
-C'est encore le cas avec l'arrivée de la très attendue (et inespérée !) fonction `if()` pour styliser un élément en fonction de la valeur d'un de ses attributs.
+C'est encore le cas avec l'arrivée de la très attendue (et inespérée !) fonction `if()` qui permet **d'exprimer directement dans notre feuille de style une logique conditionnelle** sans passer par les **divers moyens détournés** que sont les *media* ou *container queries*, les sélecteurs d'attributs ou les fonctions css `calc()` et `clamp()`.
 
-Prenons un cas d'usage assez banal avec ces badges reflétant un statut :
+Prenons un cas d'usage assez banal — styliser un élément en fonction de la valeur d'un de ses attributs — avec ces badges reflétant un statut :
 
 <div className="flex flex-wrap max-w-[300px] justify-center gap-3 my-8 mx-auto">
   <BadgeOld status="pending" />
@@ -26,12 +26,12 @@ Chaque badge porte un attribut `data-status`. On souhaite alors différencier la
 
 ### Sans `if()`
 
-Plusieurs solutions sont possibles. Personellement, j'ai l'habitude de **créer des variables CSS** pour contrôler les propriétés qui m'intéressent et d'en modifier ensuite les valeurs dans les différents sous-sélecteurs de type `[data-status="XXX"]`.
+Plusieurs solutions sont possibles. Persnonellement, j'ai l'habitude de **créer des variables CSS** pour contrôler les propriétés qui m'intéressent et d'en modifier ensuite les valeurs dans chaque sous-sélecteur de type `[data-status="XXX"]`.
 
 ```css
 .badge {
-  --color: #0ea5e9; /* fallback color */
-  --background-color: #cffafe; /* fallback background color */
+  --color: #0ea5e9; /* default fallback color */
+  --background-color: #cffafe; /* default fallback background color */
 
   border: 1px solid var(--color);
   background-color: var(--background-color);
@@ -71,13 +71,24 @@ Plusieurs solutions sont possibles. Personellement, j'ai l'habitude de **créer 
 }
 ```
 
-L'inconvénient de cette approche est que **la forme conditionnelle n'est pas forcément explicite** et nécessite plusieurs sélecteurs CSS pour cibler tous les états possibles du badge.
+L'inconvénient de cette approche est que **la forme conditionnelle n'est pas forcément explicite** et nécessite **plusieurs sélecteurs CSS** pour cibler tous les états possibles du badge.
 
 ### Avec `if()`
 
-Grâce à cette nouvelle fonction `if()`, on peut définir tous ces changements dans le même sélecteur :
+Grâce à cette nouvelle fonction `if()`, on peut définir tous ces changements dans le même sélecteur. 
+
+On commence par définir une variable CSS custom `--status` qui récupère automatiquement la valeur de l'attribut `[data-status]` porté par l'élément :
 
 ```css {2}
+.badge {
+  --status: attr(data-status type(<custom-indent>));
+
+  /* ... */
+}
+```
+Puis sur la propriété css visée on appelle la fonction `if()` pour en faire varier la valeur suivant celle de `--status` :
+
+```css {4-9}
 .badge {
   --status: attr(data-status type(<custom-indent>));
 
@@ -88,18 +99,18 @@ Grâce à cette nouvelle fonction `if()`, on peut définir tous ces changements 
      else: #0ea5e9
   );
 
-  background-color: if(
-    style(--status: pending): #f5f3ff,
-    style(--status: success): #dcfce7,
-    style(--status: error): #fee2e2,
-    else: #cffafe
-  );
+  /* Même logique pour la propriété background-color */
 }
 ```
 
-Tout se joue dans la définition d'une propriété CSS custom `--status` qui récupère automatiquement la valeur de l'attribut HTML `[data-status]` laquelle peut ensuite **être comparée pour assigner les styles adéquats si la condition est vérifiée**.
+Plutôt qu'un familier `--status == pending` on écrira `style(--status: pending)` qui revient au même.
 
-La syntaxe est un poil moins verbeuse 🤏 et surtout plus claire dans l'intention.
+Quelle que soit la condition testée, la syntaxe générale du `if()` en css restera la même : 
+
+<span className="text-center">
+`property : if(condition1: value; condition2: value; ... else: value);`
+</span>
+Au final, c'est un poil moins verbeux 🤏 et surtout bien plus clair dans l'intention.
 
 ### Compatibilité avec les navigateurs
 
@@ -131,4 +142,5 @@ Or c'est précisément cet aspect déclaratif commun à HTML et CSS qui permet d
 <div className="useful-links">
   #### Liens additionnels - 🔗 
   - [Documentation MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/if)
+  - [The CSS if() function: Conditional styling will never be the same - Ikeh Akinyemi (LogRocket)](https://blog.logrocket.com/css-if-function-conditional-styling/)
 </div>
