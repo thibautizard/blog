@@ -4,7 +4,9 @@ import path from "node:path";
 export async function getAllPosts() {
   const postsDir = path.join(process.cwd(), "src", "markdown");
 
-  const folders = await fs.promises.readdir(postsDir);
+  let folders = await fs.promises.readdir(postsDir);
+  folders = folders.filter((folder) => !folder.startsWith("."));
+
   const posts = [];
   for (const folder of folders) {
     const folderPath = path.join(postsDir, folder);
