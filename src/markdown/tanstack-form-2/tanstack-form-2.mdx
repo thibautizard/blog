@@ -1,5 +1,7 @@
 import Logo from "./assets/logo.png"
 import Image from "next/image"
+import Link from "next/link"
+
 export const metadata = {
   title: "Créer des formulaires modernes et type-safe avec Tanstack Form 📝 [Partie 2  - La validation]",
   date: "2025-07-30",
@@ -7,3 +9,101 @@ export const metadata = {
     "On s'attaque ici à la validation d'un formulaire avec toutes les options qu'offre TanStack Form.",
   publish: false,
 };
+
+<Link href="/post/tanstack-form-1" className="text-blue-500 underline">
+  Partie 1 disponible ici.
+</Link>
+
+Dans la partie 1, nous avions créé un formulaire de connexion en React entièrement contrôlé par TanStack Form avec deux champs : un champ de texte pour le nom d'utilisateur et un champ de mot de passe 👇
+
+```tsx
+import { useForm } from "@tanstack/react-form"
+
+const form = useForm({ 
+  defaultValues: {
+    username: "",
+    password: "",
+  },
+  onSubmit: async ({ value }) => {
+    console.log(value)
+  },
+ })
+
+const LoginForm = () => {
+  return (
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      void form.handleSubmit();
+    }}>
+      <form.Field 
+        name="username" 
+        children={({field}) => 
+          <input 
+            id={field.id} 
+            type="text"
+            name={field.name} 
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+          />
+        }
+      />
+      <form.Field 
+        name="password" 
+        children={({field}) => 
+          <input 
+            id={field.id} 
+            type="password"
+            name={field.name} 
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+          />
+        }
+      />
+      <button type="submit">Login</button>
+    </form>
+  )
+}
+```
+
+Maintenant que notre formulaire est ébauché, passons à l'étape cruciale de la validation.
+
+### Valider ou ne pas valider ?
+
+La validation d'un formulaire peut intervenir à différents moments :
+
+- 👉 **Durant la saisie d'un champ** (réactivité maximale)
+- 👉 **À la sortie d'un champ** (compromis entre réactivité et autonomie)
+- 👉 **Lorsqu'on presse sur le bouton de soumission du formulaire** (autonomie de l'utilisateur maximale)
+
+TanStack Form nous permet de facilement **définir le moment le plus opportun pour valider un ou plusieurs champs** voire de **combiner ou cumuler plusieurs stratégies de validation**.
+
+#### Validation à la saisie d'un champ
+
+La validation à la saisie d'un champ est la plus simple et la plus réactive. Elle permet de tenter de **valider le champ dès que l'utilisateur tape un caractère**.
+
+On peut la configurer **au niveau du champ concerné** grâce à la prop `validators` et en passant une fonction de validation à la propriété `onChange`. 
+
+Tout ce qui est retourné par cette fonction est considéré comme une **erreur de validation** et sera ajouté au `field` pour que nous puissions ensuite choisir commentl'afficher.
+
+```tsx {4-8}
+  <form.Field 
+        name="username" 
+        validators={
+          onChange: ({ value }) => {
+            if (value.length < 3) {
+              return "Le nom d'utilisateur doit contenir au moins 3 caractères"
+            }
+          }
+        }
+        children={({field}) => 
+          <input 
+            id={field.id} 
+            type="text"
+            name={field.name} 
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+          />
+        }
+      />
+```

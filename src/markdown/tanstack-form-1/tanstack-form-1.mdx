@@ -77,8 +77,8 @@ const form = useForm({
     username: "",
     password: "",
   },
-  onSubmit: async (values) => {
-    console.log(values)
+  onSubmit: async ({ value}) => {
+    console.log(value)
   },
  })
 ```
@@ -95,8 +95,8 @@ const form = useForm({
     username: "",
     password: "",
   },
-  onSubmit: async (values) => {
-    console.log(values)
+  onSubmit: async ({ value }) => {
+    console.log(value)
   },
  })
 
@@ -142,7 +142,7 @@ Cette précaution est cruciale pour empêcher le rechargement de la page qu'on s
 </div>
 </div>
 
-On va ainsi passer par laméthode `form.handleSubmit()` pour déclencher les étapes de validation et **laisser TanStack Form tester notre formulaire** et nous renvoyer toutes les informations nécessaires.
+On va donc devoir passer par la méthode `form.handleSubmit()` pour déclencher les étapes de validation et **laisser TanStack Form tester notre formulaire** et nous renvoyer toutes les informations nécessaires.
 
 ```tsx {16-18}
 import { useForm } from "@tanstack/react-form"
@@ -152,8 +152,8 @@ const form = useForm({
     username: "",
     password: "",
   },
-  onSubmit: async (values) => {
-    console.log(values)
+  onSubmit: async ({ value }) => {
+    console.log(value)
   },
  })
 
@@ -183,6 +183,58 @@ const LoginForm = () => {
             type="password"
             name={field.name} 
             value={field.state.value}
+          />
+        }
+      />
+      <button type="submit">Login</button>
+    </form>
+  )
+}
+```
+
+Avec TanStack Form, **nos _inputs_ sont contrôlés** par le formulaire ce qui signifie que nous devons non seulement leur passer manuellement leur valeur avec `value={field.state.value}` mais aussi **des _events handlers_ pour réagir à la saisie de l'utilisateur et mettre à jour cette même valeur**. On utilise la prop `onChange` couplée à la fonction `field.handleChange()` pour cela.
+
+```tsx {28,40}
+import { useForm } from "@tanstack/react-form"
+
+const form = useForm({ 
+  defaultValues: {
+    username: "",
+    password: "",
+  },
+  onSubmit: async ({ value }) => {
+    console.log(value)
+  },
+ })
+
+const LoginForm = () => {
+  return (
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      void form.handleSubmit();
+    }}>
+      <form.Field 
+        name="username" 
+        children={({field}) => 
+          <input 
+            id={field.id} 
+            type="text"
+            name={field.name} 
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+          />
+        }
+      />
+      <form.Field 
+        name="password" 
+        children={({field}) => 
+          <input 
+            id={field.id} 
+            type="password"
+            name={field.name} 
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
           />
         }
       />
