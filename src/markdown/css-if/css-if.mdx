@@ -1,5 +1,6 @@
 import SpecialComponent from "./components/special-component";
 import BadgeOld from "./components/badge-old";
+import ExternalLink from "@/markdown/-components/external-link";
 
 export const metadata = {
   title: "Utiliser if dans du... CSS 😱",
@@ -103,7 +104,7 @@ Puis sur la propriété css visée on appelle la fonction `if()` pour en faire v
 }
 ```
 
-Plutôt qu'un familier `--status == pending` on écrira `style(--status: pending)` qui revient au même.
+Il eût été plus intuitif d'avoir à écrire `--status == pending` pour comparer les deux valeurs mais la bonne syntaxe est bien `style(--status: pending)`.
 
 Quelle que soit la condition testée, la syntaxe générale du `if()` en css restera la même : 
 
@@ -140,7 +141,8 @@ Or c'est précisément cet aspect déclaratif commun à HTML et CSS qui permet d
 À voir donc si ce surplus de logique dans le CSS ne va pas **aggraver les problèmes de rétrocompatibilité et compliquer le débuggage** puisque l'interprétation en deviendra plus délicate — même si des outils comme [PostCSS](https://postcss.org/) permettent généralement de mitiger cette difficulté en transpilant le CSS moderne pour le rendre compatible avec les anciennes versions de navigateurs.
 
 <div className="useful-links">
-  #### Liens additionnels - 🔗 
-  - [Documentation MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/if)
-  - [The CSS if() function: Conditional styling will never be the same - Ikeh Akinyemi (LogRocket)](https://blog.logrocket.com/css-if-function-conditional-styling/)
+  #### 🔗 Liens additionnels 
+  - <ExternalLink /> [Documentation MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/if)
+  - <ExternalLink /> [Chrome For Developers Blog — CSS conditionals with the new if() function](https://developer.chrome.com/blog/if-article)
+  - <ExternalLink /> [The CSS if() function: Conditional styling will never be the same - Ikeh Akinyemi (LogRocket)](https://blog.logrocket.com/css-if-function-conditional-styling/)
 </div>

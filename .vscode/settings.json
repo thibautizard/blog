@@ -40,5 +40,8 @@
     "editor.codeActionsOnSave": {
       "source.fixAll.biome": "explicit"
     }
+  },
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
   }
 }
