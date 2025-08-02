@@ -5,7 +5,7 @@ import ExternalLink from "@/markdown/-components/external-link";
 
 export const metadata = {
   title: "Créer des formulaires modernes et type-safe avec Tanstack Form 📝 [Partie 2  - La validation]",
-  date: "2025-07-30",
+  date: "2025-08-02",
   excerpt:
     "On s'attaque ici à la validation d'un formulaire avec toutes les options qu'offre TanStack Form.",
   publish: true,
@@ -79,15 +79,13 @@ La validation d'un formulaire peut intervenir à différents moments :
 
 TanStack Form nous permet de facilement **définir le moment le plus opportun pour valider un ou plusieurs champs** voire de **combiner plusieurs stratégies de validation**.
 
-<br/>
-
 #### Validation à la volée
 
 La validation à la saisie d'un champ est la plus simple et la plus réactive. Elle permet de tenter de **valider le champ dès que l'utilisateur tape un caractère**.
 
-On peut la configurer **au niveau du champ concerné** grâce à la prop `validators` et en passant une fonction de validation à la propriété `onChange`. 
+On peut la configurer **au niveau du champ concerné** en passant une fonction de validation à la prop `validators.onChange`.
 
-Tout ce qui est retourné par cette fonction est considéré comme une **erreur de validation** et sera ajouté au `field` pour que nous puissions ensuite choisir comment l'afficher. Si la fonction ne retourne rien ou `null`, le champ est considéré **comme valide**.
+Tout ce qui est retourné par cette fonction est considéré comme une **erreur de validation** et sera ajouté à `field.state.meta.errors`. Si rien n'est retourné ou `null`, le champ est considéré **comme valide**.
 
 ```tsx {4-8}
   <form.Field 
@@ -114,7 +112,7 @@ Tout ce qui est retourné par cette fonction est considéré comme une **erreur 
 
 #### Validation à la sortie
 
-Lorsqu'**un champ perd son _focus_** (l'utilisateur clique en dehors de celui-ci ou se déplace sur le prochain élément _focusable_ avec son clavier), on peut déclencher une validation en passant une fonction de validation à la propriété `onBlur`.
+Lorsqu'**un champ perd son _focus_** (l'utilisateur clique en dehors de celui-ci ou se déplace sur le prochain élément _focusable_ à l'aide de son clavier), **on peut déclencher une validation en passant une fonction de validation à la propriété `validators.onBlur`**.
 
 ```tsx {4-8}
   <form.Field 
@@ -141,7 +139,7 @@ Lorsqu'**un champ perd son _focus_** (l'utilisateur clique en dehors de celui-ci
 
  #### Validation à la soumission
 
-Si on souhaite n'éprouver la validité du formulaire qu'après que l'utilisateur estime avoir fini de le remplir, on peut **reporter la validation seulement au moment où celui-ci cherche à l'envoyer en utilisant le validator `onSubmit` mais à l'échelle du formulaire cette fois-ci**.
+Si on ne souhaite éprouver la validité du formulaire qu'après que l'utilisateur estime avoir fini de le remplir, on en passer **par `validators.onSubmit` défini au moment de la création du formulaire et qui sera exécuté ) chaque `form.handleSubmit`**.
 
 
 ```tsx {8-14}
@@ -165,7 +163,9 @@ const form = useForm({
  })
 ```
 
-Rien n'empêche de **combiner ces différentes stratégies de validation** même s'il est préférable de ne pas surcharger l'utilisateur d'informations ou de le frustrer en lui créant trop de crans d'arrêt dans le process.
+De plus, rien n'empêche de **combiner ces différentes stratégies de validation** — même s'il est préférable de ne pas surcharger l'utilisateur d'informations ou de le frustrer en lui créant trop de crans d'arrêt dans sa validation.
+
+Par exemple on peut mettre en place une validation à la volée sur le champ `username` et une validation globale à la soumission 👇
 
 
 ```tsx {8-14, 29-34}
@@ -214,18 +214,7 @@ const LoginForm = () => {
           />
         }
       />
-      <form.Field 
-        name="password" 
-        children={({ field }) => 
-          <input 
-            id={field.id} 
-            type="password"
-            name={field.name} 
-            value={field.state.value}
-            onChange={(e) => field.handleChange(e.target.value)}
-          />
-        }
-      />
+      {/* ... */}
       <button type="submit">Login</button>
     </form>
   )
@@ -235,7 +224,7 @@ const LoginForm = () => {
 
  #### Attendre la validation côté serveur
 
- Une fois passé les validations locales côté client, on peut également déclencher une validation côté serveur qui sera par nature asynchrone.
+ Une fois **passées les validations locales côté client**, on peut ensuite déclencher une validation côté serveur qui sera par nature asynchrone en **recourant au champ `validators.onChangeAsync`**.
 
 
 ```tsx {1, 18}
@@ -275,7 +264,7 @@ const LoginForm = () => {
       />
 ```
 
-À noter que **la validation `onChangeAsync` ne se déclenchera qu'après les validations** `onChange` **réussies** pour éviter de solliciter inutilement une API si l'input s'avère déjà invalide au moment de l'envoi de la requête.
+À noter que **la validation** `onChangeAsync` **ne se déclenchera qu'après les validations** `onChange` **réussies** pour éviter de solliciter inutilement une API si l'input s'avère déjà invalide au moment de l'envoi de la requête.
  
  #### Afficher une erreur de validation pour un champ
 
