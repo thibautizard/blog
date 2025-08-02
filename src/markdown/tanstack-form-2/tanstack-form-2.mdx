@@ -1,22 +1,23 @@
 import Logo from "./assets/logo.png"
 import Image from "next/image"
 import Link from "next/link"
+import ExternalLink from "@/markdown/-components/external-link";
 
 export const metadata = {
   title: "Créer des formulaires modernes et type-safe avec Tanstack Form 📝 [Partie 2  - La validation]",
   date: "2025-07-30",
   excerpt:
     "On s'attaque ici à la validation d'un formulaire avec toutes les options qu'offre TanStack Form.",
-  publish: false,
+  publish: true,
 };
 
 <Link href="/post/tanstack-form-1" className="text-blue-500 underline">
-  Partie 1 disponible ici.
+  Partie 1 disponible ici
 </Link>
 
-Dans la partie 1, nous avions créé un formulaire de connexion en React entièrement contrôlé par TanStack Form avec deux champs : un champ de texte pour le nom d'utilisateur et un champ de mot de passe 👇
+Dans la partie 1, nous avions créé un **formulaire de connexion en React contrôlé par TanStack Form** avec deux champs : le nom d'utilisateur et le mot de passe 👇
 
-```tsx
+```tsx {5,6}
 import { useForm } from "@tanstack/react-form"
 
 const form = useForm({ 
@@ -38,7 +39,7 @@ const LoginForm = () => {
     }}>
       <form.Field 
         name="username" 
-        children={({field}) => 
+        children={({ field }) => 
           <input 
             id={field.id} 
             type="text"
@@ -50,7 +51,7 @@ const LoginForm = () => {
       />
       <form.Field 
         name="password" 
-        children={({field}) => 
+        children={({ field }) => 
           <input 
             id={field.id} 
             type="password"
@@ -73,18 +74,20 @@ Maintenant que notre formulaire est ébauché, passons à l'étape cruciale de l
 La validation d'un formulaire peut intervenir à différents moments :
 
 - 👉 **Durant la saisie d'un champ** (réactivité maximale)
-- 👉 **À la sortie d'un champ** (compromis entre réactivité et autonomie)
+- 👉 **À la sortie d'un champ** (compromis entre réactivité et autonomie de l'utilisateur)
 - 👉 **Lorsqu'on presse sur le bouton de soumission du formulaire** (autonomie de l'utilisateur maximale)
 
-TanStack Form nous permet de facilement **définir le moment le plus opportun pour valider un ou plusieurs champs** voire de **combiner ou cumuler plusieurs stratégies de validation**.
+TanStack Form nous permet de facilement **définir le moment le plus opportun pour valider un ou plusieurs champs** voire de **combiner plusieurs stratégies de validation**.
 
-#### Validation à la saisie d'un champ
+<br/>
+
+#### Validation à la volée
 
 La validation à la saisie d'un champ est la plus simple et la plus réactive. Elle permet de tenter de **valider le champ dès que l'utilisateur tape un caractère**.
 
 On peut la configurer **au niveau du champ concerné** grâce à la prop `validators` et en passant une fonction de validation à la propriété `onChange`. 
 
-Tout ce qui est retourné par cette fonction est considéré comme une **erreur de validation** et sera ajouté au `field` pour que nous puissions ensuite choisir commentl'afficher.
+Tout ce qui est retourné par cette fonction est considéré comme une **erreur de validation** et sera ajouté au `field` pour que nous puissions ensuite choisir comment l'afficher. Si la fonction ne retourne rien ou `null`, le champ est considéré **comme valide**.
 
 ```tsx {4-8}
   <form.Field 
@@ -96,7 +99,7 @@ Tout ce qui est retourné par cette fonction est considéré comme une **erreur 
             }
           }
         }
-        children={({field}) => 
+        children={({ field }) => 
           <input 
             id={field.id} 
             type="text"
@@ -107,3 +110,263 @@ Tout ce qui est retourné par cette fonction est considéré comme une **erreur 
         }
       />
 ```
+<br/>
+
+#### Validation à la sortie
+
+Lorsqu'**un champ perd son _focus_** (l'utilisateur clique en dehors de celui-ci ou se déplace sur le prochain élément _focusable_ avec son clavier), on peut déclencher une validation en passant une fonction de validation à la propriété `onBlur`.
+
+```tsx {4-8}
+  <form.Field 
+        name="username" 
+        validators={
+          onBlur: ({ value }) => {
+            if (value.length < 3) {
+              return "Le nom d'utilisateur doit contenir au moins 3 caractères"
+            }
+          }
+        }
+        children={({ field }) => 
+          <input 
+            id={field.id} 
+            type="text"
+            name={field.name} 
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+          />
+        }
+      />
+```
+ <br/>
+
+ #### Validation à la soumission
+
+Si on souhaite n'éprouver la validité du formulaire qu'après que l'utilisateur estime avoir fini de le remplir, on peut **reporter la validation seulement au moment où celui-ci cherche à l'envoyer en utilisant le validator `onSubmit` mais à l'échelle du formulaire cette fois-ci**.
+
+
+```tsx {8-14}
+import { useForm } from "@tanstack/react-form"
+
+const form = useForm({ 
+  defaultValues: {
+    username: "",
+    password: "",
+  },
+  validators: {
+    onSubmit: ({ value }) => {
+      if (!value.username.length || !value.password.length) {
+        return "Le nom d'utilisateur et le mot de passe sont requis"
+      }
+    }
+  },
+  onSubmit: async ({ value }) => {
+    console.log(value)
+  },
+ })
+```
+
+Rien n'empêche de **combiner ces différentes stratégies de validation** même s'il est préférable de ne pas surcharger l'utilisateur d'informations ou de le frustrer en lui créant trop de crans d'arrêt dans le process.
+
+
+```tsx {8-14, 29-34}
+import { useForm } from "@tanstack/react-form"
+
+const form = useForm({ 
+  defaultValues: {
+    username: "",
+    password: "",
+  },
+  validators: {
+    onSubmit: ({ value }) => {
+      if (!value.username.length || !value.password.length) {
+        return "Le nom d'utilisateur et le mot de passe sont requis"
+      }
+    }
+  },
+  onSubmit: async ({ value }) => {
+    console.log(value)
+  },
+ })
+
+const LoginForm = () => {
+  return (
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      void form.handleSubmit();
+    }}>
+      <form.Field 
+        name="username" 
+        validators={
+           onBlur: ({ value }) => {
+            if (value.length < 3) {
+              return "Le nom d'utilisateur doit contenir au moins 3 caractères"
+            }
+          },
+        }
+        children={({ field }) => 
+          <input 
+            id={field.id} 
+            type="text"
+            name={field.name} 
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+          />
+        }
+      />
+      <form.Field 
+        name="password" 
+        children={({ field }) => 
+          <input 
+            id={field.id} 
+            type="password"
+            name={field.name} 
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+          />
+        }
+      />
+      <button type="submit">Login</button>
+    </form>
+  )
+}
+```
+ <br/>
+
+ #### Attendre la validation côté serveur
+
+ Une fois passé les validations locales côté client, on peut également déclencher une validation côté serveur qui sera par nature asynchrone.
+
+
+```tsx {1, 18}
+  function validateUsername(value: string) {
+    fetch(`/api/validate-username?username=${value}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          return "Ce nom d'utilisateur est déjà pris"
+        }
+        return null
+      })
+      .catch(error => {
+        return "Une erreur est survenue lors de la validation du nom d'utilisateur"
+      })
+  }
+
+  <form.Field 
+        name="username" 
+        validators={
+          onChangeAsync: ({ value }) => validateUsername(value),
+          onChange: ({ value }) => {
+            if (value.length < 3) {
+              return "Le nom d'utilisateur doit contenir au moins 3 caractères"
+            }
+          }
+        }
+        children={({ field }) => 
+          <input 
+            id={field.id} 
+            type="text"
+            name={field.name} 
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+          />
+        }
+      />
+```
+
+À noter que **la validation `onChangeAsync` ne se déclenchera qu'après les validations** `onChange` **réussies** pour éviter de solliciter inutilement une API si l'input s'avère déjà invalide au moment de l'envoi de la requête.
+ 
+ #### Afficher une erreur de validation pour un champ
+
+Pour vérifier que la validation spécifique à un champ fonctionne, on peut afficher directement sous notre `input` la ou les erreurs associé(e)s si elle(s) existe(nt). Il suffit d'inspecter **la propriété `field.state.meta.errors`** qui va nous livrer un tableau d'erreurs à exploiter du côté du rendu (tableau vide si le champ est valide).
+
+```tsx {19}
+  <form.Field 
+        name="username" 
+        validators={
+          onBlur: ({ value }) => {
+            if (value.length < 3) {
+              return "Le nom d'utilisateur doit contenir au moins 3 caractères"
+            }
+          }
+        }
+        children={({ field }) => 
+          <>
+            <input 
+              id={field.id} 
+              type="text"
+              name={field.name} 
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+            />
+            <div key={error} className="text-red-500">{field.state.meta.errors}</div>
+          </>
+        }
+      />
+```
+
+**L'erreur disparaît automatiquement lorsque le champ est repris par l'utilisateur** avant le prochain cycle de validation ce qui assurer une réactivité totale.
+
+ #### Afficher une erreur de validation pour le formulaire
+
+Si on effectue une validation globale, **il faut regarder côté de l'objet `form` pour récupérer notre erreur de validation**. On serait alors tenté d'écrire ceci :
+
+```tsx {24}
+import { useForm } from "@tanstack/react-form"
+
+const form = useForm({ 
+  defaultValues: {
+    username: "",
+    password: "",
+  },
+  validators: {
+    onSubmit: ({ value }) => {
+      if (!value.username.length || !value.password.length) {
+        return "Le nom d'utilisateur et le mot de passe sont requis"
+      }
+    }
+  },
+  onSubmit: async ({ value }) => {
+    console.log(value)
+  },
+ })
+
+const LoginForm = () => {
+  return (
+    <form {...}>
+      {/* ... */}
+      <div>{form.state.errors}</div>
+      <button type="submit">Login</button>
+    </form>
+  )
+}
+```
+
+Mais on risque pourtant de **ne pas afficher l'erreur** pile au moment où elle est créée ! Pourquoi ? Car par souci d'optimisation, **TanStack Form ne rend pas l'entière du composant contenant le formulaire à chaque modification du** `form` — à la différence du `field` qui regénère son `children` dès qu'il s'actualise. En effet, il n'y a de nécessité à rendre un composant potentiellement très volumineux pour un simple changement d'état du `form` qu'on a défini à l'intérieur de celui-ci : cela pourrait entraîner **une dégradation des performances si ces changements surviennent trop fréquemment**. 🤷‍♂️
+
+Pour contourner cette difficulté, TanStack Form propose donc un composant `<form.Subscribe>` qui permet **de s'abonner à un changement spécifique du `form` et de rendre uniquement la portion UI qu'il enveloppe**.
+
+```tsx {4-8}
+const LoginForm = () => {
+  return (
+    <form {...}>
+      <form.Subscribe
+        selector={(state) => state.errors} 
+         children={({ errors }) => 
+            errors.length > 0 && <div>{errors}</div>
+          }/>
+      <button type="submit">Login</button>
+    </form>
+  )
+}
+```
+
+Voilà ! Nous disposons à présent d'un **formulaire opérationnel**. Mais on peut encore réhausser l'expérience utilisateur en ajoutant des **indicateurs de chargement ou de validation** avant l'affichage des erreurs pour rendre l'expérience plus fluide et agréable. Ce point fera l'objet d'une dernière partie (_à venir_).
+
+<div className="useful-links">
+  #### 🔗 Liens additionnels 
+  - <ExternalLink /> [Documentation officielle de TanStack Form](https://tanstack.com/form/latest/docs/overview)
+  - <ExternalLink /> [TanStack Form Tutorial - Balastrong](https://www.youtube.com/watch?v=Pf1qn35bgjs&list=PLOQjd5dsGSxInTKUWTxyqSKwZCjDIUs0Y&index=1)
+  - <ExternalLink /> [LogRocket — TanStack Form vs. React Hook Form](https://blog.logrocket.com/tanstack-form-vs-react-hook-form)
+</div>
