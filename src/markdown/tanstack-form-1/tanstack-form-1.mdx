@@ -1,6 +1,6 @@
 import Logo from "./assets/logo.png"
 import Image from "next/image"
-import { BadgeInfo } from "lucide-react"
+import InformationBanner from "@/markdown/-components/information-banner";
 import ExternalLink from "@/markdown/-components/external-link";
 
 export const metadata = {
@@ -15,7 +15,7 @@ export const metadata = {
 
 **Les formulaires sont un cauchemar incontournable dans le développement web et mobile** : validation synchrone et asynchrone, récupération et affichage des erreurs, contraintes multiples, accessibilité, sérialisation et déserialisation des valeurs, responsivité, sauvegarde de l'état etc. 
 
-À ces impondérables s'ajoutent les **différentes décisions UX à prendre** : faut-il **révéler les erreurs à mesure que l'utilisateur tape** afin d'être le plus réactif possible au risque de le frustrer s'il n'est pas allé au bout de sa saisie ? Ou alors le faire mais **avec un délai** ? Doit-on plutôt attendre **qu'il sorte du champ pour les lui signaler** ? Ou n'engager **une validation globale qu'au moment de la soumission du formulaire** quitte à faire apparaître soudainement à l'écran une flopée d'erreurs avertissant l'utilisateur qu'il doit tout reprendre depuis le début au moment où il pensait en avoir fini ? 💀
+À ces impondérables s'ajoutent les **différentes décisions UX à prendre** : faut-il **révéler les erreurs à mesure que l'utilisateur tape** afin d'être le plus** **réactif possible au risque de le frustrer s'il n'est pas allé au bout de sa saisie ? Ou alors le faire mais **avec un délai** ? Doit-on plutôt attendre **qu'il sorte du champ pour les lui signaler** ? Ou n'engager **une validation globale qu'au moment de la soumission du formulaire** quitte à faire apparaître soudainement à l'écran une flopée d'erreurs avertissant l'utilisateur qu'il doit tout reprendre depuis le début au moment où il pensait en avoir fini ? 💀
 
 D'autant que pour s'épargner la création de certains composants complexes, **on aura tôt fait de s'en remettre à des librairies UI** pour remplir nos formulaires avec tout un travail additionnel pour **assurer la bonne connexion avec notre propre logique de validation et de gestion des erreurs**. On tombe alors rapidement sur des cas particuliers qui nous obligent à tordre dans tous les sens une logique d'abord simple et *in fine* à alourdir le code.
 
@@ -135,12 +135,9 @@ Plutôt que de lui passer un `children`sous la forme `<form.Field>{children}</fo
 
 Dernière étape pour assurer la validation du formulaire : **désactiver le comportement par défaut du bouton de soumission qui survient lorsqu'un bouton** `<button type="submit">` se trouve dans un élément `<form>`. 
 
-<div className="insert" data-status="info">
-Cette précaution est cruciale pour empêcher le rechargement de la page qu'on souhaite éviter dans le cadre d'une SPA car il nous ferait sortir de notre routing et court-circuiterait les opérations de TanStack Form. 
-<div className="icon-container">
-  <BadgeInfo className="inline-block" />
-</div>
-</div>
+<InformationBanner>
+  Cette précaution est cruciale pour empêcher le rechargement de la page qu'on souhaite éviter dans le cadre d'une SPA car il nous ferait sortir de notre routing et court-circuiterait les opérations de TanStack Form. 
+</InformationBanner>
 
 On va donc devoir passer par la méthode `form.handleSubmit()` pour déclencher les étapes de validation et **laisser TanStack Form tester notre formulaire** et nous renvoyer toutes les informations nécessaires.
 
