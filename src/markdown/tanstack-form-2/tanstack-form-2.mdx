@@ -11,13 +11,11 @@ export const metadata = {
   publish: true,
 };
 
-<Link href="/post/tanstack-form-1" className="text-blue-500 underline">
-  Partie 1 disponible ici
-</Link>
+[ Partie 1 disponible ici](/post/tanstack-form-1)
 
 Dans la partie 1, nous avions créé un **formulaire de connexion en React contrôlé par TanStack Form** avec deux champs : le nom de l'utilisateur et le mot de passe 👇
 
-```tsx {5,6}
+```tsx
 import { useForm } from "@tanstack/react-form"
 
 const form = useForm({ 
@@ -75,28 +73,28 @@ La validation d'un formulaire peut intervenir à différents moments :
 
 - 👉 **Durant la saisie d'un champ** (réactivité maximale)
 - 👉 **À la sortie d'un champ** (compromis entre réactivité et autonomie de l'utilisateur)
-- 👉 **Lorsqu'on presse sur le bouton de soumission du formulaire** (autonomie de l'utilisateur maximale)
+- 👉 **Lorsqu'on presse sur le bouton de soumission du formulaire** (autonomie de l'utilisateur maximale mais pas de réactivité)
 
-TanStack Form nous permet de facilement **définir le moment le plus opportun pour valider un ou plusieurs champs** voire de **combiner plusieurs stratégies de validation**.
+TanStack Form nous permet de facilement **définir le moment le plus opportun pour valider un ou plusieurs champs** voire même de **combiner plusieurs stratégies de validation**.
 
 #### Validation à la volée
 
-La validation à la saisie d'un champ est la plus simple et la plus réactive. Elle permet de tenter de **valider le champ dès que l'utilisateur tape un caractère**.
+La validation à la saisie d'un champ est la plus simple et la plus réactive. Elle permet de **tester la validité du champ dès que l'utilisateur tape un caractère**.
 
-On peut la configurer **au niveau du champ concerné** en passant une fonction de validation à la prop `validators.onChange`.
+On peut la configurer **au niveau du champ concerné** en passant une fonction de validation à la propriété** `onChange` **des** `validators` **du champ**.
 
 Tout ce qui est retourné par cette fonction est considéré comme une **erreur de validation** et sera ajouté à `field.state.meta.errors`. Si rien n'est retourné ou `null`, le champ est considéré **comme valide**.
 
 ```tsx {4-8}
   <form.Field 
         name="username" 
-        validators={
+        validators={{
           onChange: ({ value }) => {
             if (value.length < 3) {
               return "Le nom d'utilisateur doit contenir au moins 3 caractères"
             }
           }
-        }
+        }}
         children={({ field }) => 
           <input 
             id={field.id} 
@@ -112,7 +110,7 @@ Tout ce qui est retourné par cette fonction est considéré comme une **erreur 
 
 #### Validation à la sortie
 
-Lorsqu'**un champ perd son _focus_** (l'utilisateur clique en dehors de celui-ci ou se déplace sur le prochain élément _focusable_ à l'aide de son clavier), **on peut déclencher une validation en passant une fonction de validation à la propriété `validators.onBlur`**.
+Lorsqu'**un champ perd son _focus_** (l'utilisateur clique en dehors de celui-ci ou se déplace sur le prochain élément _focusable_ à l'aide de son clavier), **on peut déclencher une validation en passant **une fonction de validation à la propriété** `onBlur` **des** `validators` **du champ**.
 
 ```tsx {4-8}
   <form.Field 
@@ -139,7 +137,7 @@ Lorsqu'**un champ perd son _focus_** (l'utilisateur clique en dehors de celui-ci
 
  #### Validation à la soumission
 
-Si on ne souhaite éprouver la validité du formulaire qu'après que l'utilisateur estime avoir fini de le remplir, on en passer **par `validators.onSubmit` défini au moment de la création du formulaire et qui sera exécuté ) chaque `form.handleSubmit`**.
+Si on ne souhaite éprouver la validité du formulaire qu'après que l'utilisateur lui-même estime avoir fini de le remplir, on en passera **par** `onSubmit` **défini au moment de la création du formulaire et qui sera exécuté à chaque** `form.handleSubmit`.
 
 
 ```tsx {8-14}
@@ -163,7 +161,9 @@ const form = useForm({
  })
 ```
 
-De plus, rien n'empêche de **combiner ces différentes stratégies de validation** — même s'il est préférable de ne pas surcharger l'utilisateur d'informations ou de le frustrer en lui créant trop de crans d'arrêt dans sa validation.
+Il est tout à fait possible de centraliser ses opérations de validation dans les `validators` du `form` plutôt qu'au niveau des `field` ce qui est pratique si on souhaite re-valider plusieurs champs en même temps en fonction des interactions de l'utilisateur avec le formulaire.
+
+De plus, rien n'empêche de **combiner ces différentes stratégies de validation** c'est-à-dire d'en valider certains à la volée et d'autres à la sortie ou à la soumission du formulaire — même s'il est préférable de ne pas surcharger l'utilisateur d'informations ou de le frustrer en lui créant trop de crans d'arrêt dans sa validation.
 
 Par exemple on peut mettre en place une validation à la volée sur le champ `username` et une validation globale à la soumission 👇
 
@@ -197,13 +197,13 @@ const LoginForm = () => {
     }}>
       <form.Field 
         name="username" 
-        validators={
+        validators={{
            onBlur: ({ value }) => {
             if (value.length < 3) {
               return "Le nom d'utilisateur doit contenir au moins 3 caractères"
             }
           },
-        }
+        }}
         children={({ field }) => 
           <input 
             id={field.id} 
@@ -224,10 +224,10 @@ const LoginForm = () => {
 
  #### Attendre la validation côté serveur
 
- Une fois **passées les validations locales côté client**, on peut ensuite déclencher une validation côté serveur qui sera par nature asynchrone en **recourant au champ `validators.onChangeAsync`**.
+ Une fois **passées les validations locales côté client**, on déclenche généralement une validation côté serveur qui sera par nature asynchrone. C'est le moment de recourir à la propriété `onChangeAsync` qui sera voisine et complémentaire de `onChange`. Elle prendra en valeur une fonction chargée d'effectuer les appels API nécessaires pour tester l'input.
 
 
-```tsx {1, 18}
+```tsx {1-13, 18}
   function validateUsername(value: string) {
     fetch(`/api/validate-username?username=${value}`)
       .then(response => response.json())
@@ -264,11 +264,11 @@ const LoginForm = () => {
       />
 ```
 
-À noter que **la validation** `onChangeAsync` **ne se déclenchera qu'après les validations** `onChange` **réussies** pour éviter de solliciter inutilement une API si l'input s'avère déjà invalide au moment de l'envoi de la requête.
+À noter que **la validation** `onChangeAsync` **ne se déclenchera qu'<u>après</u> les validations** `onChange` **réussies**. En suivant cet ordre, on évite de solliciter inutilement une API si l'input peut déjà être détecté comme invalide avant l'envoi de la requête.
  
  #### Afficher une erreur de validation pour un champ
 
-Pour vérifier que la validation spécifique à un champ fonctionne, on peut afficher directement sous notre `input` la ou les erreurs associé(e)s si elle(s) existe(nt). Il suffit d'inspecter **la propriété `field.state.meta.errors`** qui va nous livrer un tableau d'erreurs à exploiter du côté du rendu (tableau vide si le champ est valide).
+Pour vérifier que la validation spécifique à un champ fonctionne, on peut afficher directement sous notre `input` les erreurs associées. Il suffit d'inspecter **la propriété** `field` **qui va nous livrer un tableau d'erreurs à exploiter du côté du rendu** (tableau vide si le champ est valide).
 
 ```tsx {19}
   <form.Field 
@@ -295,11 +295,11 @@ Pour vérifier que la validation spécifique à un champ fonctionne, on peut aff
       />
 ```
 
-**L'erreur disparaît automatiquement lorsque le champ est repris par l'utilisateur** avant le prochain cycle de validation ce qui assurer une réactivité totale.
+**L'erreur disparaît automatiquement lorsque le champ est repris par l'utilisateur en attendant le prochain cycle de validation** qui sera déclenché par la saisie d'un nouveau caractère, le changement de focus ou la soumission du formulaire.
 
  #### Afficher une erreur de validation pour le formulaire
 
-Si on effectue une validation globale, **il faut regarder côté de l'objet `form` pour récupérer notre erreur de validation**. On serait alors tenté d'écrire ceci :
+Si on effectue une validation globale, **c'est du côté de l'objet `form` qu'on va récupérer nos erreurs de validation**. On serait alors tenté d'écrire ceci :
 
 ```tsx {24}
 import { useForm } from "@tanstack/react-form"
@@ -332,9 +332,9 @@ const LoginForm = () => {
 }
 ```
 
-Mais on risque pourtant de **ne pas afficher l'erreur** pile au moment où elle est créée ! Pourquoi ? Car par souci d'optimisation, **TanStack Form ne rend pas l'entière du composant contenant le formulaire à chaque modification du** `form` — à la différence du `field` qui regénère son `children` dès qu'il s'actualise. En effet, il n'y a de nécessité à rendre un composant potentiellement très volumineux pour un simple changement d'état du `form` qu'on a défini à l'intérieur de celui-ci : cela pourrait entraîner **une dégradation des performances si ces changements surviennent trop fréquemment**. 🤷‍♂️
+Cependant on risque de **ne pas afficher l'erreur** au moment où elle est créée ! Pourquoi donc ? Par souci d'optimisation, **TanStack Form ne veut pas forcer React à rendre l'entière du composant contenant le formulaire à chaque modification du** `form`. Imaginons que votre `<form>` soit pris dans un composant bien plus large : si le hook `useForm` est appelé à la hauteur de ce composant un nouveau rendu à chaque modification du formulaire pourrait entraîner le rendu de tous les éléments et composants enfants même s'ils n'ont rien à voir avec la partie dédiée au formulaire : cela pourrait entraîner **une dégradation des performances si ces changements surviennent trop fréquemment**. 🤷‍♂️
 
-Pour contourner cette difficulté, TanStack Form propose donc un composant `<form.Subscribe>` qui permet **de s'abonner à un changement spécifique du `form` et de rendre uniquement la portion UI qu'il enveloppe**.
+Pour contourner cette difficulté, TanStack Form désactive le rendu automatique du composant comportant le `<form>` et propose un composant `<form.Subscribe>` qui permet **de s'abonner à un changement spécifique du `form` et de rendre uniquement la portion qu'il enveloppe**.
 
 ```tsx {4-8}
 const LoginForm = () => {
@@ -351,7 +351,9 @@ const LoginForm = () => {
 }
 ```
 
-Voilà ! Nous disposons à présent d'un **formulaire opérationnel**. Mais on peut encore réhausser l'expérience utilisateur en ajoutant des **indicateurs de chargement ou de validation** avant l'affichage des erreurs pour rendre l'expérience plus fluide et agréable. Ce point fera l'objet d'une dernière partie (_à venir_).
+Voilà ! Nous disposons à présent d'un **formulaire opérationnel**. Mais on peut encore réhausser l'expérience utilisateur en ajoutant des **indicateurs de chargement ou de validation** avant l'affichage des erreurs pour rendre l'expérience plus fluide et agréable 🌊
+
+Ce point fera l'objet d'une dernière partie (_à venir_).
 
 <div className="useful-links">
   #### 🔗 Liens additionnels 
