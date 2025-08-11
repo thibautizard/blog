@@ -34,19 +34,23 @@ La bonne nouvelle ? Un sérieux candidat vient de rentrer en lice pour devenir v
 Si jusqu'à présent ce terrain était dominé par **[React Hook Form](https://react-hook-form.com/)** et **[Formik](https://formik.org/)**, une nouvelle librairie Typescriptvenue de la galaxie TanStack vient de se faire une place avec des promesses attrayantes : **[TanStack Form](https://tanstack.com/form/latest/docs/overview)**.
 
 <a href="https://tanstack.com/form/latest/docs/overview" target="_blank">
-<Image src={Logo} className="my-12 mx-auto w-[80%]" alt="Logo de TanStack Form" />
+  <Image src={Logo} className="my-12 mx-auto w-[80%]" alt="Logo de TanStack Form" />
 </a>
 
 
 Compatible avec React, Vue, Solid — et bien d'autres frameworks et technologies front —, **[TanStack Form](https://tanstack.com/form/latest/docs/overview)** offre **un typage intégral de votre formulaire** pour en sécuriser et accélérer le développement.
 
-Porté à l'échelle de plus grosses applications, il offre la possiblité particulièrement intéressante **de "composer" ses formulaires à l'aide d'options et de composants réutilisables**. On peut ainsi **créer notre propre fabrique de formulaires** avec des abstractions choisies mais toujours adossée à la librairie de base pour une **personnalisation encore plus fine**.
+Porté à l'échelle de plus grosses applications, il offre la possiblité particulièrement intéressante de "composer" ses **formulaires** à l'aide d'options et de composants réutilisables. On peut ainsi **créer notre propre fabrique de formulaires** avec des abstractions choisies mais toujours adossée à la librairie de base pour une **personnalisation encore plus fine**.
 
 ### Créer son formulaire de login avec TanStack Form
 
 Trêve de bavardages, **passons aux travaux pratiques 🧑‍🎨** ! Créons un simple formulaire de connexion pour une application React.
 
-On peut initialiser un formulaire **[TanStack Form](https://tanstack.com/form/latest/docs/overview)** de la façon suivante :
+<InformationBanner>
+  Pour démarrer rapidement une nouvelle application React, on peut passer par Vite avec la commande `npm create vite@latest my-app -- --template react` puis installer TanStack Form avec `npm install @tanstack/react-form`.
+</InformationBanner>
+
+On initialise un formulaire **[TanStack Form](https://tanstack.com/form/latest/docs/overview)** de la façon suivante :
 
 ```tsx {3}
 import { useForm } from "@tanstack/react-form"
@@ -54,7 +58,7 @@ import { useForm } from "@tanstack/react-form"
 const form = useForm({ ... })
 ```
 
-Ce hook `useForm` va prendre plusieurs options avec, pour commencer, **les valeurs par défaut des différents champs de notre formulaire**.
+Ce hook `useForm` va prendre plusieurs options dont **les valeurs par défaut des différents champs de notre formulaire**.
 
 ```tsx {4-7}
 import { useForm } from "@tanstack/react-form"
@@ -83,9 +87,9 @@ const form = useForm({
  })
 ```
 
-Le `form` renvoyé va ensuite pouvoir être **consommé par notre composant front** pour bâtir le formulaire. Celui-ci contient à la fois des **_wrappers_ qui vont venir envelopper nos inputs pour les contrôler** et des **informations sur le formulaire** : est-il valide ? quelles sont les erreurs en cours ? a-t-il été altéré depuis le chargement de la page ? etc.
+Le `form` renvoyé va ensuite pouvoir être **consommé par notre composant front** pour bâtir le formulaire. Celui-ci contient à la fois des **_wrappers_ qui vont venir envelopper nos inputs pour les contrôler** et des **informations sur le formulaire** (est-il valide ? quelles sont les erreurs en cours ? a-t-il été altéré depuis le chargement de la page ? etc.).
 
-Première brique à poser : **le composant** `form.Field` dont l'attribut `name` s'accordera automatiquement à l'un des champs du formulaire déclarés dans `useForm()`.
+Première brique à poser : **le composant** `form.Field` dont l'attribut `name` se liera automatiquement à l'un des champs du formulaire déclarés dans `useForm()`.
 
 ```tsx {5,16-26}
 import { useForm } from "@tanstack/react-form"
@@ -131,7 +135,7 @@ const LoginForm = () => {
 }
 ```
 
-Plutôt que de lui passer un `children`sous la forme `<form.Field>{children}</form.Field>`, on recourt ici à la bonne vieille technique des `renderProps`. Cela nous permet de **passer une fonction de rendu d'un composant plutôt que le composant déjà rendu** afin d'exploiter le `field` spécifique à chaque champ contenant toutes les informations requises.
+Plutôt que de lui passer un `children`sous la forme `<form.Field>{children}</form.Field>`, on recourt ici à la bonne vieille technique des `renderProps`. Cela nous permet d'utiliser **une fonction de rendu plutôt que le composant déjà rendu** afin d'exploiter le `field` spécifique à chaque champ contenant toutes les informations nécessaires.
 
 Dernière étape pour assurer la validation du formulaire : **désactiver le comportement par défaut du bouton de soumission qui survient lorsqu'un bouton** `<button type="submit">` se trouve dans un élément `<form>`. 
 
@@ -189,7 +193,9 @@ const LoginForm = () => {
 }
 ```
 
-Avec TanStack Form, **nos _inputs_ sont contrôlés** par le formulaire ce qui signifie que nous devons non seulement leur passer manuellement leur valeur avec `value={field.state.value}` mais aussi **des _events handlers_ pour réagir à la saisie de l'utilisateur et mettre à jour cette même valeur**. On utilise la prop `onChange` couplée à la fonction `field.handleChange()` pour cela.
+Avec TanStack Form, **nos _inputs_ sont contrôlés** par le formulaire ce qui signifie que nous devons non seulement leur passer manuellement leur valeur avec `value={field.state.value}` mais aussi **des _events handlers_ pour réagir à la saisie de l'utilisateur et mettre à jour cette même valeur**. 
+
+On utilise ainsi `onChange` sur la surface de l'input pour appeler `field.handleChange()` et mettre à jour la valeur du champ.
 
 ```tsx {28,40}
 import { useForm } from "@tanstack/react-form"
@@ -241,7 +247,9 @@ const LoginForm = () => {
 }
 ```
 
-Voilà en deux coups de cuillère à pot un bon début de formulaire de connexion 😋 Ne reste plus qu'à **ajouter la validation des champs** ([partie 2](tanstack-form-2)) et la **gestion des erreurs** (*en cours*) que nous verrons dans les parties suivantes.
+Voilà en deux coups de cuillère à pot un bon début de formulaire de connexion 😋 
+
+Ne reste plus qu'à **ajouter la validation des champs** ([partie 2](tanstack-form-2)) et la **gestion des erreurs** (*en cours*) que nous verrons dans les parties suivantes.
 
 <div className="useful-links">
   #### 🔗 Liens additionnels 
