@@ -51,14 +51,20 @@ var FrenchDev = (
 );
 
 var PP = (
-	<Avatar.Root className="rounded-full">
-		<Avatar.Image
-			className="rounded-full size-10 object-cover"
-			src={profilePictureUrl}
-			width="48"
-			height="48"
-			alt="Thibaut Izard GitHub profile picture"
-		/>
-		<Avatar.Fallback className="size-10">TI</Avatar.Fallback>
-	</Avatar.Root>
+	<a
+		href="https://github.com/thibautizard"
+		target="_blank"
+		rel="noopener noreferrer"
+	>
+		<Avatar.Root className="rounded-full">
+			<Avatar.Image
+				className="rounded-full size-10 object-cover"
+				src={profilePictureUrl}
+				width="48"
+				height="48"
+				alt="Thibaut Izard GitHub profile picture"
+			/>
+			<Avatar.Fallback className="size-10">TI</Avatar.Fallback>
+		</Avatar.Root>
+	</a>
 );

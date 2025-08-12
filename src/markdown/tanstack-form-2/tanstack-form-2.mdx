@@ -332,7 +332,7 @@ const LoginForm = () => {
 }
 ```
 
-Cependant on risque de **ne pas afficher l'erreur** au moment où elle est créée ! Pourquoi donc ? Par souci d'optimisation, **TanStack Form ne veut pas forcer React à rendre l'entière du composant contenant le formulaire à chaque modification du** `form`. Imaginons que votre `<form>` soit pris dans un composant bien plus large : si le hook `useForm` est appelé à la hauteur de ce composant un nouveau rendu à chaque modification du formulaire pourrait entraîner le rendu de tous les éléments et composants enfants même s'ils n'ont rien à voir avec la partie dédiée au formulaire : cela pourrait entraîner **une dégradation des performances si ces changements surviennent trop fréquemment**. 🤷‍♂️
+Cependant on risque de **ne pas afficher l'erreur** au moment où elle est créée ! Pourquoi donc ? Par souci d'optimisation, **TanStack Form ne veut pas forcer React à rendre l'entièreté du composant contenant le formulaire à chaque modification du** `form`. Imaginons que votre `<form>` soit pris dans un composant bien plus large : si le hook `useForm` est appelé à la hauteur de ce composant un nouveau rendu à chaque modification du formulaire pourrait entraîner le rendu de tous les éléments et composants enfants même s'ils n'ont rien à voir avec la partie dédiée au formulaire : cela pourrait entraîner **une dégradation des performances si ces changements surviennent trop fréquemment**. 🤷‍♂️
 
 Pour contourner cette difficulté, TanStack Form désactive le rendu automatique du composant comportant le `<form>` et propose un composant `<form.Subscribe>` qui permet **de s'abonner à un changement spécifique du `form` et de rendre uniquement la portion qu'il enveloppe**.
 
