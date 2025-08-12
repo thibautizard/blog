@@ -11,7 +11,7 @@ export default async function HomePage() {
 
 	return (
 		<div>
-			<ul className="space-y-6">
+			<ul className="space-y-12">
 				{posts.map(async (post) => {
 					const { metadata } = await import(
 						`@/markdown/${post.slug}/${post.slug}.mdx`
