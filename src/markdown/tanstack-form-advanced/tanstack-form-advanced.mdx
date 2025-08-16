@@ -1,0 +1,203 @@
+import Image from "next/image"
+import Link from "next/link"
+import InformationBanner from "@/markdown/-components/information-banner";
+import ExternalLink from "@/markdown/-components/external-link";
+
+export const metadata = {
+  title: "Créer des formulaires modernes et type-safe avec TanStack Form 📝 [Bonus]",
+  date: "2025-08-16",
+  excerpt:
+    "Passer à la vitesse supérieure sur les formulaires avec TanStack Form.",
+  publish: true,
+};
+
+Après la [mise en place d'un formulaire TanStack Form (partie 1)](/post/tanstack-form-1) puis [l'ajout d'une logique de validation et l'affichage d'erreurs (partie 2)](/post/tanstack-form-2), voici quelques **idées d'amélioration faciles dont peuvent bénéficier la plupart des formulaire et faciles à mettre en œuvre avec TanStack Form**.
+
+### Tip #1 - Ajouter un délai avant validation (*debounce*)
+
+Lorsqu'on souhaite valider un *input* à la fin d'une saisie, **introduire un léger délai avant toute tentative** évite d'enclencher une validation à chaque saisie de caractère laquelle présente peu d'intérêt la plupart du temps car **ayant toujours un train de retard sur ce que l'utilisateur est en train de taper**. Cette pause permet d'optimiser notre formulaire surtout si la validation requiert un appel API en attendant donc que l'*input* soit "stabilisé" avant de le tester. 
+
+Si on combine `OnChangeAsyncDebounceMs` avec `onChangeAsync` on peut ainsi trouver un **rythme de validation plus intelligent et proche de l'instant qu'on souhaite capturer à savoir le moment où l'utilisateur a fini de taper ce qu'il avait en tête** 👇
+<br/>
+
+```tsx {18-22}
+  function validateUsername(value: string) {
+    fetch(`/api/validate-username?username=${value}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          return "Ce nom d'utilisateur est déjà pris"
+        }
+        return null
+      })
+      .catch(error => {
+        return "Une erreur est survenue lors de la validation du nom d'utilisateur"
+      })
+  }
+
+  <form.Field 
+        name="username" 
+        validators={
+          // Ici pour l'exemple on prend une validation asynchrone
+          // mais on peut aussi utiliser des opérations synchrones
+          // dans lesquelles on souhaite introduire un debounce
+          onChangeAsyncDebounceMs: 500,
+          onChangeAsync: ({ value }) => validateUsername(value),
+          onChange: ({ value }) => {
+            if (value.length < 3) {
+              return "Le nom d'utilisateur doit contenir au moins 3 caractères"
+            }
+          }
+        }
+        children={({ field }) => 
+          <input 
+            id={field.id} 
+            type="text"
+            name={field.name} 
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+          />
+        }
+      />
+```
+
+
+### Tip #2 - Ajouter un loader ou un indicateur de validation
+
+```tsx {12}
+  <form.Field 
+        name="username" 
+        children={({ field }) => 
+          <>
+            <input 
+              id={field.id} 
+              type="text"
+              name={field.name} 
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+            />
+            {field.getMeta().isValidating && <div>Validation en cours...</div>}
+          </>
+        }
+      />
+```
+
+### Tip #3 - Valider plusieurs champs en même temps
+
+Prenons l'exemple courant d'un formulaire de création de compte avec un champ pour entrer un mot de passe et un autre invitant l'utilisateur à le confirmer. Le formulaire ne peut être valide que **si le mot de passe et sa confirmation sont identiques ce qui nécessite de contrôler les deux champs simultanément**. En précisant à `onChangeListenTo` ou `onBlurListenTo` l'autre champ du formulaire qu'on souhaite lier à celui qui nous occupe, on s'assure que les deux champs sont toujours re-validés en même temps.
+
+```tsx {4,24}
+  <form.Field 
+        name="password" 
+        validators={{
+          onChangeListenTo: ["confirmPassword"],
+          onChange: ({ value, fieldApi }) => {
+            if (value !== fieldApi.form.getFieldValue("confirmPassword")) {
+              return "Les mot de passe ne correspondent pas"
+            }
+          }
+        }}
+        children={({ field }) => 
+            <input 
+              id={field.id} 
+              type="password"
+              name={field.name} 
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+            />
+        }
+      />
+  <form.Field 
+        name="confirmPassword" 
+        validators={{
+          onChangeListenTo: ["password"],
+          onChange: ({ value, fieldApi }) => {
+            if (value !== fieldApi.form.getFieldValue("password")) {
+              return "Les mot de passe ne correspondent pas"
+            }
+          }
+        }}
+        children={({ field }) => 
+            <input 
+              id={field.id} 
+              type="password"
+              name={field.name} 
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+            />
+        }
+      />
+```
+
+### Tip #4 - Utiliser une librairie de validation
+
+Plutôt que de définir notre logique de validation dans les `validators` du formulaire ou du champ, TanStack Form laisse la possibilité d'utiliser des librairies de validation comme [Zod](https://zod.dev/), [Valibot](https://valibot.dev/) ou [ArkType](https://arktype.io/) pour définir nos schémas de validation.
+
+<InformationBanner>
+  La combinaison de ces deux librairies requiert parfois d'installer un adaptateur pour faire le pont entre les deux. Dans le cas de zod on peut utiliser `npm install @tanstack/zod-form-adapter`
+</InformationBanner>
+
+Il suffit ensuite de paser notre schéma de validation à `onChange`, `onBlur`ou `onSubmit` au niveau du champ... 👇
+
+```tsx {21-22}
+import { zodValidator } from "@tanstack/zod-form-adapter"
+import { z } from "zod"
+import { useForm } from "@tanstack/react-form"
+
+const PasswordSchema = z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères")
+
+  <form.Field 
+        name="password" 
+        validators={{
+          onChange: ({ value, fieldApi }) => {
+            if (value !== fieldApi.form.getFieldValue("confirmPassword")) {
+              return "Les mot de passe ne correspondent pas"
+            }
+          }
+        }}
+        children={({ field })> 
+            <input 
+              id={field.id} 
+              type="password"
+              name={field.name} 
+              value={field.state.value}
+              validatorAdapter={zodValidator}
+              onChange={PasswordSchema}
+            />
+        }
+      />
+```
+
+...ou du formulaire tout entier 👇
+
+```tsx {5-8,16}
+import { useForm } from "@tanstack/react-form"
+import { zodValidator } from "@tanstack/zod-form-adapter"
+import { z } from "zod"
+
+const LoginSchema = z.object({
+  username: z.string().min(3, "Le nom de l'utilisateur doit contenir au moins 3 caractères"),
+  password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères")
+})
+
+const form = useForm({ 
+  defaultValues: {
+    username: "",
+    password: "",
+  },
+  validators: {
+    onChange: LoginSchema,
+  },
+  validatorAdapter: zodValidator(),
+  onSubmit: async ({ value}) => {
+    console.log(value)
+  },
+ })
+```
+
+<div className="useful-links">
+  #### 🔗 Liens additionnels 
+  - <ExternalLink /> [Documentation officielle de TanStack Form](https://tanstack.com/form/latest/docs/overview)
+  - <ExternalLink /> [TanStack Form Tutorial - Balastrong](https://www.youtube.com/watch?v=Pf1qn35bgjs&list=PLOQjd5dsGSxInTKUWTxyqSKwZCjDIUs0Y&index=1)
+  - <ExternalLink /> [LogRocket — TanStack Form vs. React Hook Form](https://blog.logrocket.com/tanstack-form-vs-react-hook-form)
+</div>
