@@ -15,9 +15,9 @@ Après la [mise en place d'un formulaire TanStack Form (partie 1)](/post/tanstac
 
 ### Tip #1 - Ajouter un délai avant validation (*debounce*)
 
-Lorsqu'on souhaite valider un *input* à la fin d'une saisie, **introduire un léger délai avant toute tentative** évite d'enclencher une validation à chaque saisie de caractère laquelle présente peu d'intérêt la plupart du temps car **ayant toujours un train de retard sur ce que l'utilisateur est en train de taper**. Cette pause permet d'optimiser notre formulaire surtout si la validation requiert un appel API en attendant donc que l'*input* soit "stabilisé" avant de le tester. 
+Lorsqu'on souhaite valider un *input* à la fin d'une saisie, **introduire un léger délai avant toute tentative** évite d'enclencher une validation à chaque saisie de caractère qui présente peu d'intérêt car **ayant toujours un temps de retard sur ce que l'utilisateur est en train de taper**. Cette pause pour s'assurer que l'*input* est "stabilisé" avant de le tester permet d'optimiser notre formulaire surtout si la validation requiert un appel API. 
 
-Si on combine `OnChangeAsyncDebounceMs` avec `onChangeAsync` on peut ainsi trouver un **rythme de validation plus intelligent et proche de l'instant qu'on souhaite capturer à savoir le moment où l'utilisateur a fini de taper ce qu'il avait en tête** 👇
+Si on combine `OnChangeAsyncDebounceMs` avec `onChangeAsync` on peut ainsi trouver un **rythme de validation plus intelligent et proche de l'instant qu'on souhaite capturer** soit le moment où l'utilisateur a fini de taper ce qu'il avait en tête 👇
 <br/>
 
 ```tsx {18-22}
@@ -62,7 +62,9 @@ Si on combine `OnChangeAsyncDebounceMs` avec `onChangeAsync` on peut ainsi trouv
 ```
 
 
-### Tip #2 - Ajouter un loader ou un indicateur de validation
+### Tip #2 - Ajouter un indicateur de validation en cours
+
+Quelle que soit la durée de la validation, n'importe quel champ peut afficher son propre indicateur de validation en regardant la condition `field.getMeta().isValidating`.
 
 ```tsx {12}
   <form.Field 
@@ -84,7 +86,7 @@ Si on combine `OnChangeAsyncDebounceMs` avec `onChangeAsync` on peut ainsi trouv
 
 ### Tip #3 - Valider plusieurs champs en même temps
 
-Prenons l'exemple courant d'un formulaire de création de compte avec un champ pour entrer un mot de passe et un autre invitant l'utilisateur à le confirmer. Le formulaire ne peut être valide que **si le mot de passe et sa confirmation sont identiques ce qui nécessite de contrôler les deux champs simultanément**. En précisant à `onChangeListenTo` ou `onBlurListenTo` l'autre champ du formulaire qu'on souhaite lier à celui qui nous occupe, on s'assure que les deux champs sont toujours re-validés en même temps.
+Pensons à l'exemple courant d'un formulaire de création de compte comportant un champ pour entrer un mot de passe et un autre pour le confirmer en le rentrant à l'identique. Chacun de ces champs ne peut être valide que **si l'autre contient la même valeur**. En précisant à `onChangeListenTo` ou `onBlurListenTo` de notre champ l'autre champ qu'on souhaite lui lier, on s'assure que **les deux champs sont toujours re-validés en même temps même si l'utilisateur n'interagit qu'avec l'un d'eux**.
 
 ```tsx {4,24}
   <form.Field 
@@ -129,17 +131,19 @@ Prenons l'exemple courant d'un formulaire de création de compte avec un champ p
       />
 ```
 
-### Tip #4 - Utiliser une librairie de validation
+On remarquera au passage que nous pouvons récupérer au niveau du `field` n'importe quelle valeur du `form` grâce à `fieldApi.form.getFieldValue()` 🤓
 
-Plutôt que de définir notre logique de validation dans les `validators` du formulaire ou du champ, TanStack Form laisse la possibilité d'utiliser des librairies de validation comme [Zod](https://zod.dev/), [Valibot](https://valibot.dev/) ou [ArkType](https://arktype.io/) pour définir nos schémas de validation.
+### Tip #4 - Utiliser une librairie de validation externe
+
+Plutôt que de définir notre logique de validation à l'aide de fonctions passées dans les `validators` du formulaire ou du champ, **TanStack Form laisse la possibilité d'utiliser des schémas de validation** de [Zod](https://zod.dev/), [Valibot](https://valibot.dev/), [ArkType](https://arktype.io/) et autres librairies pour définir nos règles.
 
 <InformationBanner>
-  La combinaison de ces deux librairies requiert parfois d'installer un adaptateur pour faire le pont entre les deux. Dans le cas de zod on peut utiliser `npm install @tanstack/zod-form-adapter`
+  L'association de TanStack Form avec une librairie de validation requiert parfois d'installer un adaptateur pour faire le pont entre les deux. Dans le cas de Zod, on l'obtient avec `npm install @tanstack/zod-form-adapter`
 </InformationBanner>
 
-Il suffit ensuite de paser notre schéma de validation à `onChange`, `onBlur`ou `onSubmit` au niveau du champ... 👇
+On passe ensuite notre schéma de validation à `onChange`, `onBlur`ou `onSubmit` au niveau du champ... 👇
 
-```tsx {21-22}
+```tsx {5,22-23}
 import { zodValidator } from "@tanstack/zod-form-adapter"
 import { z } from "zod"
 import { useForm } from "@tanstack/react-form"
