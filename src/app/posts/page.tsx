@@ -7,20 +7,30 @@ const canPublish = ({ metadata }: { metadata: { publish: boolean } }) =>
 
 export default async function HomePage() {
 	const posts = await getAllPosts();
-	posts.reverse();
+
+	const postsWithMetadata = await Promise.all(
+		posts.map(async (post) => {
+			const { metadata } = await import(`@/markdown/${post.path}`);
+			return { ...post, metadata };
+		}),
+	);
+
+	const postsToDisplay = postsWithMetadata.filter(canPublish);
+	postsToDisplay.sort((post1, post2) => {
+		const date1 = new Date(post1.metadata.date);
+		const date2 = new Date(post2.metadata.date);
+		return date2.getTime() - date1.getTime();
+	});
 
 	return (
 		<div>
 			<ul className="space-y-12">
-				{posts.map(async (post) => {
-					const { metadata } = await import(
-						`@/markdown/${post.slug}/${post.slug}.mdx`
-					);
+				{postsToDisplay.map(async ({ slug, metadata }) => {
 					if (!canPublish({ metadata })) return null;
 					const formattedDate = formatDateForPost(metadata.date);
 					return (
-						<li key={post.slug}>
-							<Link href={`/post/${post.slug}`}>
+						<li key={slug}>
+							<Link href={`/post/${slug}`}>
 								<div className="mb-2">
 									<h2 className="text-2xl font-bold mb-1">{metadata.title}</h2>
 									{formattedDate && (

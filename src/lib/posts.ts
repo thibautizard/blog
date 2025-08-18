@@ -1,21 +1,35 @@
 import fs from "node:fs";
 import path from "node:path";
 
-export async function getAllPosts() {
-  const postsDir = path.join(process.cwd(), "src", "markdown");
+const startDir = path.join(process.cwd(), "src", "markdown");
 
-  let folders = await fs.promises.readdir(postsDir);
-  folders = folders.filter((folder) => !folder.startsWith("."));
+export interface PostResume {
+  slug: string;
+  path: string;
+}
 
-  const posts = [];
-  for (const folder of folders) {
-    const folderPath = path.join(postsDir, folder);
-    const files = await fs.promises.readdir(folderPath);
-    for (const file of files) {
-      if (file.endsWith(".mdx")) {
-        posts.push({ slug: file.replace(".mdx", "") });
-      }
-    }
-  }
+export function getAllPosts(dir: string = startDir): PostResume[] {
+  let posts: PostResume[] = [];
+
+  fs.readdirSync(dir)
+    .filter((element) => {
+      const elementPath = path.join(dir, element);
+      const isWorthInspecting =
+        !element.startsWith(".") &&
+        !element.startsWith("-") &&
+        fs.statSync(elementPath).isDirectory();
+      const isMarkdownFile = element.endsWith(".mdx");
+      if (isMarkdownFile)
+        posts.push({
+          slug: element.replace(".mdx", ""),
+          path: elementPath.replace(/^.*markdown\//, ""),
+        });
+      return isWorthInspecting;
+    })
+    .forEach((folder) => {
+      const folderPath = path.join(dir, folder);
+      posts = [...posts, ...getAllPosts(folderPath)];
+    });
+
   return posts;
 }
