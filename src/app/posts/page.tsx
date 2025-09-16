@@ -24,7 +24,7 @@ export default async function HomePage() {
 
 	return (
 		<div>
-			<ul className="space-y-12">
+			<ul className="space-y-12 list-none">
 				{postsToDisplay.map(async ({ slug, metadata }) => {
 					if (!canPublish({ metadata })) return null;
 					const formattedDate = formatDateForPost(metadata.date);
@@ -32,7 +32,9 @@ export default async function HomePage() {
 						<li key={slug}>
 							<Link href={`/post/${slug}`}>
 								<div className="mb-2">
-									<h2 className="text-2xl font-bold mb-1">{metadata.title}</h2>
+									<h2 className="text-2xl max-w-[600px] text-pretty font-bold mb-1">
+										{metadata.title}
+									</h2>
 									{formattedDate && (
 										<div className="text-sm text-gray-400 capitalize">
 											{formattedDate}

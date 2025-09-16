@@ -83,7 +83,7 @@ La validation à la saisie d'un champ est la plus simple et la plus réactive. E
 
 On peut la configurer **au niveau du champ concerné** en passant une fonction de validation à la propriété `onChange` **des** `validators` **du champ**.
 
-Tout ce qui est retourné par cette fonction sera considéré comme une **erreur de validation** et automatiquement ajouté au tableau `field.state.meta.errors`. Si cette fonction ne retourne rien ou `null`, le champ est considéré **comme valide**.
+Tout ce qui est retourné par cette fonction sera considéré comme une **erreur de validation** et automatiquement ajouté au tableau `field.state.meta.errors`. Si cette fonction ne retourne rien (`undefined`) ou `null`, le champ est considéré **comme valide**.
 
 ```tsx {4-8}
   <form.Field 
@@ -222,9 +222,9 @@ const LoginForm = () => {
 
  #### Attendre la validation côté serveur
 
- Jusqu'à présent, nous avons mis en place des validations simples qui se basent uniquement sur la valeur du champ déjà disponible côté client. Mais quid **si on souhaite vérifier la validité d'un champ en l'envoyant à une API** ? On passe alors à une validation asynchrone plus délicate car elle **nécessite d'attendre la réponse de l'API (qui peut être longue pu ne jamais arriver) pour déterminer si le champ est valide ou non**.
+ Jusqu'à présent, nous avons mis en place des validations simples qui se basent uniquement sur la valeur du champ déjà disponible côté client. Mais *quid* **si on souhaite vérifier la validité d'un champ en l'envoyant à une API** ? On passe alors à une validation asynchrone plus délicate car elle **nécessite d'attendre la réponse de l'API (qui peut être longue ou même ne jamais arriver) pour déterminer si le champ est valide ou non**.
 
-  C'est le moment de recourir à la propriété `onChangeAsync` qui sera voisine et complémentaire de `onChange` (mais il existe aussi `onBlurAsync` et `onSubmitAsync` qui sont les pendants de `onBlur` et `onSubmit`). Elle prendra en valeur **une fonction chargée d'effectuer les appels API nécessaires pour tester l'input**.
+  C'est le moment de recourir à la propriété `onChangeAsync` qui sera voisine et complémentaire de `onChange` (là encore il existe des `onBlurAsync` et `onSubmitAsync` qui sont les pendants de `onBlur` et `onSubmit`). Elle prendra en valeur **une nouvelle fonction chargée d'effectuer les appels API nécessaires pour tester l'input**.
 
 
 ```tsx {18}

@@ -137,7 +137,7 @@ const LoginForm = () => {
 }
 ```
 
-Plutôt que de lui passer un `children`sous la forme `<form.Field>{children}</form.Field>`, on recourt ici à la bonne vieille technique des `renderProps`. Cela nous permet d'utiliser **une fonction de rendu plutôt que le composant déjà rendu** afin d'exploiter le `field` spécifique à chaque champ contenant toutes les informations nécessaires.
+Plutôt que de lui passer un `children`sous la forme `<form.Field>{children}</form.Field>`, on recourt ici à la bonne vieille technique des `renderProps`. Cela nous permet d'utiliser **une fonction de rendu plutôt que le composant déjà rendu** afin d'exploiter le `field` spécifique à chaque champ qu'on récupère comme argument.
 
 Dernière étape pour assurer la validation du formulaire : **désactiver le comportement par défaut du bouton de soumission qui survient lorsqu'un bouton** `<button type="submit">` se trouve dans un élément `<form>`. 
 
@@ -145,7 +145,7 @@ Dernière étape pour assurer la validation du formulaire : **désactiver le com
   Cette précaution est cruciale pour empêcher le rechargement de la page, comportement qu'on souhaite éviter dans le cadre d'une SPA car il nous ferait sortir de notre routing et court-circuiterait les opérations de TanStack Form. 
 </InformationBanner>
 
-On va donc devoir passer par la méthode `form.handleSubmit()` pour **déclencher les étapes de validation** et nous renvoyer toutes les informations nécessaires à l'issue de celles-ci.
+On va donc devoir en passer par la méthode `form.handleSubmit()` pour **déclencher la validation du formulaire**.
 
 ```tsx {16-18}
 import { useForm } from "@tanstack/react-form"

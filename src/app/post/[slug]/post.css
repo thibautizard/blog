@@ -50,6 +50,12 @@ blockquote {
   color: gray;
 }
 
+/* Lists */
+ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+
 /* Inserts */
 
 .insert {

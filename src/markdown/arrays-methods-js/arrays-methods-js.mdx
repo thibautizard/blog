@@ -1,0 +1,88 @@
+import ExternalLink from "@/markdown/-components/external-link";
+// import InformationBanner from "@/markdown/-components/information-banner";
+
+export const metadata = {
+  title: "Manipuler des tableaux en JavaScript en toute sécurité 🧮",
+  date: "2025-09-16",
+  excerpt:
+    "Pourquoi il faut éviter .sort(), .reverse() ou .splice() et quelles sont leurs alternatives modernes",
+  publish: true,
+};
+
+### Les méthodes natives de JavaScript pour manipuler des tableaux
+
+Historiquement, JavaScript offre son lot de méthodes natives pour manipuler des tableaux, mais **toutes ne se comportent pas de la même manière**.
+
+Prenons d'un côté `sort()`, `reverse()` ou encore `splice()` :
+
+```js
+const numbers = [3, 2, 4, 1, 5]
+
+const reversed = numbers.reverse()
+// [5, 1, 4, 2, 3]
+
+const sorted = numbers.sort()
+// [1, 2, 3, 4, 5]
+
+console.log(numbers)
+// [1, 2, 3, 3, 5] ❗ Le tableau original a été modifié
+```
+
+Et de l'autre les incontournables `map()`, `filter()` et `reduce()` : 
+
+```js
+const numbers = [1, 2, 3, 3, 5]
+
+const doubled = numbers.map(number => number * 2)
+// [2, 4, 6, 6, 10]
+
+const filtered = numbers.filter(number => number > 3)
+// [5]
+
+console.log(numbers)
+// [1, 2, 3, 3, 5] 🧘‍♂️ Rien n'a changé
+```
+
+On constate ainsi que certaines méthodes **modifient le tableau original** (on les appelle **mutables**), tandis que d'autres **retournent une copie modifiée sans toucher à l'original** (elles sont **immuables**).    
+
+### Le risque des méthodes mutables
+
+Et c'est grave docteur ? 😱
+
+Oui car dans un code complexe employer des fonctions ou des méthodes qui modifient une valeur plutôt que d'en retourner une copie peut **devenir une source de bugs difficiles à tracer**. Par exemple, si l'on veut trier un tableau avant de le filtrer, on peut être tenté d'écrire :  
+
+```js
+const numbers = [4, 2, 3, 1, 5]
+const sorted = numbers.sort()
+// [1, 2, 3, 4, 5]
+const filtered = sorted.filter(number => number > 3)
+// [4, 5]
+```
+Contrairement aux apparences et à la différence de `filtered`, ici `sorted` **n'est PAS un nouveau tableau mais une référence directe au tableau original** `numbers` **modifié**. 
+
+Pourquoi est-ce un problème ? Car si une autre partie de votre code sans rapport avec les lignes précédentes réutilise le même tableau `numbers`, elle ne travaillera pas sur la liste attendue `[4, 2, 3, 1, 5]`, mais sur sa version triée `[1, 2, 3, 4, 5]`.
+
+Cette incohérence dans le comportement des méthodes de tableau en JavaScript a longtemps été une **source de confusion** qui n'a clairement pas joué en faveur de la réputation de ce langage. 
+
+### Des alternatives modernes
+
+Heureusement, _JavaScript is healing 🌈_ Depuis ES2023 nous pouvons dorénavant compter sur des méthodes immutables qui nous permettent de **créer un nouveau tableau sans modifier l'original** :
+
+- `toSorted()`
+- `toReversed()`
+- `toSpliced()`
+
+Ces méthodes prennent respectivement le relais de `sort()`, `reverse()` et `splice()`. 
+
+```js
+// ❌ À éviter : méthodes mutables
+const sorted = numbers.sort(); // Modifie l'original
+
+// ✅ Bonne pratique : utiliser les nouvelles méthodes immutables
+const sorted = numbers.toSorted();
+const reversed = numbers.toReversed();
+```
+
+Il n'y a plus aucune excuse à ne pas les employer car toutes ces méthodes sont dorénavant **supportées par la plupart des environnements modernes** (Chrome/Edge 110+, Safari 16+, Firefox 115+, Node.js 20+).
+
+Pour des [raisons de rétrocompatibilité](https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md#backwards--forwards), les anciennes méthodes mutables **ne seront certainement jamais supprimées** mais la prudence invite désormais à les éviter pour leur préférer leur homologues modernes.
