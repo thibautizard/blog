@@ -1,6 +1,7 @@
 import { formatDateForPost } from "@/lib/dates";
 import { getAllPosts } from "@/lib/posts";
 import "./post.css";
+import type { Metadata } from "next";
 
 // Disable dynamic params to avoid re-rendering the page for each request
 export const dynamicParams = false;
@@ -11,6 +12,28 @@ export async function generateStaticParams() {
 	return posts.map((post) => ({
 		slug: post.slug,
 	}));
+}
+
+// Generate metadata for each post
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+	const { slug } = await params;
+	const { metadata } = await import(`@/markdown/${slug}/${slug}.mdx`);
+	const title = `${metadata.title} - Thibaut Izard`;
+
+	return {
+		title,
+		description: metadata.excerpt,
+		openGraph: {
+			title,
+			description: metadata.excerpt,
+			type: "article",
+			publishedTime: metadata.date,
+		},
+	};
 }
 
 export default async function PostView({
