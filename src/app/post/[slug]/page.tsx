@@ -1,7 +1,10 @@
+import { unstable_ViewTransition as ViewTransition } from "react";
 import { formatDateForPost } from "@/lib/dates";
 import { getAllPosts } from "@/lib/posts";
+
 import "./post.css";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 // Disable dynamic params to avoid re-rendering the page for each request
 export const dynamicParams = false;
@@ -48,7 +51,12 @@ export default async function PostView({
 
 	const formattedDate = formatDateForPost(metadata.date);
 	return (
-		<div>
+		<div className="post-container">
+			<ViewTransition name="articles">
+				<h2 className="text-zinc-400 font-regular">
+					<Link href="/posts">/ Articles</Link>
+				</h2>
+			</ViewTransition>
 			<header className="flex flex-col gap-2 mb-4">
 				<h2 className="text-3xl font-bold text-balance">{metadata.title}</h2>
 				{formattedDate && (

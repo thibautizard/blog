@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { unstable_ViewTransition as ViewTransition } from "react";
 import { formatDateForPost } from "@/lib/dates";
 import { getAllPosts } from "@/lib/posts";
 
@@ -24,6 +25,9 @@ export default async function HomePage() {
 
 	return (
 		<div>
+			<ViewTransition name="articles">
+				<h2 className="text-5xl font-bold mb-6">Articles</h2>
+			</ViewTransition>
 			<ul className="space-y-12 list-none">
 				{postsToDisplay.map(async ({ slug, metadata }) => {
 					if (!canPublish({ metadata })) return null;
