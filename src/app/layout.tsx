@@ -1,7 +1,9 @@
 import { Tooltip } from "@base-ui-components/react/tooltip";
 import { Analytics } from "@vercel/analytics/next";
+import type { Metadata } from "next";
 import { DM_Sans, Merriweather, Montserrat } from "next/font/google";
 import { Header } from "../components/header";
+
 import "./global.css";
 
 const montserrat = Montserrat({
@@ -25,7 +27,7 @@ const dmSans = DM_Sans({
 	variable: "--font-dm-sans",
 });
 
-export const metadata = {
+export const metadata: Metadata = {
 	description: "Blog personnel de Thibaut Izard",
 	title: "frenchdev",
 };
