@@ -22,14 +22,14 @@ export const Header = () => (
 	<div className="select-none mb-12 flex justify-between items-center">
 		{FrenchDev}
 		<div className="flex items-center gap-3">
-			<span className="font-merriweather italic">by</span>
+			<span className="italic">by</span>
 			<Tooltip.Root>
 				<Tooltip.Trigger>{PP}</Tooltip.Trigger>
 				<Tooltip.Portal>
 					<Tooltip.Positioner sideOffset={10}>
-						<Tooltip.Popup className="text-xs font-serif border border-gray-200 rounded-md p-2">
+						<Tooltip.Popup className="text-sm shadow font-montserrat font-bold border border-gray-200 rounded-md p-2">
 							<Tooltip.Arrow className="fill-current" />
-							<span>Thibaut Izard</span>
+							<span>🙆‍♂️ Thibaut Izard</span>
 						</Tooltip.Popup>
 					</Tooltip.Positioner>
 				</Tooltip.Portal>

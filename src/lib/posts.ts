@@ -15,7 +15,9 @@ export function getAllPosts(dir: string = startDir): PostResume[] {
     .filter((element) => {
       const elementPath = path.join(dir, element);
       const isWorthInspecting =
+        // No hidden files or folders
         !element.startsWith(".") &&
+        // No folders starting with -
         !element.startsWith("-") &&
         fs.statSync(elementPath).isDirectory();
       const isMarkdownFile = element.endsWith(".mdx");

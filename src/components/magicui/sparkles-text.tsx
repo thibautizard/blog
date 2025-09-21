@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/a11y/noSvgWithoutTitle: component from Magic UI */
 "use client";
 
 import { motion } from "motion/react";
