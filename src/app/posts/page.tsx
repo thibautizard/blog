@@ -1,3 +1,4 @@
+import { CalendarFoldIcon } from "lucide-react";
 import Link from "next/link";
 import { unstable_ViewTransition as ViewTransition } from "react";
 import { formatDateForPost } from "@/lib/dates";
@@ -40,12 +41,16 @@ export default async function HomePage() {
 										{metadata.title}
 									</h2>
 									{formattedDate && (
-										<div className="text-sm text-gray-400 capitalize">
+										<div className="text-sm flex items-center text-slate-400 capitalize">
+											<CalendarFoldIcon
+												size={14}
+												className="inline-block mr-1.5"
+											/>
 											{formattedDate}
 										</div>
 									)}
 								</div>
-								<p className="text-sm text-gray-500">{metadata.excerpt}</p>
+								<p className="text-base text-slate-500">{metadata.excerpt}</p>
 							</Link>
 						</li>
 					);

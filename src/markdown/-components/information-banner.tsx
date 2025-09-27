@@ -1,15 +1,19 @@
-import { BadgeInfo } from "lucide-react";
+import { BadgeInfo, OctagonAlert } from "lucide-react";
 
 type Props = {
 	children: React.ReactNode;
+	status?: "info" | "success" | "warning" | "error";
 };
 
-function InformationBanner({ children }: Props) {
+function InformationBanner({ children, status = "info" }: Props) {
 	return (
-		<div className="insert" data-status="info">
+		<div className="insert" data-status={status}>
 			{children}
 			<div className="icon-container">
-				<BadgeInfo className="inline-block" />
+				{status === "info" && <BadgeInfo className="inline-block" />}
+				{status === "success" && <OctagonAlert className="inline-block" />}
+				{status === "warning" && <OctagonAlert className="inline-block" />}
+				{status === "error" && <OctagonAlert className="inline-block" />}
 			</div>
 		</div>
 	);

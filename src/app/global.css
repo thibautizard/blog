@@ -6,7 +6,8 @@
 }
 
 .root {
-  isolation: isolate; /* For Base UI portals to work */
+  isolation: isolate;
+  /* For Base UI portals to work */
 }
 
 @theme inline {
@@ -25,46 +26,4 @@ h4,
 h5,
 h6 {
   font-family: var(--font-montserrat);
-}
-
-/* Post content specific styling */
-.post-content h1,
-.post-content h2,
-.post-content h3,
-.post-content h4,
-.post-content h5,
-.post-content h6 {
-  font-weight: 700;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.post-content h1 {
-  font-size: 2.25rem; /* text-4xl */
-  line-height: 2.5rem;
-}
-
-.post-content h2 {
-  font-size: 1.875rem; /* text-3xl */
-  line-height: 2.25rem;
-}
-
-.post-content h3 {
-  font-size: 1.5rem; /* text-2xl */
-  line-height: 2rem;
-}
-
-.post-content h4 {
-  font-size: 1.25rem; /* text-xl */
-  line-height: 1.75rem;
-}
-
-.post-content h5 {
-  font-size: 1.125rem; /* text-lg */
-  line-height: 1.75rem;
-}
-
-.post-content h6 {
-  font-size: 1rem; /* text-base */
-  line-height: 1.5rem;
 }

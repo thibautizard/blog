@@ -1,12 +1,22 @@
 .post-container {
 
   /* 🔤 Text */
+  --color: #201d21;
   --margin-bottom: 16px;
   --link-color: #a855f7;
   --code-background-color: #f5f3ff;
   --quote-color: gray;
   --code-highlight-color: #c084fc;
   --code-background-color-highlight: #022a4b;
+
+  p {
+    color: var(--color);
+    font-weight: 300;
+  }
+
+  strong {
+    font-weight: 600;
+  }
 
   /* Main article blocks */
   p,
@@ -116,6 +126,18 @@
     --foreground: var(--success-foreground);
     --background: var(--success-background);
     --border: var(--success-border);
+  }
+  
+  [data-status="warning"] {
+    --foreground: var(--warning-foreground);
+    --background: var(--warning-background);
+    --border: var(--warning-border);
+  }
+  
+  [data-status="error"] {
+    --foreground: var(--error-foreground);
+    --background: var(--error-background);
+    --border: var(--error-border);
   }
 
   .insert .icon-container {

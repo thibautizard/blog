@@ -1,0 +1,75 @@
+import ExternalLink from "@/markdown/-components/external-link";
+import InformationBanner from "@/markdown/-components/information-banner";
+import Pyramid from "./assets/pyramid.png";
+import Comparison from "./assets/comparison-pyramid-trophy.png";
+import Image from "next/image";
+
+export const metadata = {
+  title: "Comment tester une application frontend en 2025 ? 🧪",
+  date: "2025-09-27",
+  excerpt: "Tu ne fais que des TU à la chaîne ? Arrête.",
+  publish: true,
+};
+
+### L'automatisation des tests
+
+Une application fiable et robuste est avant tout une **application bien testée** : pas de crash inattendu ou de régression à chaque déploiement. 
+
+L'erreur étant humaine, l'industrie a su progressivement développer des outils pour **automatiser le plus possible ces tests** et se passer des vérifications manuelles nécessairement fastidieuses, chronophages, incomplètes et jamais complètement fiables. Les tests automatisés sont dorénavant **un maillon essentiel dans n'importe quelle CI/CD digner de ce nom** et **leur succès un préalable requis à tout déploiement en production**. 
+
+### L'approche pyramidale
+
+Mais ils emportent aussi avec eux leur lot de pièges et d'arbitrages techniques complexes. Ainsi on ne sait jamais trop par où commencer, ni ce qu'on doit faire exactement... On prend alors comme point de départ la fameuse [« pyramide de tests » proposée par Martin Fowler](https://martinfowler.com/articles/practical-test-pyramid.html) :
+
+<Image src={Pyramid} alt="Pyramide de tests" className="w-[80%] mx-auto my-12" />
+
+👉 **BEAUCOUP de tests unitaires** simples et rapides (fonctions métiers, utilitaires etc.)
+
+👉 **QUELQUES tests d'intégration** à plus haut niveau (sur nos composants)
+
+👉 **SI POSSIBLE des tests end-to-end** lent mais plus réalistes car simulant un navigateur réel
+
+
+
+Dans les faits, on rencontre surtout des **applications bardées de tests unitaires** (pour celles qui en ont...), mais généralement écrits après coup, sans stratégie globale, avec quelques tests de composant qui surnagent au milieu si on a de la chance 🫠
+
+### L'approche trophée
+
+De plus, les outils et les frameworks ont évolué tendant à rendre cette approche pyramidale caduque. Kent C. Dodds notamment a proposé une **version révisée de la pyramide avec le « trophée de test »** :
+
+<Image src={Comparison} alt="Pyramide de tests" className="w-[80%] mx-auto my-8" />
+
+#### 1️⃣ L'analyse statique
+
+Au pied du trophée, on trouve **une couche statique** ou de "pré-test" assurée par tous les outils de lint et de typage à notre disposition ([ESLint](https://eslint.org), [Biome ❤️](https://biomejs.dev), [Typescript](https://www.typescriptlang.org), [SonarQube](https://www.sonarsource.com/sem/products/sonarqube)). Ceux-là permettent de **détecter précocement des erreurs syntaxiques**, des **problèmes de type**, des **anti-patterns** ou d'appliquer des **conventions d'écriture** pour assurer la qualité et la lisibilité maximales de votre code.
+
+#### 2️⃣ Les tests unitaires
+
+Vient ensuite une **bonne base de tests unitaires** pour vérifier notre logique en isolation. [Jest](https://jestjs.io) ou [Vitest](https://vitest.dev) (qui ont des API quasi identiques) font ça très bien. 
+
+<InformationBanner status="warning">
+On doit toutefois **se garder du travers de tout tester**, jusqu'aux fonctions les fonctions les plus triviales. Si **un sur-test est peut-être moins dangereux qu'un sous-test**, il est tout aussi nocif pour la maintenabilité du code et expose à bien d'autres problèmes : des tests trop "pointilleux" qui s'attardent sur des détails d'implémentation interne aux classes ou fonctions et **cassent à la moindre refactorisation** finissent immanquablement par ralentir inutilement le développeur et favorisent l'inertie dans un projet (j'ai déjà vu des tests portant sur la présence de... classes CSS 😱). **Inutile donc de fétichiser un certain pourcentage idéal de couverture de test comme le très ambitieux 100%** : il faut tester tactiquement ce qui gagne à l'être.
+</InformationBanner>
+
+### 3️⃣ Les tests d'intégration
+
+L'approche trophée met surtout en vedette **les tests d'intégration de nos composants**, qui sont devenues les briques essentielles des applications front modernes. [Testing Library](https://testing-library.com) (anciennement React Testing Library) permet de gérer cette partie et à moindres frais dorénavant. On peut en coupler l'usage avec [Storybook](https://storybook.js.org), adapté si on construit tout un design system afin d'avoir **tous nos composants sous les yeux dans tous les états et actions possibles**.
+
+<InformationBanner>
+  La **frontière entre test unitaire et test d'intégration est historiquement assez floue**. Martin Fowler, [dans la réponse qu'il a apportée à la forme trophée proposée par Kent C. Dodds](https://martinfowler.com/articles/2021-test-shapes.html), rappelle cette difficulté et propose plutôt de distinguer les **tests unitaires "solitaires"** et les **tests unitaires "sociaux"**. Dans le cas où on souhaite tester un composant ou une classe isolément, on peut choisir soit de conserver les dépendances qu'il appelle (auquel cas le test est social) soit de les remplacer par des _mocks_ ou des _stubs_ (auquel cas le test est solitaire). **Tous deux peuvent prétendre à l'appellation de test unitaire puisque il s'agit de tester une unité de code**, ici une classe ou un composant, mais dans le premier on intègre à celui-ci ses dépendances réelles alors que dans le second on les simule. Pour Fowler, **un test d'intégration est simplement un test unitaire "social"** qui rejette l'utilisation excessive de _mocks_.
+</InformationBanner>
+
+#### 4️⃣ Les tests End-to-End (E2E)
+
+Ces derniers, qui forment le sommet de plus en plus resserré du trophée, sont toujours plus coûteux en temps de calcul et de maintenance mais offrant **l'avantage de répliquer des comportements utilisateurs réels** en faisant tourner sous le capot un navigateur pour interagir avec notre app. [Playwright](https://playwright.dev) et [Cypress]() sont les librairies de référence dans ce domaine.
+
+<br/>
+
+Surtout, les tests (intelligents) ne sont jamais vos ennemis 🤗 Non seulement **ils protègent votre application (et votre santé mentale)** en lui évitant de partir en production avec des vices cachés, mais ils documentent votre code avec des cas d'usage. Une attitude de développement guidée par l'écriture des tests a également plus de chances **de vous alerter rapidement si vous faites fausse route dans votre implémentation**. Bien tester, c'est ne plus douter !
+
+<div className="useful-links">
+    #### 🔗 Liens additionnels
+
+    - <ExternalLink /> [Francisco Moretti - What tests to write for React](https://www.franciscomoretti.com/blog/what-tests-to-write-for-react)
+    - <ExternalLink /> [Martin Fowler - On the Diverse And Fantastical Shapes of Testing](https://martinfowler.com/articles/2021-test-shapes.html)
+</div>
