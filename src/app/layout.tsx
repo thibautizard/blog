@@ -41,7 +41,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 			className={`${montserrat.variable} ${dmSans.variable} ${monaSans.variable}`}
 		>
 			<body>
-				<div className="root min-h-screen mx-auto p-4 sm:p-8 max-w-[75ch] space-y-8">
+				<div className="root min-h-screen mx-auto py-4 w-[90vw] sm:p-8 max-w-[75ch] space-y-8">
 					<Tooltip.Provider>
 						<Header />
 						<main className="space-y-8">{children}</main>
