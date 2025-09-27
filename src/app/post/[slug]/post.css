@@ -3,7 +3,7 @@
   /* 🔤 Text */
   --color: #201d21;
   --margin-bottom: 16px;
-  --link-color: #a855f7;
+  --link-color: #7e22ce;
   --code-background-color: #f5f3ff;
   --quote-color: gray;
   --code-highlight-color: #c084fc;
@@ -53,11 +53,8 @@
   }
 
   p>a {
-    position: relative;
-    text-decoration: underline;
-    text-decoration-color: var(--link-color);
-    text-decoration-thickness: 2px;
-    text-underline-offset: 3px;
+    color: var(--link-color);
+    font-weight: 500;
   }
 
 
