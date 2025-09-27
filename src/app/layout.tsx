@@ -1,23 +1,23 @@
 import { Tooltip } from "@base-ui-components/react/tooltip";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { DM_Sans, Merriweather, Montserrat } from "next/font/google";
+import { DM_Sans, Mona_Sans, Montserrat } from "next/font/google";
 import { Header } from "../components/header";
 
 import "./global.css";
+
+const monaSans = Mona_Sans({
+	subsets: ["latin"],
+	weight: ["400", "500", "600", "700", "900"],
+	display: "swap",
+	variable: "--font-mona-sans",
+});
 
 const montserrat = Montserrat({
 	subsets: ["latin"],
 	weight: ["400", "500", "600", "700", "900"],
 	display: "swap",
 	variable: "--font-montserrat",
-});
-
-const merriweather = Merriweather({
-	subsets: ["latin"],
-	weight: ["300", "400", "700", "900"],
-	display: "swap",
-	variable: "--font-merriweather",
 });
 
 const dmSans = DM_Sans({
@@ -38,7 +38,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 	return (
 		<html
 			lang="fr"
-			className={`${montserrat.variable} ${merriweather.variable} ${dmSans.variable}`}
+			className={`${montserrat.variable} ${dmSans.variable} ${monaSans.variable}`}
 		>
 			<body>
 				<div className="root min-h-screen mx-auto p-4 sm:p-8 max-w-[75ch] space-y-8">
