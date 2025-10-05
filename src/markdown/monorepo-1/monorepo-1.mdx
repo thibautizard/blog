@@ -29,19 +29,19 @@ Prenons un exemple courant : un monorepo dont **plusieurs applications frontend 
 
 <Image src={DependencyGraph} alt="Graph de dépendances" className="w-[80%] mx-auto" />
 
-Imaginons maintenant que vous `commit` ou `push` la dernière version de votre dépôt ce qui enclenchera probablement un pipeline CI/CD avec des tâches de build et de test. Il est évident que le `build` de l'app #1 ou de l'app #2 ne pourra être exécuté **qu'après celui de la librairie interne dont chacune d'elle dépend**, de sorte que toute modification de la librairie UI devra entraîner **un re-build de toutes les applications qui l'utilisent**. 
+Imaginons maintenant que vous `commit` ou `push` la dernière version de votre dépôt ce qui enclenchera probablement un pipeline CI/CD avec des tâches de build et de test. Il est évident que le build de l'app #1 ou de l'app #2 ne pourra être exécuté **qu'après celui de la librairie interne dont chacune d'elle dépend**, de sorte que toute modification de la librairie UI devra entraîner **un re-build de toutes les applications qui l'utilisent**. 
 
 Cependant, une modification de l'app #1 ou de l'app #2 **n'aura aucun impact sur la librairie interne et ne nécessitera pas de recompiler celle-ci**. De même, votre `linter` n'a aucun intérêt à s'exécuter sur l'ensemble du dépôt si les dernières modifications concernent uniquement une seule application. C'est là tout l'intérêt d'outils de gestion de monorepo comme [_Nx_](https://nx.dev) ou [_Turborepo_](https://turbo.build) qui **optimisent l'exécution de ces différentes tâches à l'intérieur de votre monorepo** en se servant du graph de dépendances qui émerge spontanément des relations nouées dans le code entre vos différentes composantes ou que **vous pouvez même configurer manuellement** jusqu'à atteindre la précision parfaite.
 
 Si vous laissez donc grossir votre monorepo sans outils capable de mettre en cache et de paralléliser les tâches récurrentes, vous risquez de voir celui-ci devenir un amas de code mal organisé et **de rapidement constater une dégradation des performances et une augmentation des temps de _build_**. Cela exige **un travail de configuration supplémentaire** mais qui se révèlera très vite payant. En écartant ce risque inhérent aux monorepo non orchestré, vous pouvez à présent savourer pleinement ses avantages 😎 
 
-### L'alignement des dépendances
+### L'alignement des dépendances (_Single Version Policy_)
 
 L'un des aspects les plus importants dans un projet bien trop souvent négligé est **celui de la gestion des dépendances externes et de leurs montées de version**. Beaucoup de projets manquent de cette discipline dans les mises à jour et se retrouvent progressivement **bloqués par des versions obsolètes de dépendances externes qui ouvrent des failles de sécurité et interdisent de profiter des dernières améliorations**. 
 
 La raison de cette négligence si répandue tient moins à l'ignorance de la gravité des risques qu'encourt une application aux dépendances externes insuffisamment actualisées et dont certaines fonctionnalités cessent d'être supportées en raison de la dépréciation de celles-ci, qu'à **la paresse naturelle qui saisit tout et chacun devant le travail de mise à niveau** qui exige parfois de se replonger dans le code pour rattraper certains _breaking changes_ introduits par des changements de versions majeures. Le monorepo peut largement atténuer ce problème de motivation en permettant de **traiter en un seul coup l'ensemble des dépendances externes de toutes les composantes d'un projet** ou en **forçant l'adoption de versions identiques pour les librairies les plus importantes**. On peut par exemple s'assurer que toutes nos librairies utilitaires utilisent la même version de Typescript ou que nos applications front s'en tiennent à la même version de React.
 
-### Un _commit_ pour tous vos changements
+### Un _commit_ pour tous vos changements (_Atomic Changes_)
 
 Dans le cas d'un monorepo contenant une API consommée par une seule application frontend, l'approche monorepo vous permet de **modifier chaque extrémité de cette chaîne de communication et de tester simultanément cette combinaison avant de tout sauvegarder en un seul** `commit`. Au contraire, si votre projet est divisé en plusieurs dépôts, notamment pour la partie front et back, il vous faudra **attendre de devoir récupérer une modification faite sur un côté avant de pouvoir entamer l'autre** ce qui vous impose des allers-retours entre les différents dépôts et fera baisser votre vélocité. L'évolution recherchée ne pourra apparaître qu'au terme d'une série de `commits` décousus sur différents dépôts alors qu'un monorepo vous donne la capacité de stocker **l'intégralité des changements liés à une fonctionnalité dans un seul `commit`** ce qui favorise la lisibilité et la maintenance de votre code, surtout en cas de `git revert` ou pour un relecteur sur une _pull request_.
 
@@ -55,4 +55,5 @@ Quand tous ces projets sont rassemblés dans un monorepo, il devient **plus ais�
     #### 🔗 Liens additionnels
 
     - <ExternalLink /> [Stefan Haas - Introduction to Frontend Monorepos](https://stefanhaas.xyz/article/monorepos-101/)
+    - <ExternalLink /> [monorepo.tools](https://monorepo.tools)
 </div>
