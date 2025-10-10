@@ -1,8 +1,8 @@
-import './global.css'
-import { redirect } from 'next/navigation'
+import "./global.css";
+import { redirect } from "next/navigation";
 
 const Page = () => {
-  redirect('/posts')
-}
+  redirect("/posts");
+};
 
-export default Page
+export default Page;

@@ -1,6 +1,8 @@
 export function formatDateForPost(dateString: string) {
   const date = new Date(dateString);
-  if (Number.isNaN(date.getTime())) return null;
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
 
   const DEFAULT_LOCALE = "fr-FR";
   const userBrowserLocale =

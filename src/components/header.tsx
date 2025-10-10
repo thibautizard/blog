@@ -5,66 +5,68 @@ import { SparklesText } from "@/components/magicui/sparkles-text";
 
 const url = "https://api.github.com/users/thibautizard";
 const DEFAULT_PROFILE_PICTURE_URL =
-	"https://avatars.githubusercontent.com/u/22802349?v=4";
+  "https://avatars.githubusercontent.com/u/22802349?v=4";
 
 const profilePictureUrl = await fetch(url)
-	.then((response) => response.json())
-	.then((data) => {
-		const profilePictureUrl = data.avatar_url;
-		return profilePictureUrl;
-	})
-	.catch((error) => console.error("Error fetching user data:", error))
-	.finally(() => {
-		return DEFAULT_PROFILE_PICTURE_URL;
-	});
+  .then((response) => response.json())
+  .then((data) => data.avatar_url)
+  .finally(() => DEFAULT_PROFILE_PICTURE_URL);
 
 export const Header = () => (
-	<div className="select-none mb-12 flex justify-between items-center">
-		{FrenchDev}
-		<div className="flex items-center gap-3">
-			<span className="italic">by</span>
-			<Tooltip.Root>
-				<Tooltip.Trigger>{PP}</Tooltip.Trigger>
-				<Tooltip.Portal>
-					<Tooltip.Positioner sideOffset={10}>
-						<Tooltip.Popup className="text-sm shadow font-montserrat font-bold border border-gray-200 rounded-md p-2">
-							<Tooltip.Arrow className="fill-current" />
-							<span>🙆‍♂️ Thibaut Izard</span>
-						</Tooltip.Popup>
-					</Tooltip.Positioner>
-				</Tooltip.Portal>
-			</Tooltip.Root>
-		</div>
-	</div>
+  <div className="mb-12 flex select-none items-center justify-between">
+    <FrenchDev />
+    <div className="flex items-center gap-3">
+      <span className="italic">by</span>
+      <Tooltip.Root>
+        <Tooltip.Trigger>
+          <PP />
+        </Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Positioner sideOffset={10}>
+            <Tooltip.Popup className="rounded-md border border-gray-200 p-2 font-bold font-montserrat text-sm shadow">
+              <Tooltip.Arrow className="fill-current" />
+              <span>🙆‍♂️ Thibaut Izard</span>
+            </Tooltip.Popup>
+          </Tooltip.Positioner>
+        </Tooltip.Portal>
+      </Tooltip.Root>
+    </div>
+  </div>
 );
 
-var FrenchDev = (
-	<SparklesText
-		sparklesCount={10}
-		className="grid"
-		colors={{ first: "#3b82f6", second: "#a855f7" }}
-	>
-		<h1 className="text-2xl select-none font-montserrat font-bold tracking-tighter pr-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
-			<Link href="/posts">frenchdev</Link>
-		</h1>
-	</SparklesText>
-);
+// ---------------------------------
 
-var PP = (
-	<a
-		href="https://github.com/thibautizard"
-		target="_blank"
-		rel="noopener noreferrer"
-	>
-		<Avatar.Root className="rounded-full">
-			<Avatar.Image
-				className="rounded-full size-10 object-cover"
-				src={profilePictureUrl}
-				width="48"
-				height="48"
-				alt="Thibaut Izard GitHub profile picture"
-			/>
-			<Avatar.Fallback className="size-10">TI</Avatar.Fallback>
-		</Avatar.Root>
-	</a>
-);
+function FrenchDev() {
+  return (
+    <SparklesText
+      className="grid"
+      colors={{ first: "#3b82f6", second: "#a855f7" }}
+      sparklesCount={10}
+    >
+      <h1 className="select-none bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text pr-2 font-bold font-montserrat text-2xl text-transparent tracking-tighter">
+        <Link href="/posts">frenchdev</Link>
+      </h1>
+    </SparklesText>
+  );
+}
+
+function PP() {
+  return (
+    <a
+      href="https://github.com/thibautizard"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <Avatar.Root className="rounded-full">
+        <Avatar.Image
+          alt="Thibaut Izard GitHub profile picture"
+          className="size-10 rounded-full object-cover"
+          height="48"
+          src={profilePictureUrl}
+          width="48"
+        />
+        <Avatar.Fallback className="size-10">TI</Avatar.Fallback>
+      </Avatar.Root>
+    </a>
+  );
+}

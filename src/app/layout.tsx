@@ -7,48 +7,48 @@ import { Header } from "../components/header";
 import "./global.css";
 
 const monaSans = Mona_Sans({
-	subsets: ["latin"],
-	weight: ["400", "500", "600", "700", "900"],
-	display: "swap",
-	variable: "--font-mona-sans",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "900"],
+  display: "swap",
+  variable: "--font-mona-sans",
 });
 
 const montserrat = Montserrat({
-	subsets: ["latin"],
-	weight: ["400", "500", "600", "700", "900"],
-	display: "swap",
-	variable: "--font-montserrat",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "900"],
+  display: "swap",
+  variable: "--font-montserrat",
 });
 
 const dmSans = DM_Sans({
-	subsets: ["latin"],
-	weight: ["400", "500", "600", "700"],
-	display: "swap",
-	variable: "--font-dm-sans",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-dm-sans",
 });
 
 export const metadata: Metadata = {
-	description: "Blog personnel de Thibaut Izard",
-	title: "frenchdev",
+  description: "Blog personnel de Thibaut Izard",
+  title: "frenchdev",
 };
 
-export default async function RootLayout(props: { children: React.ReactNode }) {
-	const { children } = props;
+export default function RootLayout(props: { children: React.ReactNode }) {
+  const { children } = props;
 
-	return (
-		<html
-			lang="fr"
-			className={`${montserrat.variable} ${dmSans.variable} ${monaSans.variable}`}
-		>
-			<body>
-				<div className="root min-h-screen mx-auto py-4 w-[90vw] sm:p-8 max-w-[75ch] space-y-8">
-					<Tooltip.Provider>
-						<Header />
-						<main className="space-y-8">{children}</main>
-					</Tooltip.Provider>
-				</div>
-				<Analytics />
-			</body>
-		</html>
-	);
+  return (
+    <html
+      className={`${montserrat.variable} ${dmSans.variable} ${monaSans.variable}`}
+      lang="fr"
+    >
+      <body>
+        <div className="root mx-auto min-h-screen w-[90vw] max-w-[75ch] space-y-8 py-4 sm:p-8">
+          <Tooltip.Provider>
+            <Header />
+            <main className="space-y-8">{children}</main>
+          </Tooltip.Provider>
+        </div>
+        <Analytics />
+      </body>
+    </html>
+  );
 }

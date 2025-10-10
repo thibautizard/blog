@@ -3,35 +3,35 @@ import path from "node:path";
 
 const startDir = path.join(process.cwd(), "src", "markdown");
 
-export interface PostResume {
+export type PostResume = {
   slug: string;
   path: string;
-}
+};
+
+const markdownFileRegex = /\.mdx$/;
+const markdownDirRegex = /^.*markdown\//;
 
 export function getAllPosts(dir: string = startDir): PostResume[] {
   let posts: PostResume[] = [];
+  const dirEntries = fs.readdirSync(dir);
 
-  fs.readdirSync(dir)
-    .filter((element) => {
-      const elementPath = path.join(dir, element);
-      const isWorthInspecting =
-        // No hidden files or folders
-        !element.startsWith(".") &&
-        // No folders starting with -
-        !element.startsWith("-") &&
-        fs.statSync(elementPath).isDirectory();
-      const isMarkdownFile = element.endsWith(".mdx");
-      if (isMarkdownFile)
-        posts.push({
-          slug: element.replace(".mdx", ""),
-          path: elementPath.replace(/^.*markdown\//, ""),
-        });
-      return isWorthInspecting;
-    })
-    .forEach((folder) => {
-      const folderPath = path.join(dir, folder);
-      posts = [...posts, ...getAllPosts(folderPath)];
-    });
+  for (const element of dirEntries) {
+    const elementPath = path.join(dir, element);
+    const isHiddenOrDash = element.startsWith(".") || element.startsWith("-");
+    const isDirectory = fs.statSync(elementPath).isDirectory();
+
+    if (markdownFileRegex.test(element)) {
+      posts.push({
+        slug: element.replace(markdownFileRegex, ""),
+        path: elementPath.replace(markdownDirRegex, ""),
+      });
+    }
+
+    if (!isHiddenOrDash && isDirectory) {
+      const subPosts = getAllPosts(elementPath);
+      posts = [...posts, ...subPosts];
+    }
+  }
 
   return posts;
 }
