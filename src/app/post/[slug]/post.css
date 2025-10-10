@@ -11,10 +11,12 @@
 
   p {
     color: var(--color);
-    font-size: 1.1rem;
-    line-height: 1.7;
+    font-size: 1rem;
+    line-height: 1.6;
     font-weight: 300;
   }
+
+
 
   strong {
     font-weight: 600;
