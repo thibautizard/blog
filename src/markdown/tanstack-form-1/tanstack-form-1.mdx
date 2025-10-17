@@ -2,6 +2,7 @@ import Logo from "./assets/logo.png"
 import Image from "next/image"
 import InformationBanner from "@/markdown/-components/information-banner";
 import ExternalLink from "@/markdown/-components/external-link";
+import LinkWithGlimpse from "../-components/link-with-glimpse";
 
 export const metadata = {
   title: "Créer des formulaires modernes et type-safe avec TanStack Form 📝 [Partie 1 - Introduction]",
@@ -31,14 +32,11 @@ La bonne nouvelle ? Un sérieux candidat vient de rentrer en lice pour devenir v
 
 ### *The new kid in town*
 
-Si jusqu'à présent ce terrain était dominé par **[React Hook Form](https://react-hook-form.com/)** et **[Formik](https://formik.org/)**, une nouvelle librairie Typescriptvenue de la galaxie TanStack vient de se faire une place avec des promesses attrayantes : **[TanStack Form](https://tanstack.com/form/latest/docs/overview)**.
-
-<a href="https://tanstack.com/form/latest/docs/overview" target="_blank">
-  <Image src={Logo} className="my-12 mx-auto w-[80%]" alt="Logo de TanStack Form" />
-</a>
+Si jusqu'à présent ce terrain était dominé par **<LinkWithGlimpse url="https://react-hook-form.com/">React Hook Form</LinkWithGlimpse>** et **<LinkWithGlimpse url="https://formik.org/">Formik</LinkWithGlimpse>**, une nouvelle librairie Typescriptvenue de la galaxie TanStack vient de se faire une place avec des promesses attrayantes : **<LinkWithGlimpse url="https://tanstack.com/form/latest">TanStack Form</LinkWithGlimpse>**.
 
 
-Compatible avec React, Vue, Solid — et bien d'autres frameworks et technologies front —, **[TanStack Form](https://tanstack.com/form/latest/docs/overview)** offre **un typage intégral de votre formulaire** qui sécurise et accélère le développement.
+
+Compatible avec React, Vue, Solid — et bien d'autres frameworks et technologies front —, **<LinkWithGlimpse url="https://tanstack.com/form/latest/docs/overview">TanStack Form</LinkWithGlimpse>** offre **un typage intégral de votre formulaire** qui sécurise et accélère le développement.
 
 Porté à l'échelle de plus grosses applications, il offre la possiblité particulièrement intéressante de "composer" ses **formulaires** à l'aide d'options et de composants réutilisables entre différents formulaires. 
 
@@ -52,7 +50,7 @@ Trêve de bavardages, **passons aux travaux pratiques 🧑‍🎨** ! Créons un
   Pour démarrer rapidement une nouvelle application React, on peut passer par Vite avec la commande `npm create vite@latest my-app -- --template react` puis installer TanStack Form avec `npm install @tanstack/react-form`.
 </InformationBanner>
 
-On initialise un formulaire **[TanStack Form](https://tanstack.com/form/latest/docs/overview)** de la façon suivante :
+On initialise un formulaire **<LinkWithGlimpse url="https://tanstack.com/form/latest/docs/overview">TanStack Form</LinkWithGlimpse>** de la façon suivante :
 
 ```tsx {3}
 import { useForm } from "@tanstack/react-form"
@@ -251,11 +249,11 @@ const LoginForm = () => {
 
 Voilà en deux coups de cuillère à pot un bon début de formulaire de connexion 😋 
 
-Ne reste plus qu'à **ajouter la validation des champs** et **gérer les erreurs**, des étapes que nous verrons dans [la partie suivante](/post/tanstack-form-2).
+Ne reste plus qu'à **ajouter la validation des champs** et **gérer les erreurs**, des étapes que nous verrons dans <LinkWithGlimpse url="https://www.frenchdev.co/post/tanstack-form-2">la partie suivante</LinkWithGlimpse>.
 
 <div className="useful-links">
   #### 🔗 Liens additionnels 
-  - <ExternalLink /> [Documentation officielle de TanStack Form](https://tanstack.com/form/latest/docs/overview)
-  - <ExternalLink /> [TanStack Form Tutorial - Balastrong](https://www.youtube.com/watch?v=Pf1qn35bgjs&list=PLOQjd5dsGSxInTKUWTxyqSKwZCjDIUs0Y&index=1)
-  - <ExternalLink /> [LogRocket — TanStack Form vs. React Hook Form](https://blog.logrocket.com/tanstack-form-vs-react-hook-form)
+  - <ExternalLink/> <LinkWithGlimpse url="https://tanstack.com/form/latest/docs/overview">Documentation officielle de TanStack Form</LinkWithGlimpse>
+  - <ExternalLink/> <LinkWithGlimpse url="https://www.youtube.com/watch?v=Pf1qn35bgjs&list=PLOQjd5dsGSxInTKUWTxyqSKwZCjDIUs0Y&index=1">TanStack Form Tutorial - Balastrong</LinkWithGlimpse>
+  - <ExternalLink/> <LinkWithGlimpse url="https://blog.logrocket.com/tanstack-form-vs-react-hook-form">LogRocket — TanStack Form vs. React Hook Form</LinkWithGlimpse>
 </div>

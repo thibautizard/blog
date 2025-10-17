@@ -1,5 +1,6 @@
 import BadgeOld from "./-components/badge-old";
 import ExternalLink from "@/markdown/-components/external-link";
+import LinkWithGlimpse from "@/markdown/-components/link-with-glimpse";
 
 export const metadata = {
   title: "Utiliser if dans du... CSS 😱",
@@ -118,7 +119,7 @@ Comme souvent, **c'est Chrome qui a pris les devants en termes de support** en e
 
 ### Est-ce une si bonne idée ?
 
-Plutôt, dans la mesure où on peut régler de **façon bien plus élégante** et **maintenable** certains problèmes de layout et de style. L'exemple proposé par **[Una Kravets](https://www.youtube.com/@UnaKravets)** pour classer des tickets dans différentes colonnes est particulièrement ingénieux et permet bien de sentir l'intérêt de cette nouvelle fonctionnalité 👇
+Plutôt, dans la mesure où on peut régler de **façon bien plus élégante** et **maintenable** certains problèmes de layout et de style. L'exemple proposé par **<LinkWithGlimpse url="https://www.youtube.com/@UnaKravets">Una Kravets</LinkWithGlimpse>** pour classer des tickets dans différentes colonnes est particulièrement ingénieux et permet bien de sentir l'intérêt de cette nouvelle fonctionnalité 👇
 
 <div className="video-container">
   <iframe
@@ -137,11 +138,11 @@ Le revers de la médaille cependant avec ces syntaxes plus "programmatiques" qui
 
 Or c'est précisément cet aspect déclaratif commun à HTML et CSS qui permet de limiter la casse lorsqu'on envoyait du CSS trop récent dans des navigateurs avec des versions anciennes puisqu'**il suffit à l'interpréteur de zapper les propriétés ou valeurs inconnues** — là où un compilateur Javascript crashe méchamment s'il croise une syntaxe inconnue postérieur à sa version maximum supportée.
 
-À voir donc si ce surplus de logique dans le CSS ne va pas **aggraver les problèmes de rétrocompatibilité et compliquer le débuggage** puisque l'interprétation en deviendra plus délicate — même si des outils comme [PostCSS](https://postcss.org/) permettent généralement de mitiger cette difficulté en transpilant le CSS moderne pour le rendre compatible avec les anciennes versions de navigateurs.
+À voir donc si ce surplus de logique dans le CSS ne va pas **aggraver les problèmes de rétrocompatibilité et compliquer le débuggage** puisque l'interprétation en deviendra plus délicate — même si des outils comme <LinkWithGlimpse url="https://postcss.org/">PostCSS</LinkWithGlimpse> permettent généralement de mitiger cette difficulté en transpilant le CSS moderne pour le rendre compatible avec les anciennes versions de navigateurs.
 
 <div className="useful-links">
   #### 🔗 Liens additionnels 
-  - <ExternalLink /> [Documentation MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/if)
-  - <ExternalLink /> [Chrome For Developers Blog — CSS conditionals with the new if() function](https://developer.chrome.com/blog/if-article)
-  - <ExternalLink /> [The CSS if() function: Conditional styling will never be the same - Ikeh Akinyemi (LogRocket)](https://blog.logrocket.com/css-if-function-conditional-styling/)
+  - <ExternalLink/> <LinkWithGlimpse url="https://developer.mozilla.org/en-US/docs/Web/CSS/if">Documentation MDN</LinkWithGlimpse>
+  - <ExternalLink/> <LinkWithGlimpse url="https://developer.chrome.com/blog/if-article">Chrome For Developers Blog — CSS conditionals with the new if() function</LinkWithGlimpse>
+  - <ExternalLink/> <LinkWithGlimpse url="https://blog.logrocket.com/css-if-function-conditional-styling/">The CSS if() function: Conditional styling will never be the same - Ikeh Akinyemi (LogRocket)</LinkWithGlimpse>
 </div>

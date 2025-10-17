@@ -2,6 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import InformationBanner from "@/markdown/-components/information-banner";
 import ExternalLink from "@/markdown/-components/external-link";
+import LinkWithGlimpse from "@/markdown/-components/link-with-glimpse";
 
 export const metadata = {
   title: "Créer des formulaires modernes et type-safe avec TanStack Form 📝 [Bonus]",
@@ -11,7 +12,7 @@ export const metadata = {
   publish: true,
 };
 
-Après la [mise en place d'un formulaire TanStack Form (partie 1)](/post/tanstack-form-1) puis [l'ajout de validations et l'affichage d'erreurs (partie 2)](/post/tanstack-form-2), voici quelques **idées d'amélioration faciles dont peuvent bénéficier la plupart des formulaires et faciles à mettre en œuvre avec TanStack Form**.
+Après la <LinkWithGlimpse url="https://www.frenchdev.co/post/tanstack-form-1" internalLink={true}>mise en place d'un formulaire TanStack Form (partie 1)</LinkWithGlimpse> puis <LinkWithGlimpse url="https://www.frenchdev.co/post/tanstack-form-2" internalLink={true}>l'ajout de validations et l'affichage d'erreurs (partie 2)</LinkWithGlimpse>, voici quelques **idées d'amélioration faciles dont peuvent bénéficier la plupart des formulaires et faciles à mettre en œuvre avec TanStack Form**.
 
 ### Tip #1 - Ajouter un délai avant validation (*debounce*)
 
@@ -136,7 +137,7 @@ On remarquera au passage que nous pouvons récupérer au niveau du `field` n'imp
 
 ### Tip #4 - Utiliser une librairie de validation externe
 
-Plutôt que de définir notre logique de validation à l'aide de fonctions passées dans les `validators` du formulaire ou du champ, **TanStack Form laisse la possibilité d'utiliser des schémas de validation** de [Zod](https://zod.dev/), [Valibot](https://valibot.dev/), [ArkType](https://arktype.io/) et autres librairies pour définir nos règles.
+Plutôt que de définir notre logique de validation à l'aide de fonctions passées dans les `validators` du formulaire ou du champ, **TanStack Form laisse la possibilité d'utiliser des schémas de validation** de <LinkWithGlimpse url="https://zod.dev/">Zod</LinkWithGlimpse>, <LinkWithGlimpse url="https://valibot.dev/">Valibot</LinkWithGlimpse>, <LinkWithGlimpse url="https://arktype.io/">ArkType</LinkWithGlimpse> et autres librairies pour définir nos règles.
 
 <InformationBanner>
   L'association de TanStack Form avec une librairie de validation requiert parfois d'installer un adaptateur pour faire le pont entre les deux. Dans le cas de Zod, on l'obtient avec `npm install @tanstack/zod-form-adapter`
@@ -202,7 +203,7 @@ const form = useForm({
 
 <div className="useful-links">
   #### 🔗 Liens additionnels 
-  - <ExternalLink /> [Documentation officielle de TanStack Form](https://tanstack.com/form/latest/docs/overview)
-  - <ExternalLink /> [TanStack Form Tutorial - Balastrong](https://www.youtube.com/watch?v=Pf1qn35bgjs&list=PLOQjd5dsGSxInTKUWTxyqSKwZCjDIUs0Y&index=1)
-  - <ExternalLink /> [LogRocket — TanStack Form vs. React Hook Form](https://blog.logrocket.com/tanstack-form-vs-react-hook-form)
+  - <ExternalLink/> <LinkWithGlimpse url="https://tanstack.com/form/latest/docs/overview">Documentation officielle de TanStack Form</LinkWithGlimpse>
+  - <ExternalLink/> <LinkWithGlimpse url="https://www.youtube.com/watch?v=Pf1qn35bgjs&list=PLOQjd5dsGSxInTKUWTxyqSKwZCjDIUs0Y&index=1">TanStack Form Tutorial - Balastrong</LinkWithGlimpse>
+  - <ExternalLink/> <LinkWithGlimpse url="https://blog.logrocket.com/tanstack-form-vs-react-hook-form">LogRocket — TanStack Form vs. React Hook Form</LinkWithGlimpse>
 </div>

@@ -2,6 +2,7 @@ import Logo from "./assets/logo.png"
 import Image from "next/image"
 import Link from "next/link"
 import ExternalLink from "@/markdown/-components/external-link";
+import LinkWithGlimpse from "@/markdown/-components/link-with-glimpse";
 
 export const metadata = {
   title: "Créer des formulaires modernes et type-safe avec TanStack Form 📝 [Partie 2  - La validation]",
@@ -11,7 +12,7 @@ export const metadata = {
   publish: true,
 };
 
-[Créer des formulaires modernes et type-safe avec TanStack Form - Partie 1](/post/tanstack-form-1)
+<LinkWithGlimpse url="https://www.frenchdev.co/post/tanstack-form-1" internalLink={true}>Créer des formulaires modernes et type-safe avec TanStack Form - Partie 1</LinkWithGlimpse>
 
 Dans une première partie, nous avions créé un **formulaire de connexion en React contrôlé par TanStack Form** avec deux champs : le nom de l'utilisateur et le mot de passe 👇
 
@@ -357,11 +358,11 @@ Dans l'exemple ci-dessus, on utilise le composant `<form.Subscribe>` avec une pr
 
 Voilà ! Nous disposons à présent d'un **formulaire opérationnel**. Mais on peut encore réhausser l'expérience utilisateur en ajoutant des **indicateurs de chargement ou de validation** avant l'affichage des erreurs pour rendre l'expérience bien plus fluide et agréable 🌊
 
-Ce point, ainsi que diverses améliorations que l'on peut apporter à notre formulaire grâce à TanStack Form, feront l'objet d'[une dernière partie](/post/tanstack-form-advanced).
+Ce point, ainsi que diverses améliorations que l'on peut apporter à notre formulaire grâce à TanStack Form, feront l'objet d'<LinkWithGlimpse url="https://www.frenchdev.co/post/tanstack-form-advanced" internalLink={true}>une dernière partie</LinkWithGlimpse>.
 
 <div className="useful-links">
   #### 🔗 Liens additionnels 
-  - <ExternalLink /> [Documentation officielle de TanStack Form](https://tanstack.com/form/latest/docs/overview)
-  - <ExternalLink /> [TanStack Form Tutorial - Balastrong](https://www.youtube.com/watch?v=Pf1qn35bgjs&list=PLOQjd5dsGSxInTKUWTxyqSKwZCjDIUs0Y&index=1)
-  - <ExternalLink /> [LogRocket — TanStack Form vs. React Hook Form](https://blog.logrocket.com/tanstack-form-vs-react-hook-form)
+  - <LinkWithGlimpse url="https://tanstack.com/form/latest/docs/overview">Documentation officielle de TanStack Form</LinkWithGlimpse>
+  - <LinkWithGlimpse url="https://www.youtube.com/watch?v=Pf1qn35bgjs&list=PLOQjd5dsGSxInTKUWTxyqSKwZCjDIUs0Y&index=1">TanStack Form Tutorial - Balastrong</LinkWithGlimpse>
+  - <LinkWithGlimpse url="https://blog.logrocket.com/tanstack-form-vs-react-hook-form">LogRocket — TanStack Form vs. React Hook Form</LinkWithGlimpse>
 </div>

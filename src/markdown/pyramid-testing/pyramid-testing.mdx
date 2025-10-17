@@ -1,5 +1,6 @@
 import ExternalLink from "@/markdown/-components/external-link";
 import InformationBanner from "@/markdown/-components/information-banner";
+import LinkWithGlimpse from "@/markdown/-components/link-with-glimpse";
 import Pyramid from "./assets/pyramid.png";
 import Comparison from "./assets/comparison-pyramid-trophy.png";
 import Image from "next/image";
@@ -19,7 +20,7 @@ L'erreur étant humaine, l'industrie a su progressivement développer des outils
 
 ### L'approche pyramidale
 
-Mais la mise en place de tests dans une application complexe **emporte aussi avec elle son lot de pièges et d'arbitrages techniques**. Car on ne sait jamais trop par où commencer, ni ce qu'on doit tester exactement... La fameuse [« pyramide de tests » popularisée par Mike Cohn et reprise par Martin Fowler](https://martinfowler.com/articles/practical-test-pyramid.html) sert souvent de feuille de route :
+Mais la mise en place de tests dans une application complexe **emporte aussi avec elle son lot de pièges et d'arbitrages techniques**. Car on ne sait jamais trop par où commencer, ni ce qu'on doit tester exactement... La fameuse <LinkWithGlimpse url="https://martinfowler.com/articles/practical-test-pyramid.html">« pyramide de tests » popularisée par Mike Cohn et reprise par Martin Fowler</LinkWithGlimpse> sert souvent de feuille de route :
 
 <Image src={Pyramid} alt="Pyramide de tests" className="w-[80%] mx-auto my-12" />
 
@@ -43,11 +44,11 @@ De plus, **les outils et les frameworks ont évolué tendant à rendre cette app
 
 #### 1️⃣ L'analyse statique
 
-Au pied du trophée, on trouve d'abord **une couche statique**, forme de « test préventif », assurée par tous les outils de lint et de typage à notre disposition ([ESLint](https://eslint.org), [Biome](https://biomejs.dev), [Typescript](https://www.typescriptlang.org), [SonarQube](https://www.sonarsource.com/sem/products/sonarqube)). Ces technologies permettent de **détecter précocement des erreurs syntaxiques**, des **problèmes de type**, des **anti-patterns** ou d'appliquer des **conventions d'écriture** pour assurer la qualité et la lisibilité maximales de votre code. Il ne s'agit pas de tests à proprement parler mais **des sentinelles qui parcourent votre code pour lever régulièrement des alertes**.
+Au pied du trophée, on trouve d'abord **une couche statique**, forme de « test préventif », assurée par tous les outils de lint et de typage à notre disposition (<LinkWithGlimpse url="https://eslint.org">ESLint</LinkWithGlimpse>, <LinkWithGlimpse url="https://biomejs.dev">Biome</LinkWithGlimpse>, <LinkWithGlimpse url="https://www.typescriptlang.org">Typescript</LinkWithGlimpse>, <LinkWithGlimpse url="https://www.sonarsource.com/sem/products/sonarqube">SonarQube</LinkWithGlimpse>). Ces technologies permettent de **détecter précocement des erreurs syntaxiques**, des **problèmes de type**, des **anti-patterns** ou d'appliquer des **conventions d'écriture** pour assurer la qualité et la lisibilité maximales de votre code. Il ne s'agit pas de tests à proprement parler mais **des sentinelles qui parcourent votre code pour lever régulièrement des alertes**.
 
 #### 2️⃣ Les tests unitaires
 
-Vient ensuite une **base de tests unitaires** pour **tester notre logique en isolation**. [Jest](https://jestjs.io) ou [Vitest](https://vitest.dev) (compatible avec Jest mais plus rapide) font ça très bien. 
+Vient ensuite une **base de tests unitaires** pour **tester notre logique en isolation**. <LinkWithGlimpse url="https://jestjs.io">Jest</LinkWithGlimpse> ou <LinkWithGlimpse url="https://vitest.dev">Vitest</LinkWithGlimpse> (compatible avec Jest mais plus rapide) font ça très bien. 
 
 <InformationBanner status="warning">
 Si c'est un reflexe sain que de chercher à tester son code, encore faut-il **se garder du travers de tout tester**, y compris les fonctions les plus triviales. **Sur-tester est certes moins dangereux que sous-tester**, mais tout aussi nocif pour la maintenabilité du code et expose à bien d'autres problèmes. Des tests trop « pointilleux » qui s'attardent sur des détails internes aux classes ou fonctions **cassent très facilement à la moindre refactorisation** et finissent immanquablement par **ralentir le développeur**. Or des tests en surnombre et trop sensibles à un certain type d'implémentation **favorisent l'inertie dans un projet car ils élèvent le coût de la réécriture** (il m'a été donné de voir des tests de composant portant sur la présence de... classes CSS, tests qu'il fallait donc reprendre dès qu'on remaniait un tant soit peu le template ou le jsx du composant 😱 ). **Inutile donc de fétichiser un certain pourcentage idéal de couverture de test comme le très ambitieux 100%** : il faut apprendre à tester ce qui gagne à l'être et laisser en dehors ce qui ne le vaut pas quitte à être un peu en dessous. En somme, il faut **privilégier la qualité des tests plutôt que leur quantité.** 
@@ -55,15 +56,15 @@ Si c'est un reflexe sain que de chercher à tester son code, encore faut-il **se
 
 ### 3️⃣ Les tests d'intégration
 
-L'approche « trophée » met surtout en vedette **les tests d'intégration de nos composants**, ces briques essentielles des applications front modernes. [Testing Library](https://testing-library.com) (anciennement React Testing Library) permet dorénavant de gérer cette partie à moindres frais. On peut même en coupler l'usage avec [Storybook](https://storybook.js.org) qui permet de générer une documentation interactive de nos composants, un outil particulièrement adapté si on construit un design system afin d'avoir **tous nos composants sous les yeux dans tous les états et actions possibles**.
+L'approche « trophée » met surtout en vedette **les tests d'intégration de nos composants**, ces briques essentielles des applications front modernes. <LinkWithGlimpse url="https://testing-library.com">Testing Library</LinkWithGlimpse> (anciennement React Testing Library) permet dorénavant de gérer cette partie à moindres frais. On peut même en coupler l'usage avec <LinkWithGlimpse url="https://storybook.js.org">Storybook</LinkWithGlimpse> qui permet de générer une documentation interactive de nos composants, un outil particulièrement adapté si on construit un design system afin d'avoir **tous nos composants sous les yeux dans tous les états et actions possibles**.
 
 <InformationBanner>
-  La **frontière entre test unitaire et test d'intégration est historiquement assez floue**. Martin Fowler, [dans la réponse qu'il a apportée à la forme « trophée » défendue par Kent C. Dodds](https://martinfowler.com/articles/2021-test-shapes.html), rappelle cette difficulté à différencier les deux notions et propose plutôt de distinguer les **tests unitaires « solitaires »** et les **tests unitaires « sociaux »**. Dans le cas où on souhaite tester un composant ou une classe isolément, on peut choisir soit de conserver les dépendances qu'il appelle (auquel cas le test est « social ») soit de les remplacer par des _mocks_ ou des _stubs_ (auquel cas le test est « solitaire »). **Tous deux peuvent prétendre à l'appellation de test unitaire puisque il s'agit de tester une unité de code**, ici une classe ou un composant, mais dans le premier on intègre à celui-ci ses dépendances réelles alors que dans le second on les simule. Pour Fowler, **un test d'intégration de composant peut être vu comme un test unitaire « social »**. Il ne s'agit donc pas vraiment d'un autre type de test mais **d'une approche différente et complémentaire du test unitaire** en réaction à l'utilisation excessive de _mocks_.
+  La **frontière entre test unitaire et test d'intégration est historiquement assez floue**. Martin Fowler, <LinkWithGlimpse url="https://martinfowler.com/articles/2021-test-shapes.html">dans la réponse qu'il a apportée à la forme « trophée » défendue par Kent C. Dodds</LinkWithGlimpse>, rappelle cette difficulté à différencier les deux notions et propose plutôt de distinguer les **tests unitaires « solitaires »** et les **tests unitaires « sociaux »**. Dans le cas où on souhaite tester un composant ou une classe isolément, on peut choisir soit de conserver les dépendances qu'il appelle (auquel cas le test est « social ») soit de les remplacer par des _mocks_ ou des _stubs_ (auquel cas le test est « solitaire »). **Tous deux peuvent prétendre à l'appellation de test unitaire puisque il s'agit de tester une unité de code**, ici une classe ou un composant, mais dans le premier on intègre à celui-ci ses dépendances réelles alors que dans le second on les simule. Pour Fowler, **un test d'intégration de composant peut être vu comme un test unitaire « social »**. Il ne s'agit donc pas vraiment d'un autre type de test mais **d'une approche différente et complémentaire du test unitaire** en réaction à l'utilisation excessive de _mocks_.
 </InformationBanner>
 
 #### 4️⃣ Les tests End-to-End (E2E)
 
-Ces derniers, qui forment le sommet de plus en plus resserré du trophée, restent coûteux en temps de calcul et de maintenance mais offrent **l'avantage de répliquer des comportements utilisateurs réels** en faisant tourner sous le capot un navigateur pour interagir avec notre application. Ils demeurent **le seul vrai moyen de tester l'expérience utilisateur complète, y compris les interactions avec des services externes**. [Playwright](https://playwright.dev) et [Cypress](https://www.cypress.io) sont les librairies de référence dans ce domaine.
+Ces derniers, qui forment le sommet de plus en plus resserré du trophée, restent coûteux en temps de calcul et de maintenance mais offrent **l'avantage de répliquer des comportements utilisateurs réels** en faisant tourner sous le capot un navigateur pour interagir avec notre application. Ils demeurent **le seul vrai moyen de tester l'expérience utilisateur complète, y compris les interactions avec des services externes**. <LinkWithGlimpse url="https://playwright.dev">Playwright</LinkWithGlimpse> et <LinkWithGlimpse url="https://www.cypress.io">Cypress</LinkWithGlimpse> sont les librairies de référence dans ce domaine.
 
 <br/>
 
@@ -72,8 +73,8 @@ Bref, que votre structure de tests ressemble à une pyramide, un trophée ou un 
 <div className="useful-links">
     #### 🔗 Liens additionnels
 
-    - <ExternalLink /> [Francisco Moretti - What tests to write for React](https://www.franciscomoretti.com/blog/what-tests-to-write-for-react)
-    - <ExternalLink /> [Martin Fowler - Test Pyramid](https://martinfowler.com/bliki/TestPyramid.html)
-    - <ExternalLink /> [Ham Vocker - The Practical Test Pyramid](https://martinfowler.com/articles/practical-test-pyramid.html)
-    - <ExternalLink /> [Martin Fowler - On the Diverse And Fantastical Shapes of Testing](https://martinfowler.com/articles/2021-test-shapes.html)
+    - <LinkWithGlimpse url="https://www.franciscomoretti.com/blog/what-tests-to-write-for-react">Francisco Moretti - What tests to write for React</LinkWithGlimpse>
+    - <LinkWithGlimpse url="https://martinfowler.com/bliki/TestPyramid.html">Martin Fowler - Test Pyramid</LinkWithGlimpse>
+    - <LinkWithGlimpse url="https://martinfowler.com/articles/practical-test-pyramid.html">Ham Vocker - The Practical Test Pyramid</LinkWithGlimpse>
+    - <LinkWithGlimpse url="https://martinfowler.com/articles/2021-test-shapes.html">Martin Fowler - On the Diverse And Fantastical Shapes of Testing</LinkWithGlimpse>
 </div>
