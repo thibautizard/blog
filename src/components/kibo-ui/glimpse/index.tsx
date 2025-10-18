@@ -5,7 +5,7 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@/components/ui/hover-card";
+} from "@/components/magicui/hover-card";
 import { cn } from "@/lib/utils";
 
 export type GlimpseProps = ComponentProps<typeof HoverCard>;
