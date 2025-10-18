@@ -19,6 +19,8 @@ const LinkWithGlimpse = async ({
 }) => {
   const data = await glimpse(url);
 
+  if(!data?.title) return null;
+
   return (
     <Glimpse closeDelay={0} openDelay={0}>
       <GlimpseTrigger asChild>
@@ -31,9 +33,11 @@ const LinkWithGlimpse = async ({
         </a>
       </GlimpseTrigger>
       <GlimpseContent className="w-80">
-        <GlimpseImage src={data.image ?? ""} />
-        <GlimpseTitle>{data.title}</GlimpseTitle>
-        <GlimpseDescription>{data.description}</GlimpseDescription>
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          {data.image && <GlimpseImage src={data.image} />}
+          {data.title && <GlimpseTitle>{data.title}</GlimpseTitle>}
+          {data.description && <GlimpseDescription>{data.description}</GlimpseDescription>}
+        </a>
       </GlimpseContent>
     </Glimpse>
   );
