@@ -1,13 +1,77 @@
+/** biome-ignore-all lint/style/noDescendingSpecificity: liht/dark mode */
 .post-container {
   /* 🔤 Text */
   --color: #201d21;
   --margin-bottom: 16px;
   --link-color: #7e22ce;
   --code-background-color: #f5f3ff;
+  --code-color: var(--color);
   --quote-color: gray;
   --code-highlight-color: #c084fc;
   --code-background-color-highlight: #022a4b;
 
+  /* 💬 Insert */
+  [data-status="info"] {
+    --insert-foreground: #1d4ed8;
+    --insert-background: #dbeafe;
+    --insert-border: #1d4ed8;
+  }
+
+  [data-status="success"] {
+    --insert-foreground: #16a34a;
+    --insert-background: #dcfce7;
+    --insert-border: #16a34a;
+  }
+
+  [data-status="warning"] {
+    --insert-foreground: #92400e;
+    --insert-background: #fef3c7;
+    --insert-border: #92400e;
+  }
+
+  [data-status="error"] {
+    --insert-foreground: #991b1b;
+    --insert-background: #fee2e2;
+    --insert-border: #991b1b;
+  }
+}
+
+html.dark .post-container {
+  --color: white;
+  --link-color: #bf77ff;
+  --code-background-color: #f5f3ff;
+  --code-color: black;
+  --code-background-color-highlight: #022a4b;
+  --quote-color: gray;
+  --code-highlight-color: #c084fc;
+
+  /* 💬 Insert */
+  [data-status="info"] {
+    --insert-foreground: #ffffff;
+    --insert-background: #1d4ed8;
+    --insert-border: #7db5ff;
+  }
+
+  [data-status="success"] {
+    --insert-foreground: #dcfce7;
+    --insert-background: #16a34a;
+    --insert-border: #dcfce7;
+  }
+
+  [data-status="warning"] {
+    --insert-foreground: #fef3c7;
+    --insert-background: #92400e;
+    --insert-border: #fef3c7;
+  }
+
+  [data-status="error"] {
+    --insert-foreground: #fee2e2;
+    --insert-background: #991b1b;
+    --insert-border: #fee2e2;
+  }
+}
+
+.post-container {
   p {
     color: var(--color);
     font-size: 1rem;
@@ -59,6 +123,7 @@
     padding: 2px 4px;
     border-radius: 4px;
     font-size: 0.9rem;
+    color: var(--code-color);
     font-family: var(--font-dm-sans);
     font-weight: 600;
   }
@@ -75,59 +140,21 @@
   }
 
   .insert {
-    --foreground: #16a34a;
-    --background: #dcfce7;
-    --border: #16a34a;
-
-    --info-foreground: #1d4ed8;
-    --info-background: #dbeafe;
-    --info-border: #1d4ed8;
-
-    --success-foreground: #16a34a;
-    --success-background: #dcfce7;
-    --success-border: #16a34a;
-
-    --warning-foreground: #92400e;
-    --warning-background: #fef3c7;
-    --warning-border: #92400e;
-
-    --error-foreground: #991b1b;
-    --error-background: #fee2e2;
-    --error-border: #991b1b;
-
     font-family: var(--font-montserrat);
-    color: var(--foreground);
-    background-color: var(--background);
-    border-bottom: 4px solid var(--border);
+    color: var(--insert-foreground);
+    background: var(--insert-background);
+
+    p {
+      font-size: 0.9rem;
+      color: var(--insert-foreground);
+    }
+
+    border-bottom: 4px solid var(--insert-border);
     padding: 25px;
     font-weight: 700;
     border-radius: 10px;
     position: relative;
-    margin: 40px 10px 40px 40px;
-  }
-
-  [data-status="info"] {
-    --foreground: var(--info-foreground);
-    --background: var(--info-background);
-    --border: var(--info-border);
-  }
-
-  [data-status="success"] {
-    --foreground: var(--success-foreground);
-    --background: var(--success-background);
-    --border: var(--success-border);
-  }
-
-  [data-status="warning"] {
-    --foreground: var(--warning-foreground);
-    --background: var(--warning-background);
-    --border: var(--warning-border);
-  }
-
-  [data-status="error"] {
-    --foreground: var(--error-foreground);
-    --background: var(--error-background);
-    --border: var(--error-border);
+    margin: 40px 20px 40px 0px;
   }
 
   .insert .icon-container {
@@ -136,19 +163,18 @@
     left: 0;
     transform: translate(-25%, -25%);
     z-index: 1;
-    background-color: white;
+    background-color: var(--background);
     border-radius: 50%;
     padding: 4px;
 
     svg {
-      width: 30px;
-      height: 30px;
+      width: 26px;
+      height: 26px;
       stroke-width: 2.5;
     }
   }
 
   /* 💻 Code */
-
   pre {
     margin: 16px 0;
     overflow-x: auto;
@@ -174,7 +200,6 @@
   }
 
   /* 🔗 Useful links */
-
   .useful-links {
     --link-color: #60a5fa;
 
@@ -197,7 +222,6 @@
       color: var(--link-color);
     }
 
-    /* biome-ignore lint/style/noDescendingSpecificity: desactivate */
     svg {
       width: 17px;
     }

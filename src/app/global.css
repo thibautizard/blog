@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/noUnknownTypeSelector: exception for light/dark mode */
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -97,9 +98,9 @@ h6 {
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: oklch(12.88% 0.04060314341132963 264.69515496991403);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: oklch(11.305% 0.00823 18.36);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
@@ -137,4 +138,10 @@ h6 {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
