@@ -1,0 +1,117 @@
+import ClassicSelect from "./assets/classic-select";
+import ClassicSelectBase from "./assets/classic-select-base";
+import ClassicSelectBaseFrameworks from "./assets/classic-select-base-frameworks";
+import LinkWithGlimpse from "@/markdown/-components/link-with-glimpse";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./assets/shadcn-select";
+
+export const metadata = {
+    title: "Les dropdowns personnalisés sont enfin là 👨‍🎨 ",
+    date: "2025-12-24",
+    excerpt: "Eh ouais, plus besoin de passer par une librairie pour avoir des selecteurs stylés 😎",
+}
+
+Tout développeur frontend **connaît comme sa poche le bon vieil** `<select>` **utilisé pour créer un menu déroulant**, l'un des tout premiers avec lesquels on joue lorsqu'on fait ses gammes en HTML.
+
+<ClassicSelect />
+
+```html
+<select>
+    <option value="1">Apple 🍎</option>
+    <option value="2">Banana 🍌</option>
+    <option value="3">Cherry 🍒</option>
+</select>
+```
+
+Bien que simple à utiliser, **cet élément** `<select>` **était jusqu'à présent très peu personnalisable** au grand dam des développeurs chargés d'intégrer des maquettes avec des spécifications précises.
+
+**Impossible, par exemple, de changer directement la flèche à droite du selecteur** ou **l'apparence des options du menu déroulant** sans des stratégies de contournement en CSS assez lourdes.
+
+On se retrouvait donc **coincé avec un rendu visuel dicté par la *user-agent style* du navigateur ou du système d'exploitation de l'utilisateur** ce qui signifie que l'apparence varie d'une plateforme à l'autre. Inexploitable pour un site ou une application avec une identité visuelle cohérente...
+
+La tentation était alors forte de **recréer soi-même** un `<select>` en bricolant avec des `<div>` ou des `<button>` ou de **se tourner vers des librairies de composants** pour avoir complètement la main sur son apparence.
+
+Dans cette catégorie, le `select` de la librairie <LinkWithGlimpse url="https://ui.shadcn.com/docs/components/select">Shadcn UI</LinkWithGlimpse> est l'un des plus utilisés 👇
+
+<div className="max-w-[200px] flex my-10 flex-col gap-2 mx-auto">
+ <label className="font-bold text-decoration-underline" htmlFor="select">
+   <span> `<select>` Shadcn UI </span>
+ </label>
+ <Select>
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Select a fruit" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectItem value="apple">Apple 🍎</SelectItem>
+          <SelectItem value="banana">Banana 🍌</SelectItem>
+          <SelectItem value="cherry">Cherry 🍒</SelectItem>
+          <SelectItem value="blueberry">Blueberry 🫐</SelectItem>
+          <SelectItem value="grapes">Grapes 🍇</SelectItem>
+          <SelectItem value="kiwi">Kiwi 🥝</SelectItem>
+          <SelectItem value="lemon">Lemon 🍋</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+</div>
+
+Mais à la lecture du code source, on réalise toutefois qu'**il ne s'agit pas d'un vrai `<select>`** mais d'un `<button>` augmenté de plusieurs attributs et qui requiert d'importer une petite librairie Javascript `@radix-ui/react-select` pour reproduire fidèlement le comportement d'un `<select>` natif.
+
+Pourquoi n'est-ce pas complèment satisfaisant ? D'abord parce qu'en **s'en remettant à l'API (plus ou moins ouverte) d'un composant externe**, **on perd le bénéfice d'une implémentation native et performante** du composant `<select>` optimisée pour le navigateur. Ensuite parce que cela requiert d'ajouter une dépendance à notre projet pour émuler ce comportement déjà existant.
+
+**Pourquoi ne pas tenter alors une implémentation personnelle de notre `<select>` ?** Là surgissent les difficultés en raison des **nombreux aspects fonctionnels à gérer si on souhaite un menu déroulant correct** :
+
+* Navigation clavier et gestion du focus (accessibilité)
+* Ouverture d'un composant sélecteur adapté pour mobile
+* Détection du clic à l'extérieur pour la fermeture
+* Repositionnement selon la bordure de fenêtre la plus proche
+* Chevauchement possible avec d'autres éléments, adaptation mobile et tablette etc.
+
+<div className="w-full text-center text-[26px]!">
+😮‍💨
+</div>
+
+### Chrome notre sauveur (again)
+
+Mais depuis peu, on peut enfin styliser un `<select>` jusque dans ses moindres détails !
+
+La première étape consiste à désactiver le style par défaut du `<select>` avec la nouvelle propriété `appearance: base-select`.
+
+<ClassicSelectBase />
+
+```scss
+.custom-select {
+  &, &::picker(select) {
+    appearance: base-select;
+  }
+}
+```
+
+Bon rien de bien différent à première vue, celui-ci paraît même moins "beau", mais en réalité ce `<select>` offre de toutes nouvelles possibilités 🦸
+
+Tout d'abord on peut introduire dans chaque option du `<select>` des éléments visuels (images, svg etc.) qui dans l'implémentation classique étaient ignorés par le *parser* du navigateur ✂️
+
+<ClassicSelectBaseFrameworks />
+
+```html
+<select class="custom-select">
+  <option>
+    <svg aria-hidden>…</svg>
+    <span>React</span>
+  </option>
+  <option>
+    <svg aria-hidden>…</svg>
+    <span>Vue</span>
+  </option>
+  <option>
+    <svg aria-hidden>…</svg>
+    <span>Angular</span>
+  </option>
+</select>
+```
+
+<div className="useful-links">
+    #### 🔗 Liens additionnels
+    - <LinkWithGlimpse url="https://developer.chrome.com/blog/a-customizable-select">Chrome for Developers - The &lt;select&gt; element can now be customized with CSS</LinkWithGlimpse>
+    - <LinkWithGlimpse url="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Customizable_select">MDN - Customizable select elements</LinkWithGlimpse>
+    - <LinkWithGlimpse url="https://chrome.dev/css-wrapped-2025/#customizable-select">CSS Wrapped 2025</LinkWithGlimpse>
+</div>
