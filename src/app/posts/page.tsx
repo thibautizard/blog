@@ -4,9 +4,6 @@ import Link from "next/link";
 import { formatDateForPost } from "@/lib/dates";
 import { getAllPosts } from "@/lib/posts";
 
-const canPublish = ({ metadata }: { metadata: { publish: boolean } }) =>
-  process.env.NODE_ENV === "development" || metadata?.publish;
-
 export default async function HomePage() {
   const posts = await getAllPosts();
   const postsWithMetadata = await Promise.all(
@@ -16,7 +13,7 @@ export default async function HomePage() {
     })
   );
 
-  const postsToDisplay = postsWithMetadata.filter(canPublish);
+  const postsToDisplay = postsWithMetadata;
   postsToDisplay.sort((post1, post2) => {
     const date1 = new Date(post1.metadata.date);
     const date2 = new Date(post2.metadata.date);
@@ -28,9 +25,6 @@ export default async function HomePage() {
       <h2 className="mb-6 font-bold text-5xl">Articles</h2>
       <ul className="list-none space-y-12">
         {postsToDisplay.map(async ({ slug, metadata }) => {
-          if (!canPublish({ metadata })) {
-            return null;
-          }
           const formattedDate = formatDateForPost(metadata.date);
           return (
             <li key={slug}>
