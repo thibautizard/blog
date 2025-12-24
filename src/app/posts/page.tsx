@@ -5,7 +5,7 @@ import { formatDateForPost } from "@/lib/dates";
 import { getAllPosts } from "@/lib/posts";
 
 export default async function HomePage() {
-  const posts = await getAllPosts();
+  const posts = getAllPosts();
   const postsWithMetadata = await Promise.all(
     posts.map(async (post) => {
       const { metadata } = await import(`@/markdown/${post.path}`);

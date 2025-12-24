@@ -1,9 +1,9 @@
 import { AlertTriangle, BadgeCheck, Hourglass, Info, X } from "lucide-react";
 import styles from "./badge-old.module.css";
 
-type Props = {
+interface Props {
   status: "pending" | "success" | "error" | "warning" | "info" | "default";
-};
+}
 
 export default function BadgeOld({ status }: Props) {
   return (

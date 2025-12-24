@@ -1,9 +1,9 @@
 import { BadgeInfo, OctagonAlert } from "lucide-react";
 
-type Props = {
+interface Props {
   children: React.ReactNode;
   status?: "info" | "success" | "warning" | "error";
-};
+}
 
 function InformationBanner({ children, status = "info" }: Props) {
   return (

@@ -6,8 +6,7 @@ import { flushSync } from "react-dom"
 
 import { cn } from "@/lib/utils"
 
-interface AnimatedThemeTogglerProps
-  extends React.ComponentPropsWithoutRef<"button"> {
+type AnimatedThemeTogglerProps = React.ComponentPropsWithoutRef<"button"> & {
   duration?: number
 }
 

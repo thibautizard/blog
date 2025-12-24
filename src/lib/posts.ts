@@ -3,10 +3,10 @@ import path from "node:path";
 
 const startDir = path.join(process.cwd(), "src", "markdown");
 
-export type PostResume = {
+export interface PostResume {
   slug: string;
   path: string;
-};
+}
 
 const markdownFileRegex = /\.mdx$/;
 const markdownDirRegex = /^.*markdown\//;

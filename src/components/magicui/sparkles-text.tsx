@@ -1,5 +1,4 @@
 /** biome-ignore-all lint/a11y/noSvgWithoutTitle: component from Magic UI */
-/** biome-ignore-all lint/nursery/useConsistentTypeDefinitions: <explanation> */
 "use client";
 
 import { motion } from "motion/react";
@@ -12,7 +11,7 @@ import {
 
 import { cn } from "@/lib/utils";
 
-interface Sparkle {
+type Sparkle = {
   id: string;
   x: string;
   y: string;
@@ -20,7 +19,7 @@ interface Sparkle {
   delay: number;
   scale: number;
   lifespan: number;
-}
+};
 
 const Sparkle: React.FC<Sparkle> = ({ id, x, y, color, delay, scale }) => (
   <motion.svg
@@ -44,7 +43,7 @@ const Sparkle: React.FC<Sparkle> = ({ id, x, y, color, delay, scale }) => (
   </motion.svg>
 );
 
-interface SparklesTextProps {
+type SparklesTextProps = {
   /**
    * @default <div />
    * @type ReactElement
@@ -87,7 +86,7 @@ interface SparklesTextProps {
     first: string;
     second: string;
   };
-}
+};
 
 export const SparklesText: React.FC<SparklesTextProps> = ({
   children,
