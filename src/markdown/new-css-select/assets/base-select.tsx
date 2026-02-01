@@ -1,13 +1,13 @@
-import "./classic-select-base.css";
+import "./base-select.css";
 
-function ClassicSelect() {
+function BaseSelect() {
   return (
     <div className="mx-auto my-10 flex max-w-50 flex-col gap-2">
       <label className="font-bold text-decoration-underline" htmlFor="select">
         <span>Un {`${"<select>"}`} "basé" 🤙 </span>
       </label>
       <select
-        className="rounded-md border border-gray-300 py-1 custom-select"
+        className="custom-select rounded-md border border-gray-300 py-1"
         id="select"
       >
         <option value="1">Apple 🍎</option>
@@ -22,4 +22,4 @@ function ClassicSelect() {
   );
 }
 
-export default ClassicSelect;
+export default BaseSelect;

@@ -85,7 +85,7 @@ On peut la configurer **au niveau du champ concerné** en passant une fonction d
 
 Tout ce qui est retourné par cette fonction sera considéré comme une **erreur de validation** et automatiquement ajouté au tableau `field.state.meta.errors`. Si cette fonction ne retourne rien (`undefined`) ou `null`, le champ est considéré **comme valide**.
 
-```tsx {4-8}
+```tsx
   <form.Field 
         name="username" 
         validators={{
@@ -112,7 +112,7 @@ Tout ce qui est retourné par cette fonction sera considéré comme une **erreur
 
 Lorsqu'**un champ perd son _focus_** (l'utilisateur clique en dehors de celui-ci ou se déplace sur le prochain élément _focusable_ à l'aide de son clavier), on peut déclencher une validation en passant **une fonction à la propriété** `onBlur` **des** `validators` **du champ**.
 
-```tsx {4-8}
+```tsx
   <form.Field 
         name="username" 
         validators={
@@ -140,7 +140,7 @@ Lorsqu'**un champ perd son _focus_** (l'utilisateur clique en dehors de celui-ci
 Si on ne souhaite éprouver la validité du formulaire qu'après que l'utilisateur lui-même estime avoir fini de le remplir, on en passera **par** `onSubmit` **qui sera exécuté à chaque appel de** `form.handleSubmit`.
 
 
-```tsx {8-14}
+```tsx
 import { useForm } from "@tanstack/react-form"
 
 const form = useForm({ 
@@ -166,7 +166,7 @@ De plus, rien n'empêche de **combiner ces différentes stratégies de validatio
 Par exemple on peut mettre en place une validation au changement de *focus* sur le champ `username` et une validation globale qui vérifie que les deux champs présentent une valeur non vide à la soumission 👇
 
 
-```tsx {8-14, 29-34}
+```tsx
 import { useForm } from "@tanstack/react-form"
 
 const form = useForm({ 
@@ -227,7 +227,7 @@ const LoginForm = () => {
   C'est le moment de recourir à la propriété `onChangeAsync` qui sera voisine et complémentaire de `onChange` (là encore il existe des `onBlurAsync` et `onSubmitAsync` qui sont les pendants de `onBlur` et `onSubmit`). Elle prendra en valeur **une nouvelle fonction chargée d'effectuer les appels API nécessaires pour tester l'input**.
 
 
-```tsx {18}
+```tsx
   function validateUsername(value: string) {
     fetch(`/api/validate-username?username=${value}`)
       .then(response => response.json())
@@ -270,7 +270,7 @@ const LoginForm = () => {
 
 Pour vérifier que la validation spécifique à un champ fonctionne, on affichera le plus souvent sous notre `input` les messages d'erreur associés. Il suffit d'inspecter **la propriété** `field.state.meta.errors` **qui va nous livrer un tableau d'erreurs** (tableau vide si le champ est valide).
 
-```tsx {19}
+```tsx
   <form.Field 
         name="username" 
         validators={
@@ -301,7 +301,7 @@ Pour vérifier que la validation spécifique à un champ fonctionne, on afficher
 
 Si on effectue une validation globale, **c'est du côté de l'objet** `form` **qu'on va récupérer nos erreurs de validation**. On serait alors tenté d'écrire ceci :
 
-```tsx {24}
+```tsx
 import { useForm } from "@tanstack/react-form"
 
 const form = useForm({ 
@@ -338,7 +338,7 @@ Imaginons que le `<form>` soit pris dans un composant bien plus large : si le ho
 
 Pour contourner cette difficulté, TanStack Form désactive le rendu automatique du composant comportant le `<form>` et propose un composant `<form.Subscribe>` qui permet **de s'abonner à un changement spécifique du** `form` **et de rendre uniquement la portion qu'il enveloppe**.
 
-```tsx {4-8}
+```tsx
 const LoginForm = () => {
   return (
     <form {...}>

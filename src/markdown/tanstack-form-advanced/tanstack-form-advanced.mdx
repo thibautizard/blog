@@ -20,7 +20,7 @@ Lorsqu'on souhaite valider un *input* à la fin d'une saisie, **introduire un l�
 Si on combine `OnChangeAsyncDebounceMs` avec `onChangeAsync` on peut ainsi trouver un **rythme de validation plus intelligent** 👇
 <br/>
 
-```tsx {18-21}
+```tsx
   function validateUsername(value: string) {
     fetch(`/api/validate-username?username=${value}`)
       .then(response => response.json())
@@ -65,7 +65,7 @@ Si on combine `OnChangeAsyncDebounceMs` avec `onChangeAsync` on peut ainsi trouv
 
 Quelle que soit la durée de la validation, n'importe quel champ peut afficher son propre indicateur de validation en regardant son `field.getMeta().isValidating`.
 
-```tsx {12}
+```tsx
   <form.Field 
         name="username" 
         children={({ field }) => 
@@ -89,7 +89,7 @@ Pensons à l'exemple courant d'un formulaire de création de compte comportant u
 
 En précisant à `onChangeListenTo` ou `onBlurListenTo` le tableau de champs qu'on souhaite lui lier, on s'assure que **les deux champs sont toujours re-validés en même temps même si l'utilisateur n'interagit qu'avec l'un des deux**.
 
-```tsx {4,24}
+```tsx
   <form.Field 
         name="password" 
         validators={{
@@ -144,7 +144,7 @@ Plutôt que de définir notre logique de validation à l'aide de fonctions pass�
 
 On passe ensuite notre schéma de validation à `onChange`, `onBlur`ou `onSubmit` au niveau du champ... 👇
 
-```tsx {5,22-23}
+```tsx
 import { zodValidator } from "@tanstack/zod-form-adapter"
 import { z } from "zod"
 import { useForm } from "@tanstack/react-form"
@@ -175,7 +175,7 @@ const PasswordSchema = z.string().min(8, "Le mot de passe doit contenir au moins
 
 ...ou du formulaire tout entier 👇
 
-```tsx {5-8,16}
+```tsx
 import { useForm } from "@tanstack/react-form"
 import { zodValidator } from "@tanstack/zod-form-adapter"
 import { z } from "zod"

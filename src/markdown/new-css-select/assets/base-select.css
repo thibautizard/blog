@@ -1,0 +1,7 @@
+/* biome-ignore-all lint/correctness/noUnknownPseudoElement: experimental */
+.custom-select {
+  &,
+  &::picker(select) {
+    appearance: base-select;
+  }
+}

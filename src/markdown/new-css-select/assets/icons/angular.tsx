@@ -1,13 +1,12 @@
 export default function AngularIcon() {
   return (
     <svg
-      aria-hidden
-      width="256"
+      aria-hidden="true"
+      className="h-full w-full"
       height="256"
-      className="w-full h-full"
       viewBox="0 0 256 256"
+      width="256"
       xmlns="http://www.w3.org/2000/svg"
-      title="Angular"
     >
       <defs>
         <linearGradient
@@ -36,12 +35,12 @@ export default function AngularIcon() {
         </linearGradient>
       </defs>
       <path
-        fill="url(#SVG23VCHJta)"
         d="m256 45.179l-9.244 145.158L158.373 0zm-61.217 187.697l-66.782 38.105l-66.784-38.105L74.8 199.958h106.4zM128.001 72.249l34.994 85.076h-69.99zM9.149 190.337L0 45.179L97.627 0z"
+        fill="url(#SVG23VCHJta)"
       />
       <path
-        fill="url(#SVGlQyjWWfw)"
         d="m256 45.179l-9.244 145.158L158.373 0zm-61.217 187.697l-66.782 38.105l-66.784-38.105L74.8 199.958h106.4zM128.001 72.249l34.994 85.076h-69.99zM9.149 190.337L0 45.179L97.627 0z"
+        fill="url(#SVGlQyjWWfw)"
       />
     </svg>
   );

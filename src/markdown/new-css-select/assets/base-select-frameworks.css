@@ -1,0 +1,32 @@
+/* biome-ignore-all lint/correctness/noUnknownPseudoElement: experimental */
+/* biome-ignore-all lint/correctness/noUnknownTypeSelector: experimental */
+.custom-select-frameworks {
+  appearance: base-select;
+  background: none;
+  padding: 7px 15px;
+
+  /* ⬜ Picker */
+  &::picker(select) {
+    appearance: base-select;
+  }
+
+  /* 💬 Selected content */
+  selectedcontent {
+    border: 2px solid red;
+  }
+
+  /* ⬇️ Customize the picker icon */
+  &::picker-icon {
+    display: none;
+  }
+
+  /* ✅ Checkmark */
+  /*option {
+    }
+
+    option:checked {
+    }
+
+    option::checkmark {
+    }*/
+}

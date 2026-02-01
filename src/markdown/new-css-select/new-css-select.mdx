@@ -1,6 +1,6 @@
 import ClassicSelect from "./assets/classic-select";
-import ClassicSelectBase from "./assets/classic-select-base";
-import ClassicSelectBaseFrameworks from "./assets/classic-select-base-frameworks";
+import BaseSelect from "./assets/base-select";
+import BaseSelectFrameworks from "./assets/base-select-frameworks";
 import LinkWithGlimpse from "@/markdown/-components/link-with-glimpse";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./assets/shadcn-select";
 
@@ -10,7 +10,7 @@ export const metadata = {
     excerpt: "Eh ouais, plus besoin de passer par une librairie pour avoir des selecteurs stylés 😎",
 }
 
-Tout développeur frontend **connaît comme sa poche le bon vieil** `<select>` **utilisé pour créer un menu déroulant**, l'un des tout premiers avec lesquels on joue lorsqu'on fait ses gammes en HTML.
+Tout développeur frontend **connaît comme sa poche le** `<select>` **utilisé pour créer un menu déroulant**, l'un des tout premiers avec lesquels on joue lorsqu'on fait ses gammes en HTML.
 
 <ClassicSelect />
 
@@ -22,15 +22,15 @@ Tout développeur frontend **connaît comme sa poche le bon vieil** `<select>` *
 </select>
 ```
 
-Bien que simple à utiliser, **cet élément** `<select>` **était jusqu'à présent très peu personnalisable** au grand dam des développeurs chargés d'intégrer des maquettes avec des spécifications précises.
+En dépit de sa simplicité, **ce** `<select>` **était jusqu'à présent très peu personnalisable** au grand dam des développeurs chargés d'intégrer des maquettes avec des spécifications très précises en termes de design.
 
-**Impossible, par exemple, de changer directement la flèche à droite du selecteur** ou **l'apparence des options du menu déroulant** sans des stratégies de contournement en CSS assez lourdes.
+**Impossible, par exemple, de changer directement la flèche à droite du selecteur** ou **l'apparence des options du menu déroulant** sans tomber dans des stratégies de contournement assez lourdes qui donnent l'impression de travailler contre plutôt qu'avec les API web.
 
-On se retrouvait donc **coincé avec un rendu visuel dicté par la *user-agent style* du navigateur ou du système d'exploitation de l'utilisateur** ce qui signifie que l'apparence varie d'une plateforme à l'autre. Inexploitable pour un site ou une application avec une identité visuelle cohérente...
+En s'y refusant, on se trouve **coincé avec un rendu visuel dicté par le navigateur et le système d'exploitation de l'utilisateur** ce qui signifie que leur apparence varie d'une plateforme à l'autre. Pas top pour un site ou une application qui cherche à maintenir une identité visuelle cohérente...
 
-La tentation était alors forte de **recréer soi-même** un `<select>` en bricolant avec des `<div>` ou des `<button>` ou de **se tourner vers des librairies de composants** pour avoir complètement la main sur son apparence.
+La tentation est alors forte de **recréer soi-même** un `<select>` en bricolant avec des `<div>` ou des `<button>` ou de **se tourner vers des librairies de composants** pour avoir complètement la main sur son apparence.
 
-Dans cette catégorie, le `select` de la librairie <LinkWithGlimpse url="https://ui.shadcn.com/docs/components/select">Shadcn UI</LinkWithGlimpse> est l'un des plus utilisés 👇
+Piochons dans cette dernière catégorie avec le `select` de la librairie <LinkWithGlimpse url="https://ui.shadcn.com/docs/components/select">Shadcn UI</LinkWithGlimpse> est l'un des plus utilisés 👇
 
 <div className="max-w-[200px] flex my-10 flex-col gap-2 mx-auto">
  <label className="font-bold text-decoration-underline" htmlFor="select">
@@ -54,11 +54,15 @@ Dans cette catégorie, le `select` de la librairie <LinkWithGlimpse url="https:/
     </Select>
 </div>
 
-Mais à la lecture du code source, on réalise toutefois qu'**il ne s'agit pas d'un vrai `<select>`** mais d'un `<button>` augmenté de plusieurs attributs et qui requiert d'importer une petite librairie Javascript `@radix-ui/react-select` pour reproduire fidèlement le comportement d'un `<select>` natif.
+À la lecture du code source, on réalise toutefois qu'**il ne s'agit pas d'un vrai `<select>`** mais d'un `<button>` augmenté de plusieurs attributsqui de surcroît **requiert d'importer une librairie Javascript** (ici `@radix-ui/react-select`) pour reproduire fidèlement le comportement d'un `<select>` natif.
 
-Pourquoi n'est-ce pas complèment satisfaisant ? D'abord parce qu'en **s'en remettant à l'API (plus ou moins ouverte) d'un composant externe**, **on perd le bénéfice d'une implémentation native et performante** du composant `<select>` optimisée pour le navigateur. Ensuite parce que cela requiert d'ajouter une dépendance à notre projet pour émuler ce comportement déjà existant.
+```tsx
+import * as SelectPrimitive from "@radix-ui/react-select";
+```
 
-**Pourquoi ne pas tenter alors une implémentation personnelle de notre `<select>` ?** Là surgissent les difficultés en raison des **nombreux aspects fonctionnels à gérer si on souhaite un menu déroulant correct** :
+Plusieurs raisons rendent cette situation insatisfaisante. D'abord parce qu'en **s'en remettant à l'API d'un composant externe**, **on perd le bénéfice d'une implémentation native et performante** du composant `<select>` parfaitement optimisée pour le navigateur. Ensuite parce que cela **nous contraint à ajouter une dépendance à notre projet** pour émuler un comportement déjà existant à la seule fin de contourner ses limitations stylistiques.
+
+**Pourquoi ne pas tenter alors une implémentation personnelle de notre `<select>` ?** Eh bien, c'est sûrement beaucoup moins simple que vous ne l'imaginez ! Beaucoup de difficultés émergent rapidement en raison des **nombreux aspects fonctionnels que doit couvrir un menu déroulant correct** :
 
 * Navigation clavier et gestion du focus (accessibilité)
 * Ouverture d'un composant sélecteur adapté pour mobile
@@ -72,11 +76,9 @@ Pourquoi n'est-ce pas complèment satisfaisant ? D'abord parce qu'en **s'en reme
 
 ### Chrome notre sauveur (again)
 
-Mais depuis peu, on peut enfin styliser un `<select>` jusque dans ses moindres détails !
+Mais voilà que depuis peu, on peut enfin styliser un `<select>` jusque dans ses moindres détails !
 
-La première étape consiste à désactiver le style par défaut du `<select>` avec la nouvelle propriété `appearance: base-select`.
-
-<ClassicSelectBase />
+La première étape consiste à désactiver le style par défaut du `<select>` attribué par votre navigateur avec la nouvelle propriété `appearance: base-select`.
 
 ```scss
 .custom-select {
@@ -86,11 +88,20 @@ La première étape consiste à désactiver le style par défaut du `<select>` a
 }
 ```
 
-Bon rien de bien différent à première vue, celui-ci paraît même moins "beau", mais en réalité ce `<select>` offre de toutes nouvelles possibilités 🦸
+On obtient alors un `<select>` qui est désormais totalement personnalisable !
 
-Tout d'abord on peut introduire dans chaque option du `<select>` des éléments visuels (images, svg etc.) qui dans l'implémentation classique étaient ignorés par le *parser* du navigateur ✂️
+<BaseSelect />
 
-<ClassicSelectBaseFrameworks />
+
+Bon, rien de bien différent à première vue, celui-ci paraît même moins "beau".
+
+En réalité ce `<select>` offre de toutes nouvelles possibilités 🦸 Explorons-en quelques-unes !
+
+#### Insérer des images ou des svg
+
+On peut dorénavant introduire dans chaque `<option>` de notre `<select>` "basé" des éléments visuels (images, svg etc.) — dans l'implémentation classique ceux-ci étaient purement ignorés par le *parser* du navigateur.
+
+<BaseSelectFrameworks />
 
 ```html
 <select class="custom-select">
@@ -112,6 +123,7 @@ Tout d'abord on peut introduire dans chaque option du `<select>` des éléments 
 <div className="useful-links">
     #### 🔗 Liens additionnels
     - <LinkWithGlimpse url="https://developer.chrome.com/blog/a-customizable-select">Chrome for Developers - The &lt;select&gt; element can now be customized with CSS</LinkWithGlimpse>
+    - <LinkWithGlimpse url="https://una.im/select-updates/">Updates to the customizable select API</LinkWithGlimpse>
     - <LinkWithGlimpse url="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Customizable_select">MDN - Customizable select elements</LinkWithGlimpse>
     - <LinkWithGlimpse url="https://chrome.dev/css-wrapped-2025/#customizable-select">CSS Wrapped 2025</LinkWithGlimpse>
 </div>

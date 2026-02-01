@@ -1,10 +1,11 @@
 export default function ReactIcon() {
   return (
     <svg
+      aria-hidden="true"
       className="size-full"
-      width="128"
       height="128"
       viewBox="0 0 128 128"
+      width="128"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g fill="#61dafb">

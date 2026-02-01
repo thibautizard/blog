@@ -5,21 +5,21 @@ import ExternalLink from "@/markdown/-components/external-link";
 import LinkWithGlimpse from "../-components/link-with-glimpse";
 
 export const metadata = {
-  title: "Créer des formulaires modernes et type-safe avec TanStack Form 📝 [Partie 1 - Introduction]",
-  date: "2025-07-28",
-  excerpt:
-    "Votre tech lead va l'adorer.",
+    title: "Créer des formulaires modernes et type-safe avec TanStack Form 📝 [Partie 1 - Introduction]",
+    date: "2025-07-28",
+    excerpt:
+        "Votre tech lead va l'adorer.",
 };
 
 ### L'enfer du développeur est pavé de mauvais formulaires
 
-**Les formulaires sont un cauchemar incontournable dans le développement web et mobile** : validation synchrone et asynchrone, récupération et affichage des erreurs, contraintes multiples, accessibilité, sérialisation et déserialisation des valeurs, responsivité, sauvegarde de l'état etc. 
+**Les formulaires sont un cauchemar incontournable dans le développement web et mobile** : validation synchrone et asynchrone, récupération et affichage des erreurs, contraintes multiples, accessibilité, sérialisation et déserialisation des valeurs, responsivité, sauvegarde de l'état etc.
 
 À ces impondérables s'ajoutent les **différentes décisions UX à prendre** : faut-il **révéler les erreurs à mesure que l'utilisateur tape** afin d'être le plus réactif possible au risque de le frustrer s'il n'est pas allé au bout de sa saisie ? Ajouter **un délai avant de lancer la validation** ? Doit-on plutôt attendre **qu'il sorte du champ pour les lui signaler** ? Ou n'engager **une validation globale qu'au moment de la soumission du formulaire** — quitte à faire apparaître soudainement à l'écran une flopée d'erreurs avertissant l'utilisateur qu'il doit tout reprendre depuis le début au moment même où il pensait en avoir fini ? 💀
 
 D'autant que pour s'épargner la création de certains composants complexes, **on aura tôt fait de s'en remettre à des librairies UI** avec tout un travail additionnel pour **assurer la bonne connexion de ces composantsavec notre propre logique de validation et de gestion des erreurs**. On tombe alors rapidement sur **des cas particuliers** qui nous obligent à tordre dans tous les sens une logique de validation d'abord simple et *in fine* à alourdir le code.
 
-Bref, dès qu'on veut adresser toute la complexité inhérente aux formulaires on se retrouve vite embourbé dans **des implémentations verbeuses et peu maintenables en raison de leur forte spécificité** : chaque développeur crée son petit système de gestion de formulaires adapté au contexte de son site ou de son application. 
+Bref, dès qu'on veut adresser toute la complexité inhérente aux formulaires on se retrouve vite embourbé dans **des implémentations verbeuses et peu maintenables en raison de leur forte spécificité** : chaque développeur crée son petit système de gestion de formulaires adapté au contexte de son site ou de son application.
 
 Dès lors, quelles qualités devrait présenter une **librairie de formulaires digne de ce nom** pour remplacer notre implémentation maison qui se transforme vite en foutoir ?
 
@@ -37,7 +37,7 @@ Si jusqu'à présent ce terrain était dominé par **<LinkWithGlimpse url="https
 
 Compatible avec React, Vue, Solid — et bien d'autres frameworks et technologies front —, **<LinkWithGlimpse url="https://tanstack.com/form/latest/docs/overview">TanStack Form</LinkWithGlimpse>** offre **un typage intégral de votre formulaire** qui sécurise et accélère le développement.
 
-Porté à l'échelle de plus grosses applications, il offre la possiblité particulièrement intéressante de "composer" ses **formulaires** à l'aide d'options et de composants réutilisables entre différents formulaires. 
+Porté à l'échelle de plus grosses applications, il offre la possiblité particulièrement intéressante de "composer" ses **formulaires** à l'aide d'options et de composants réutilisables entre différents formulaires.
 
 On peut ainsi **créer notre propre fabrique de formulaires** avec des abstractions choisies mais toujours adossée à la librairie de base pour une **personnalisation encore plus fine**.
 
@@ -51,7 +51,7 @@ Trêve de bavardages, **passons aux travaux pratiques 🧑‍🎨** ! Créons un
 
 On initialise un formulaire **<LinkWithGlimpse url="https://tanstack.com/form/latest/docs/overview">TanStack Form</LinkWithGlimpse>** de la façon suivante :
 
-```tsx {3}
+```tsx
 import { useForm } from "@tanstack/react-form"
 
 const form = useForm({ ... })
@@ -59,10 +59,10 @@ const form = useForm({ ... })
 
 Ce hook `useForm` va prendre plusieurs options dont **les valeurs par défaut des différents champs de notre formulaire**.
 
-```tsx {4-7}
+```tsx
 import { useForm } from "@tanstack/react-form"
 
-const form = useForm({ 
+const form = useForm({
   defaultValues: {
     username: "",
     password: "",
@@ -72,10 +72,10 @@ const form = useForm({
 
 Tout aussi important, **une fonction** `onSubmit` qui sera appelée à chaque tentative de validation.
 
-```tsx {8-10}
+```tsx
 import { useForm } from "@tanstack/react-form"
 
-const form = useForm({ 
+const form = useForm({
   defaultValues: {
     username: "",
     password: "",
@@ -90,10 +90,10 @@ Le `form` renvoyé va ensuite pouvoir être **consommé par notre composant fron
 
 Première brique donc à poser : **le composant** `form.Field` dont l'attribut `name` se liera automatiquement à l'un des champs du formulaire déclarés dans `useForm()`.
 
-```tsx {5,16-26}
+```tsx
 import { useForm } from "@tanstack/react-form"
 
-const form = useForm({ 
+const form = useForm({
   defaultValues: {
     username: "",
     password: "",
@@ -106,24 +106,24 @@ const form = useForm({
 const LoginForm = () => {
   return (
     <form>
-      <form.Field 
-        name="username" 
-        children={({field}) => 
-          <input 
-            id={field.id} 
+      <form.Field
+        name="username"
+        children={({field}) =>
+          <input
+            id={field.id}
             type="text"
-            name={field.name} 
+            name={field.name}
             value={field.state.value}
           />
         }
       />
-      <form.Field 
-        name="password" 
-        children={({field}) => 
-          <input 
-            id={field.id} 
+      <form.Field
+        name="password"
+        children={({field}) =>
+          <input
+            id={field.id}
             type="password"
-            name={field.name} 
+            name={field.name}
             value={field.state.value}
           />
         }
@@ -136,18 +136,18 @@ const LoginForm = () => {
 
 Plutôt que de lui passer un `children`sous la forme `<form.Field>{children}</form.Field>`, on recourt ici à la bonne vieille technique des `renderProps`. Cela nous permet d'utiliser **une fonction de rendu plutôt que le composant déjà rendu** afin d'exploiter le `field` spécifique à chaque champ qu'on récupère comme argument.
 
-Dernière étape pour assurer la validation du formulaire : **désactiver le comportement par défaut du bouton de soumission qui survient lorsqu'un bouton** `<button type="submit">` se trouve dans un élément `<form>`. 
+Dernière étape pour assurer la validation du formulaire : **désactiver le comportement par défaut du bouton de soumission qui survient lorsqu'un bouton** `<button type="submit">` se trouve dans un élément `<form>`.
 
 <InformationBanner>
-  Cette précaution est cruciale pour empêcher le rechargement de la page, comportement qu'on souhaite éviter dans le cadre d'une SPA car il nous ferait sortir de notre routing et court-circuiterait les opérations de TanStack Form. 
+  Cette précaution est cruciale pour empêcher le rechargement de la page, comportement qu'on souhaite éviter dans le cadre d'une SPA car il nous ferait sortir de notre routing et court-circuiterait les opérations de TanStack Form.
 </InformationBanner>
 
 On va donc devoir en passer par la méthode `form.handleSubmit()` pour **déclencher la validation du formulaire**.
 
-```tsx {16-18}
+```tsx
 import { useForm } from "@tanstack/react-form"
 
-const form = useForm({ 
+const form = useForm({
   defaultValues: {
     username: "",
     password: "",
@@ -164,24 +164,24 @@ const LoginForm = () => {
       e.stopPropagation();
       void form.handleSubmit();
     }}>
-      <form.Field 
-        name="username" 
-        children={({field}) => 
-          <input 
-            id={field.id} 
+      <form.Field
+        name="username"
+        children={({field}) =>
+          <input
+            id={field.id}
             type="text"
-            name={field.name} 
+            name={field.name}
             value={field.state.value}
           />
         }
       />
-      <form.Field 
-        name="password" 
-        children={({field}) => 
-          <input 
-            id={field.id} 
+      <form.Field
+        name="password"
+        children={({field}) =>
+          <input
+            id={field.id}
             type="password"
-            name={field.name} 
+            name={field.name}
             value={field.state.value}
           />
         }
@@ -192,14 +192,14 @@ const LoginForm = () => {
 }
 ```
 
-Avec TanStack Form, **nos _inputs_ sont contrôlés** par le formulaire ce qui signifie que nous devons non seulement leur passer manuellement leur valeur via la prop `value={field.state.value}` mais aussi **des _events handlers_ pour réagir à la saisie de l'utilisateur et mettre à jour cette même valeur**. 
+Avec TanStack Form, **nos _inputs_ sont contrôlés** par le formulaire ce qui signifie que nous devons non seulement leur passer manuellement leur valeur via la prop `value={field.state.value}` mais aussi **des _events handlers_ pour réagir à la saisie de l'utilisateur et mettre à jour cette même valeur**.
 
 On utilise ainsi `onChange` sur la surface de l'input pour appeler `field.handleChange()` avec la nouvelle valeur du champ.
 
-```tsx {28,40}
+```tsx
 import { useForm } from "@tanstack/react-form"
 
-const form = useForm({ 
+const form = useForm({
   defaultValues: {
     username: "",
     password: "",
@@ -216,25 +216,25 @@ const LoginForm = () => {
       e.stopPropagation();
       void form.handleSubmit();
     }}>
-      <form.Field 
-        name="username" 
-        children={({field}) => 
-          <input 
-            id={field.id} 
+      <form.Field
+        name="username"
+        children={({field}) =>
+          <input
+            id={field.id}
             type="text"
-            name={field.name} 
+            name={field.name}
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
           />
         }
       />
-      <form.Field 
-        name="password" 
-        children={({field}) => 
-          <input 
-            id={field.id} 
+      <form.Field
+        name="password"
+        children={({field}) =>
+          <input
+            id={field.id}
             type="password"
-            name={field.name} 
+            name={field.name}
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
           />
@@ -246,12 +246,12 @@ const LoginForm = () => {
 }
 ```
 
-Voilà en deux coups de cuillère à pot un bon début de formulaire de connexion 😋 
+Voilà en deux coups de cuillère à pot un bon début de formulaire de connexion 😋
 
 Ne reste plus qu'à **ajouter la validation des champs** et **gérer les erreurs**, des étapes que nous verrons dans <LinkWithGlimpse url="https://www.frenchdev.co/post/tanstack-form-2">la partie suivante</LinkWithGlimpse>.
 
 <div className="useful-links">
-  #### 🔗 Liens additionnels 
+  #### 🔗 Liens additionnels
   - <ExternalLink/> <LinkWithGlimpse url="https://tanstack.com/form/latest/docs/overview">Documentation officielle de TanStack Form</LinkWithGlimpse>
   - <ExternalLink/> <LinkWithGlimpse url="https://www.youtube.com/watch?v=Pf1qn35bgjs&list=PLOQjd5dsGSxInTKUWTxyqSKwZCjDIUs0Y&index=1">TanStack Form Tutorial - Balastrong</LinkWithGlimpse>
   - <ExternalLink/> <LinkWithGlimpse url="https://blog.logrocket.com/tanstack-form-vs-react-hook-form">LogRocket — TanStack Form vs. React Hook Form</LinkWithGlimpse>

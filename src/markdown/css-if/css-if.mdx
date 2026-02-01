@@ -79,7 +79,7 @@ Grâce à cette nouvelle fonction `if()`, on peut définir tous ces changements 
 
 On commence par définir une variable CSS custom `--status` qui récupère automatiquement la valeur de l'attribut `[data-status]` porté par l'élément :
 
-```css {2}
+```css
 .badge {
   --status: attr(data-status type(<custom-indent>));
 
@@ -88,7 +88,7 @@ On commence par définir une variable CSS custom `--status` qui récupère autom
 ```
 Puis sur la propriété css visée on appelle la fonction `if()` pour en faire varier la valeur suivant celle de `--status` :
 
-```css {4-9}
+```css
 .badge {
   --status: attr(data-status type(<custom-indent>));
 

@@ -1,40 +1,41 @@
-import "./classic-select-base-frameworks.css";
+import "./base-select-frameworks.css";
 import AngularIcon from "./icons/angular";
-import VueIcon from "./icons/vue";
 import ReactIcon from "./icons/react";
-function ClassicSelectBaseFrameworks() {
+import VueIcon from "./icons/vue";
+
+function BaseSelectFrameworks() {
   return (
     <div className="mx-auto my-10 flex max-w-50 flex-col gap-2">
       <label className="font-bold text-decoration-underline" htmlFor="select">
         <span>Un {`${"<select>"}`} "basé" 🤙</span>
       </label>
       <select
-        className="rounded-md border border-gray-300 py-1 custom-select-frameworks"
+        className="custom-select-frameworks rounded-md border border-gray-300 py-1"
         id="select"
       >
-        <button>
+        <button type="button">
           <div>
-            <selectedcontent> </selectedcontent>
-            <svg title="arrow" width="24" height="24" viewBox="0 0 24 24">
-              <path fill="currentColor" d="m7 10l5 5l5-5z" />
+            {/*<selectedcontent> </selectedcontent>*/}
+            <svg aria-hidden="true" height="24" viewBox="0 0 24 24" width="24">
+              <path d="m7 10l5 5l5-5z" fill="currentColor" />
             </svg>
           </div>
         </button>
 
         <div>
-          <option value="react" className="flex gap-x-2">
+          <option className="flex gap-x-2" value="react">
             <div className="size-4">
               <ReactIcon />
             </div>
             <span>React</span>
           </option>
-          <option value="vue" className="flex gap-x-2">
+          <option className="flex gap-x-2" value="vue">
             <div className="size-4">
               <VueIcon />
             </div>
             <span>Vue</span>
           </option>
-          <option value="angular" className="flex gap-x-2">
+          <option className="flex gap-x-2" value="angular">
             <div className="size-4">
               <AngularIcon />
             </div>
@@ -46,4 +47,4 @@ function ClassicSelectBaseFrameworks() {
   );
 }
 
-export default ClassicSelectBaseFrameworks;
+export default BaseSelectFrameworks;
