@@ -6,20 +6,19 @@ import VueIcon from "./icons/vue";
 function BaseSelectFrameworks() {
   return (
     <div className="mx-auto my-10 flex max-w-50 flex-col gap-2">
-      <label className="font-bold text-decoration-underline" htmlFor="select">
-        <span>Un {`${"<select>"}`} "basé" 🤙</span>
-      </label>
       <select
-        className="custom-select-frameworks rounded-md border border-gray-300 py-1"
+        className="custom-select-frameworks cursor-pointer rounded-md border border-gray-300 py-1"
         id="select"
       >
-        <button type="button">
-          <div>
-            {/*<selectedcontent> </selectedcontent>*/}
-            <svg aria-hidden="true" height="24" viewBox="0 0 24 24" width="24">
-              <path d="m7 10l5 5l5-5z" fill="currentColor" />
-            </svg>
-          </div>
+        <button
+          className="flex w-full items-center justify-between"
+          type="button"
+        >
+          <selectedcontent className="flex items-center gap-x-2" />
+          {/* ⬇️ Arrow */}
+          <svg aria-hidden="true" height="24" viewBox="0 0 24 24" width="24">
+            <path d="m7 10l5 5l5-5z" fill="currentColor" />
+          </svg>
         </button>
 
         <div>

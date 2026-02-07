@@ -4,20 +4,61 @@
   appearance: base-select;
   background: none;
   padding: 7px 15px;
+  --radius: 10px;
+
+  &:focus-visible {
+    outline-color: var(--color-emerald-500);
+    outline-offset: 5px;
+  }
 
   /* ⬜ Picker */
   &::picker(select) {
     appearance: base-select;
+    padding: 0;
+    margin-block: 5px;
+    border-radius: var(--radius);
+
+    @media (forced-colors: none) {
+      border: none;
+    }
   }
 
   /* 💬 Selected content */
-  selectedcontent {
-    border: 2px solid red;
-  }
 
   /* ⬇️ Customize the picker icon */
   &::picker-icon {
     display: none;
+  }
+
+  /* 📝 Option */
+  & option {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    padding-block: 10px;
+    padding-inline: 10px;
+    font-size: 1rem;
+
+    cursor: pointer;
+
+    &::checkmark {
+      font-weight: var(--font-weight-8);
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-radius: 10px;
+      border: 2px solid var(--color-cyan-500);
+    }
+
+    &:is(:focus, :hover) {
+      background: oklch(from var(--link) l c h / 25%);
+      color: inherit;
+    }
+
+    &:is(:checked) {
+      font-weight: bold;
+    }
   }
 
   /* ✅ Checkmark */

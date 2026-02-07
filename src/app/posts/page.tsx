@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/suspicious/useAwait: special case */
 import { CalendarFoldIcon } from "lucide-react";
 import Link from "next/link";
 import { formatDateForPost } from "@/lib/dates";
@@ -8,13 +7,14 @@ export default async function HomePage() {
   const posts = getAllPosts();
   const postsWithMetadata = await Promise.all(
     posts.map(async (post) => {
-      const { metadata } = await import(`@/markdown/${post.path}`);
+      const { metadata } = await import(
+        `@/markdown/${post.slug}/${post.slug}.mdx`
+      );
       return { ...post, metadata };
     })
   );
 
-  const postsToDisplay = postsWithMetadata;
-  postsToDisplay.sort((post1, post2) => {
+  const postsToDisplay = postsWithMetadata.sort((post1, post2) => {
     const date1 = new Date(post1.metadata.date);
     const date2 = new Date(post2.metadata.date);
     return date2.getTime() - date1.getTime();
@@ -30,7 +30,7 @@ export default async function HomePage() {
             <li key={slug}>
               <Link href={`/post/${slug}`}>
                 <div className="mb-2">
-                  <h2 className="mb-1 max-w-[600px] text-pretty font-bold text-2xl">
+                  <h2 className="mb-1 max-w-150 text-pretty font-bold text-2xl">
                     {metadata.title}
                   </h2>
                   {formattedDate && (

@@ -74,7 +74,7 @@ html.dark .post-container {
 .post-container {
   p {
     color: var(--color);
-    font-size: 1rem;
+
     line-height: 1.6;
     font-weight: 300;
     text-wrap-style: pretty;
