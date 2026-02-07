@@ -1,10 +1,10 @@
 /* biome-ignore-all lint/correctness/noUnknownPseudoElement: experimental */
 /* biome-ignore-all lint/correctness/noUnknownTypeSelector: experimental */
 .custom-select-frameworks {
+  --radius: 10px;
+  padding: 7px 15px;
   appearance: base-select;
   background: none;
-  padding: 7px 15px;
-  --radius: 10px;
 
   &:focus-visible {
     outline-color: var(--color-emerald-500);
@@ -13,13 +13,14 @@
 
   /* ⬜ Picker */
   &::picker(select) {
-    appearance: base-select;
     padding: 0;
     margin-block: 5px;
+    appearance: base-select;
     border-radius: var(--radius);
 
     @media (forced-colors: none) {
-      border: none;
+      border: 1px solid var(--color-gray-50);
+      box-shadow: 0 0 0 2px var(--color-gray-50);
     }
   }
 
@@ -33,8 +34,8 @@
   /* 📝 Option */
   & option {
     display: flex;
-    align-items: center;
     column-gap: 10px;
+    align-items: center;
     padding-block: 10px;
     padding-inline: 10px;
     font-size: 1rem;
@@ -47,13 +48,13 @@
 
     &:focus-visible {
       outline: none;
-      border-radius: 10px;
       border: 2px solid var(--color-cyan-500);
+      border-radius: 10px;
     }
 
     &:is(:focus, :hover) {
-      background: oklch(from var(--link) l c h / 25%);
       color: inherit;
+      background: oklch(from var(--link) l c h / 25%);
     }
 
     &:is(:checked) {

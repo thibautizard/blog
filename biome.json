@@ -4,6 +4,17 @@
   "files": {
     "includes": ["!src/components/magicui/**/*", "!src/components/kibo-ui/**/*"]
   },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on",
+        "useSortedAttributes": "on",
+        "useSortedKeys": "on",
+        "useSortedProperties": "on"
+      }
+    },
+    "enabled": true
+  },
   "linter": {
     "rules": {
       "suspicious": {

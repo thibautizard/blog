@@ -22,8 +22,8 @@ export function getAllPosts(dir: string = startDir): PostResume[] {
 
     if (markdownFileRegex.test(element)) {
       posts.push({
-        slug: element.replace(markdownFileRegex, ""),
         path: elementPath.replace(markdownDirRegex, ""),
+        slug: element.replace(markdownFileRegex, ""),
       });
     }
 

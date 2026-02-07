@@ -7,24 +7,24 @@ import { Header } from "../components/header";
 import "./global.css";
 
 const monaSans = Mona_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "900"],
   display: "swap",
+  subsets: ["latin"],
   variable: "--font-mona-sans",
+  weight: ["400", "500", "600", "700", "900"],
 });
 
 const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "900"],
   display: "swap",
+  subsets: ["latin"],
   variable: "--font-montserrat",
+  weight: ["400", "500", "600", "700", "900"],
 });
 
 const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   display: "swap",
+  subsets: ["latin"],
   variable: "--font-dm-sans",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {

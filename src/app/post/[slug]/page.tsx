@@ -27,14 +27,14 @@ export async function generateMetadata({
   const title = `${metadata.title} - Thibaut Izard`;
 
   return {
-    title,
     description: metadata.excerpt,
     openGraph: {
-      title,
       description: metadata.excerpt,
-      type: "article",
       publishedTime: metadata.date,
+      title,
+      type: "article",
     },
+    title,
   };
 }
 

@@ -97,76 +97,76 @@ html.dark .post-container {
   }
 
   h3 {
+    max-width: 500px;
     margin-top: 40px;
     margin-bottom: 20px;
     font-size: 1.7rem;
-    line-height: 1.2;
     font-weight: 600;
-    max-width: 500px;
+    line-height: 1.2;
   }
 
   h4 {
+    max-width: 500px;
     margin-top: 20px;
     margin-bottom: 20px;
     font-size: 1.5rem;
-    line-height: 1.2;
     font-weight: 600;
-    max-width: 500px;
+    line-height: 1.2;
   }
 
   p > a {
-    color: var(--link-color);
     font-weight: 500;
+    color: var(--link-color);
   }
 
   p > code {
-    background-color: var(--code-background-color);
     padding: 2px 4px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    color: var(--code-color);
     font-family: var(--font-dm-sans);
+    font-size: 0.9rem;
     font-weight: 600;
+    color: var(--code-color);
+    background-color: var(--code-background-color);
+    border-radius: 4px;
   }
 
   blockquote {
-    font-size: 0.8rem;
     padding: 0 5%;
+    font-size: 0.8rem;
     color: var(--quote-color);
   }
 
   ul {
-    list-style: disc;
     padding-left: 20px;
+    list-style: disc;
   }
 
   .insert {
+    position: relative;
+    padding: 25px;
+    margin: 40px 20px 40px 0px;
     font-family: var(--font-montserrat);
+    font-weight: 700;
     color: var(--insert-foreground);
     background: var(--insert-background);
+
+    border-bottom: 4px solid var(--insert-border);
+    border-radius: 10px;
 
     p {
       font-size: 0.9rem;
       color: var(--insert-foreground);
     }
-
-    border-bottom: 4px solid var(--insert-border);
-    padding: 25px;
-    font-weight: 700;
-    border-radius: 10px;
-    position: relative;
-    margin: 40px 20px 40px 0px;
   }
 
   .insert .icon-container {
     position: absolute;
     top: 0;
     left: 0;
-    transform: translate(-25%, -25%);
     z-index: 1;
+    padding: 4px;
     background-color: var(--background);
     border-radius: 50%;
-    padding: 4px;
+    transform: translate(-25%, -25%);
 
     svg {
       width: 26px;
@@ -177,21 +177,21 @@ html.dark .post-container {
 
   /* 💻 Code */
   pre {
+    padding: 1rem 0;
     margin: 16px 0;
     overflow-x: auto;
-    padding: 1rem 0;
-    border-radius: 10px;
     font-size: 0.8rem;
+    border-radius: 10px;
 
     [data-line] {
       padding: 0 1rem;
     }
 
     [data-highlighted-line] {
-      border-left: 6px solid var(--code-highlight-color);
-      background-color: var(--code-background-color-highlight);
       display: block;
       padding-right: 1em;
+      background-color: var(--code-background-color-highlight);
+      border-left: 6px solid var(--code-highlight-color);
     }
   }
 
@@ -207,9 +207,9 @@ html.dark .post-container {
     margin-top: 40px;
 
     h4 {
+      margin-bottom: 10px;
       font-size: 1.2rem;
       font-weight: 600;
-      margin-bottom: 10px;
     }
 
     ul {
@@ -218,8 +218,8 @@ html.dark .post-container {
 
     li {
       display: flex;
-      line-height: 1.5;
       gap: 5px;
+      line-height: 1.5;
       color: var(--link-color);
     }
 
@@ -228,9 +228,9 @@ html.dark .post-container {
     }
 
     a {
+      font-family: "Mona Sans", serif;
       font-size: 1rem;
       text-decoration: underline;
-      font-family: "Mona Sans", serif;
     }
   }
 }

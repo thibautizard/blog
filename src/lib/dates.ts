@@ -10,8 +10,8 @@ export function formatDateForPost(dateString: string) {
   const locale = userBrowserLocale ?? DEFAULT_LOCALE;
 
   return date.toLocaleDateString(locale, {
-    year: "numeric",
-    month: "long",
     day: "numeric",
+    month: "long",
+    year: "numeric",
   });
 }
