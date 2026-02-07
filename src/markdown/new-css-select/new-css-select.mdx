@@ -2,6 +2,7 @@ import ClassicSelect from "./assets/classic-select";
 import BaseSelect from "./assets/base-select";
 import BaseSelectFrameworks from "./assets/base-select-frameworks";
 import LinkWithGlimpse from "@/markdown/-components/link-with-glimpse";
+import BaselineStatus from "@/markdown/-components/baseline-status";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./assets/shadcn-select";
 import SpidermanSelect from "./assets/images/spiderman-select.jpg";
 import ScoobyDooSelect from "./assets/images/scooby-doo-select.jpg";
@@ -10,7 +11,7 @@ import Image from "next/image";
 export const metadata = {
     title: "La malédiction des select enfin levée ? 👨‍🎨 ",
     date: "2025-12-24",
-    excerpt: "Eh ouais, plus besoin de passer par une librairie pour avoir des selecteurs stylés 😎",
+    excerpt: "Plus besoin de passer par une librairie pour avoir des select stylés 😎",
 }
 
 Tout développeur frontend **connaît comme sa poche le** `<select>` **pour créer un menu déroulant** 👇
@@ -24,9 +25,9 @@ Tout développeur frontend **connaît comme sa poche le** `<select>` **pour cré
 </select>
 ```
 
-Au grand dam des développeurs, **ce** `<select>` **était pourtant jusqu'à présent très peu personnalisable**.
+Au grand dam des développeurs, **ce** `<select>` **était pourtant très peu personnalisable**.
 
-Impossible, par exemple, de **changer directement la flèche à droite du selecteur** ou **l'apparence des options du menu déroulant** sans des stratégies de contournement qui donnaient l'impression de travailler contre la plateforme plutôt qu'avec elle.
+Impossible, par exemple, de **changer directement la flèche à droite du selecteur** ou **l'apparence des options du menu déroulant** sans des stratégies de contournement qui donnaient l'impression de travailler contre la plateforme web plutôt qu'avec elle.
 
 On se retrouve alors **coincé avec un rendu visuel dicté par le navigateur et le système d'exploitation de l'utilisateur** soit une apparence variabe d'un client à un autre. Pas l'idéal pour un site ou une application qui cherche à maintenir une cohérence visuelle et une expérience unique pour tous ses visiteurs...
 
@@ -60,25 +61,25 @@ Même fonctionnement, même apparence. On croirait un vrai ! 🪞
 
 <Image src={SpidermanSelect} alt="Spiderman select" className="mx-auto my-8 w-125" width={400} height={300} />
 
-À la lecture du code source, on réalise toutefois qu'**il ne s'agit pas d'un vrai** `<select>` mais d'un `<button>` augmenté de plusieurs attributs... Ce `<button>` requiert de surcroît **d'importer une librairie Javascript** (ici `@radix-ui/react-select`) pour reproduire fidèlement le comportement de notre `<select>` natif.
+À la lecture du code source, on réalise toutefois qu'**il ne s'agit pas d'un** `<select>` mais d'un `<button>` augmenté d'une ribambelle d'attributs et qui requiert **d'importer une librairie Javascript** (ici `@radix-ui/react-select`) pour pouvoir fonctionner comme un `<select>` natif.
 
 ```tsx
 import * as SelectPrimitive from "@radix-ui/react-select"; // who tf are you ?!
 ```
 
 
-Pourquoi est-ce un problème Jamy ? D'abord parce qu'en **s'en remettant à l'API d'un composant externe**, **on perd le bénéfice d'une implémentation native et performante** du composant `<select>` optimisée pour le navigateur. Il faut également blinder nos balises de remplacement avec toute une palette d'attributs pour satisfaire les standards d'accessibilité. Ensuite parce que cela **nous contraint à ajouter une dépendance à notre projet** pour émuler un comportement déjà existant à la seule fin de contourner des limitations stylistiques...
+Pourquoi est-ce un problème ? D'abord parce qu'en **s'en remettant à l'API d'un composant externe**, **on perd le bénéfice d'une implémentation native et performante** du composant `<select>` optimisée pour le navigateur. Il faut également **blinder ces balises alternatives avec toute une série d'attributs pour satisfaire les standards d'accessibilité**. Ensuite parce que cela **nous contraint à ajouter une dépendance à notre projet** pour émuler un comportement déjà existant à la seule fin de contourner des limitations stylistiques...
 
 <Image src={ScoobyDooSelect} alt="Le select est enfin dévoilé : il s'agit d'un bouton" className="mx-auto my-8 h-125" width={400} height={300} />
 
-Allons bon, quitte à utiliser des `<button>` et des `<div>` pour contrefaire notre `<select>`, **pourquoi ne pas tenter une implémentation personnelle afin de ne pas se reposer sur une librairie externe pour gérer un composant aussi essentiel ?**
+Quitte à utiliser des `<button>` et des `<div>` pour contrefaire notre `<select>`, **pourquoi ne pas tenter une implémentation personnelle afin de ne pas se reposer sur une librairie externe pour un composant aussi essentiel ?**
 
-Parce que dans la pratique ce n'est pas si simple ! Beaucoup de difficultés apparaissent vite en raison des **nombreux aspects fonctionnels que doit couvrir un menu déroulant correct** prétendant au titre de `<select>` :
+Parce que rien n'est moins simple ! Bien des difficultés vous attendent en raison des **nombreux aspects fonctionnels que doit couvrir un menu déroulant** prétendant au titre de `<select>` :
 
 * Navigation au clavier et gestion du focus, notamment pour l'accessibilité ;
 * Adaptation mobile ;
 * Détection du clic à l'extérieur pour la fermeture ;
-* Repositionnement selon la bordure de fenêtre la plus proche ;
+* Repositionnement automatique selon la bordure de fenêtre la plus proche ;
 * Chevauchement possible avec d'autres éléments notamment lors du scroll
 
 <span className="w-full text-center text-[26px]!">
@@ -87,7 +88,12 @@ Parce que dans la pratique ce n'est pas si simple ! Beaucoup de difficultés app
 
 ### Chrome notre sauveur (again)
 
-Mais voilà que depuis peu, on peut enfin **styliser un** `<select>` **jusque dans ses moindres détails** tout en profitant de ses fonctionnalités natives !
+Mais voilà que depuis peu avec Chrome et les navigateurs basés sur Chromium comme Edge, on peut enfin **styliser un** `<select>` **jusque dans ses moindres détails** tout en profitant de ses fonctionnalités natives !
+
+<div className="border border-px border-gray-300 rounded-md p-4">
+  <BaselineStatus featureId="customizable-select" />
+</div>
+<br/>
 
 La première étape consiste à **désactiver le style par défaut du** `<select>` **choisi par votre navigateur** en optant pour la nouvelle propriété `appearance: base-select`.
 
@@ -96,27 +102,53 @@ select {
   appearance: base-select;
 }
 
-// Vous pouvez également récupérer le style minimaliste de la liste de choix
+// Vous pouvez également demander le style minimaliste pour la liste d'options
 select::picker(select) {
   appearance: base-select;
 }
 ```
 
-On obtient alors un `<select>` désormais totalement personnalisable !
+On obtient alors un `<select>` minimaliste et désormais totalement personnalisable !
 
 <BaseSelect />
 
 
-Bon, ok rien de fou à première vue, celui-ci paraît même moins "beau". Mais croyez-moi, ce `<select>` offre de toutes nouvelles possibilités 🦸 Explorons-en quelques-unes !
+Certes rien de fou à première vue, celui-ci paraît même moins esthétique ainsi dépouillé de ses plus beaux atours. Mais croyez-moi, ce `<select>` offre de toutes nouvelles possibilités.
+
+Explorons-en quelques-unes !
 
 #### Insérer des images ou des svg
 
-On peut dorénavant insérer dans les différentes `<option>` de notre `<select>` "basé" 🤙 des éléments visuels (images, svg etc.) qui étaient auparavant ignorés par le *parser* du navigateur.
+Dorénavant, il est possible **d'insérer des éléments visuels (images, svg etc.)** qui étaient auparavant ignorés par le *parser* du navigateur. Exemple avec ce sélecteur de frameworks Javascript 👇
 
 <BaseSelectFrameworks />
 
 ```html
-<select class="custom-select">
+<select>
+  <selectedcontent></selectedcontent>
+  <option>
+    <svg aria-hidden>…</svg> // 🖼️ Logo
+    <span>React</span>
+  </option>
+  <option>
+    <svg aria-hidden>…</svg> // 🖼️ Logo
+    <span>Vue</span>
+  </option>
+  <option>
+    <svg aria-hidden>…</svg> // 🖼️ Logo
+    <span>Angular</span>
+  </option>
+</select>
+```
+<br/>
+
+#### Customiser l'élément sélectionné
+
+Souvent l'élément sélectionné a des contraintes d'affichage qui diffèrent de celles des options de la liste de choix possibles. La balise `<selectedcontent>` permet ainsi de cibler spécifiquement l'élément actuellement sélectionné et de lui appliquer ensuite des styles personnalisés.
+
+```html
+<select>
+    <selectedcontent></selectedcontent> // 👈 L'élément sélectionné
   <option>
     <svg aria-hidden>…</svg>
     <span>React</span>
@@ -131,6 +163,25 @@ On peut dorénavant insérer dans les différentes `<option>` de notre `<select>
   </option>
 </select>
 ```
+
+```css
+selectedcontent {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    span {
+        font-weight: bold;
+    }
+}
+```
+
+Ce `<selectedcontent>` agit comme un *slot* pour l'`<option>` actuellement sélectionnée comme si celle-ci se téléportait à l'intérieur.
 
 <div className="useful-links">
     #### 🔗 Liens additionnels
