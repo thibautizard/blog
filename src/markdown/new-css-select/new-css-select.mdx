@@ -1,6 +1,7 @@
 import ClassicSelect from "./assets/classic-select";
 import BaseSelect from "./assets/base-select";
 import BaseSelectFrameworks from "./assets/base-select-frameworks";
+import BaseSelectGithub from "./assets/base-select-github";
 import LinkWithGlimpse from "@/markdown/-components/link-with-glimpse";
 import BaselineStatus from "@/markdown/-components/baseline-status";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./assets/shadcn-select";
@@ -112,10 +113,11 @@ On obtient alors un `<select>` minimaliste et désormais totalement personnalisa
 
 <BaseSelect />
 
-
 Certes rien de fou à première vue, celui-ci paraît même moins esthétique ainsi dépouillé de ses plus beaux atours. Mais croyez-moi, ce `<select>` offre de toutes nouvelles possibilités.
 
-Explorons-en quelques-unes !
+<center>
+Explorons-en quelques-unes ! 🎒
+</center>
 
 #### Insérer des images ou des svg
 
@@ -141,6 +143,8 @@ Dorénavant, il est possible **d'insérer des éléments visuels (images, svg et
 </select>
 ```
 <br/>
+
+Plus globalement le `<select>` customisable accepte n'importe quel HTML dans ses `<option>` alors que le `<select>` classique récupérait uniquement le nœud textuel.
 
 #### Customiser l'élément sélectionné
 
@@ -181,7 +185,19 @@ selectedcontent {
 }
 ```
 
-Ce `<selectedcontent>` agit comme un *slot* pour l'`<option>` actuellement sélectionnée comme si celle-ci se téléportait à l'intérieur.
+Ce `<selectedcontent>` agit comme un *slot* à l'intérieur duquel se téléporte l'`<option>` actuellement sélectionnée.
+
+Essayons ainsi de reproduire **le bouton Github pour choisir le type de merge** à l'issue d'une PR où l'option sélectionnée doit présenter un aspect différent de l'option affichée dans la liste👇
+
+<BaseSelectGithub/>
+
+
+### Différences notables
+
+Lorsque vous passer en `appearance: base-select;` quelques différences subtiles sont à prendre en compte :
+
+- Le `<select>` ne prend plus automatiquement la largeur de l'`<option>` la plus longue.
+- Le `<select>` ne déclenche plus automatiquement les composants mobiles spécifiques.
 
 <div className="useful-links">
     #### 🔗 Liens additionnels

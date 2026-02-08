@@ -20,7 +20,7 @@
 
     @media (forced-colors: none) {
       border: 2px solid var(--color-gray-50);
-      box-shadow: 0 0 10px 1px var(--color-gray-100);
+      box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.2);
     }
   }
 
@@ -41,6 +41,7 @@
     font-size: 1rem;
 
     cursor: pointer;
+    border: 1.5px solid transparent;
 
     &::checkmark {
       font-weight: var(--font-weight-8);
@@ -48,8 +49,18 @@
 
     &:focus-visible {
       outline: none;
-      border: 2px solid var(--color-cyan-500);
+      border-color: var(--color-emerald-500);
       border-radius: 10px;
+
+      &[value="vue"] {
+        border-color: var(--color-emerald-500);
+      }
+      &[value="react"] {
+        border-color: var(--color-cyan-500);
+      }
+      &[value="angular"] {
+        border-color: var(--color-purple-500);
+      }
     }
 
     &:is(:focus, :hover) {

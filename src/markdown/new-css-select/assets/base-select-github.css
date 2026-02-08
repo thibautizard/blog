@@ -1,0 +1,104 @@
+/* biome-ignore-all lint/correctness/noUnknownPseudoElement: experimental */
+/* biome-ignore-all lint/correctness/noUnknownTypeSelector: experimental */
+.custom-select-github {
+  box-sizing: border-box;
+
+  min-width: 220px;
+  height: 34px;
+  padding: 0 10px 0 12px;
+
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  line-height: 21px;
+
+  color: white;
+  appearance: base-select;
+  background-color: #1f883d;
+  border: 1px solid rgba(31, 35, 40, 0.15);
+
+  &:hover {
+    background-color: #197935;
+  }
+
+  /* 👀 Focus */
+  &:focus-visible {
+    outline: 2px solid #0969da;
+    outline-offset: -2px;
+    box-shadow: inset 0 0 0 3px #fff;
+  }
+
+  /* ⬜ Picker */
+  &::picker(select) {
+    padding: 6px 0;
+    margin-block: 5px;
+    appearance: base-select;
+    border: none;
+    border-radius: var(--radius);
+    box-shadow:
+      0px 0px 0px 1px rgba(209, 217, 224, 0.5),
+      0px 6px 12px -3px rgba(37, 41, 46, 0.04),
+      0px 6px 18px 0px rgba(37, 41, 46, 0.12);
+  }
+
+  /* 💬 Selected content */
+  selectedcontent {
+    .option-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: white;
+    }
+
+    .option-description {
+      display: none;
+    }
+
+    hr {
+      display: none;
+    }
+  }
+
+  /* ⬇️ Customize the picker icon */
+  &::picker-icon {
+    display: none;
+  }
+
+  /* 📝 Option */
+  & option {
+    &:hover + option > div {
+      border-color: transparent;
+    }
+
+    &::checkmark {
+      padding: 8px 0;
+      margin: 0 4px;
+      fill: #25292e;
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-color: var(--color-emerald-500);
+      border-radius: 10px;
+
+      &[value="vue"] {
+        border-color: var(--color-emerald-500);
+      }
+      &[value="react"] {
+        border-color: var(--color-cyan-500);
+      }
+      &[value="angular"] {
+        border-color: var(--color-purple-500);
+      }
+    }
+  }
+
+  /* ✅ Checkmark */
+  /*option {
+    }
+
+    option:checked {
+    }
+
+    option::checkmark {
+    }*/
+}
