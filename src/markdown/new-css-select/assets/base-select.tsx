@@ -5,7 +5,8 @@ import BaseSelectGif from "./images/base-select.gif";
 import { SelectFallback } from "./select-fallback";
 
 function BaseSelect() {
-  const supportBaseSelect = CSS.supports("appearance", "base-select");
+  const supportBaseSelect =
+    typeof CSS !== "undefined" && CSS.supports("appearance", "base-select");
   if (!supportBaseSelect)
     return (
       <SelectFallback>
@@ -21,9 +22,9 @@ function BaseSelect() {
     );
 
   return (
-    <div className="custom-select mx-auto my-10 flex max-w-50 flex-col gap-2">
+    <div className="custom-select mx-auto my-10 flex max-w-55 flex-col gap-2">
       <label className="font-bold text-decoration-underline" htmlFor="select">
-        <span>Un {`${"<select>"}`} "basé" 🤙 </span>
+        <span>Un {`${"<select>"}`} customisable </span>
       </label>
       <select
         className="custom-select rounded-md border border-gray-300 py-1"

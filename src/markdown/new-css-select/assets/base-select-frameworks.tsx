@@ -9,7 +9,8 @@ import FrameworksSelectGif from "./images/frameworks-select.gif";
 import { SelectFallback } from "./select-fallback";
 
 function BaseSelectFrameworks() {
-  const supportBaseSelect = CSS.supports("appearance", "base-select");
+  const supportBaseSelect =
+    typeof CSS !== "undefined" && CSS.supports("appearance", "base-select");
   if (!supportBaseSelect)
     return (
       <SelectFallback>

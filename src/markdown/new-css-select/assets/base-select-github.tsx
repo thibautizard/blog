@@ -6,7 +6,8 @@ import GithubSelect from "./images/github-select.gif";
 import { SelectFallback } from "./select-fallback";
 
 function BaseSelectGithub() {
-  const supportBaseSelect = CSS.supports("appearance", "base-select");
+  const supportBaseSelect =
+    typeof CSS !== "undefined" && CSS.supports("appearance", "base-select");
   if (!supportBaseSelect)
     return (
       <SelectFallback>

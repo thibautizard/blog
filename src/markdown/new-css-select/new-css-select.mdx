@@ -11,7 +11,7 @@ import Image from "next/image";
 
 export const metadata = {
     title: "La malédiction des select enfin levée ? 👨‍🎨 ",
-    date: "2025-12-24",
+    date: "2026-02-9",
     excerpt: "Plus besoin de passer par une librairie pour avoir des select stylés 😎",
 }
 
@@ -28,7 +28,7 @@ Tout développeur frontend **connaît comme sa poche le** `<select>` **pour cré
 
 Au grand dam des développeurs, **ce** `<select>` **était pourtant très peu personnalisable**.
 
-Impossible, par exemple, de **changer directement la flèche à droite du selecteur** ou **l'apparence des options du menu déroulant** sans des stratégies de contournement qui donnaient l'impression de travailler contre la plateforme web plutôt qu'avec elle.
+Impossible, par exemple, de **changer directement la flèche à droite du selecteur** ou **l'apparence des options du menu déroulant** sans des stratégies de contournement qui donnaient l'impression de travailler contre la plateforme web plutôt qu'avec.
 
 On se retrouve alors **coincé avec un rendu visuel dicté par le navigateur et le système d'exploitation de l'utilisateur** soit une apparence variabe d'un client à un autre. Pas l'idéal pour un site ou une application qui cherche à maintenir une cohérence visuelle et offrir la même expérience à tous ses visiteurs...
 
@@ -62,18 +62,18 @@ Même fonctionnement, même apparence. On croirait un vrai ! 🪞
 
 <Image src={SpidermanSelect} alt="Spiderman select" className="mx-auto my-8 w-125" width={400} height={300} />
 
-À la lecture du code source, on réalise toutefois qu'**il ne s'agit pas d'un** `<select>` mais d'un `<button>` augmenté d'une ribambelle d'attributs et qui requiert **d'importer une librairie Javascript** (ici `@radix-ui/react-select`) pour pouvoir fonctionner comme un `<select>` natif.
+À la lecture du code source, on réalise toutefois qu'**il ne s'agit pas d'un** `<select>` mais d'un `<button>` augmenté d'une ribambelle d'attributs et qui requiert **d'importer une librairie Javascript** (ici `@radix-ui/react-select`) pour pouvoir fonctionner comme un `<select>` natif 🧐
 
 ```tsx
 import * as SelectPrimitive from "@radix-ui/react-select"; // who tf are you ?!
 ```
 
 
-Pourquoi est-ce un problème ? D'abord parce qu'en **s'en remettant à l'API d'un composant externe**, **on perd le bénéfice d'une implémentation native et performante** du composant `<select>` optimisée pour le navigateur. Il faut également **blinder ces balises alternatives avec toute une série d'attributs pour satisfaire les standards d'accessibilité**. Ensuite parce que cela **nous contraint à ajouter une dépendance à notre projet** pour émuler un comportement déjà existant à la seule fin de contourner des limitations stylistiques...
+En quoi est-ce problématique ? D'abord parce qu'en **s'en remettant à l'API d'un composant externe**, **on perd le bénéfice d'une implémentation native et performante** du composant `<select>` optimisée pour le navigateur. Il faut également **blinder ces balises alternatives avec toute une série d'attributs pour satisfaire les standards d'accessibilité**. Ensuite parce que cela **nous contraint à ajouter une dépendance à notre projet** pour émuler un comportement déjà existant à la seule fin de contourner des limitations stylistiques...
 
 <Image src={ScoobyDooSelect} alt="Le select est enfin dévoilé : il s'agit d'un bouton" className="mx-auto my-8 h-125" width={400} height={300} />
 
-Quitte à utiliser des `<button>` et des `<div>` pour contrefaire notre `<select>`, **pourquoi ne pas tenter une implémentation personnelle afin de ne pas se reposer sur une librairie externe pour un composant aussi essentiel ?**
+Quitte à devoir utiliser des `<button>` et des `<div>` pour contrefaire notre `<select>`, **pourquoi ne pas tenter une implémentation personnelle afin de ne pas se reposer sur une librairie externe pour un composant aussi essentiel ?**
 
 Parce que rien n'est moins simple ! Bien des difficultés vous attendent en raison des **nombreux aspects fonctionnels que doit couvrir un menu déroulant** prétendant au titre de `<select>` :
 
@@ -81,7 +81,7 @@ Parce que rien n'est moins simple ! Bien des difficultés vous attendent en rais
 * Adaptation mobile ;
 * Détection du clic à l'extérieur pour la fermeture ;
 * Repositionnement automatique selon la bordure de fenêtre la plus proche ;
-* Chevauchement possible avec d'autres éléments notamment lors du scroll
+* Chevauchement possible avec d'autres éléments notamment lors du scroll.
 
 <span className="w-full text-center text-[26px]!">
 😮‍💨
@@ -113,7 +113,7 @@ On obtient alors un `<select>` minimaliste et désormais totalement personnalisa
 
 <BaseSelect />
 
-Certes rien de fou à première vue, celui-ci paraît même moins esthétique ainsi dépouillé de ses plus beaux atours. Mais croyez-moi, ce `<select>` offre de toutes nouvelles possibilités.
+Certes rien d'impressionnant à première vue, celui-ci paraît même moins esthétique ainsi dépouillé de ses plus beaux atours. Mais croyez-moi, ce `<select>` offre des **possibilités insoupçonnées**.
 
 <center>
 Explorons-en quelques-unes ! 🎒
@@ -121,7 +121,7 @@ Explorons-en quelques-unes ! 🎒
 
 #### Insérer des images ou des svg
 
-Dorénavant, il est possible **d'insérer des éléments visuels (images, svg etc.)** qui étaient auparavant ignorés par le *parser* du navigateur. Exemple avec ce sélecteur de frameworks Javascript 👇
+Dorénavant, il est possible **d'insérer des éléments visuels (images, svg etc.)** qui étaient jusqu'à présent ignorés par le *parser* du navigateur. Exemple avec ce sélecteur de frameworks Javascript 👇
 
 <BaseSelectFrameworks />
 
@@ -144,11 +144,11 @@ Dorénavant, il est possible **d'insérer des éléments visuels (images, svg et
 ```
 <br/>
 
-Plus globalement le `<select>` customisable accepte n'importe quel HTML dans ses `<option>` alors que le `<select>` classique récupérait uniquement le nœud textuel.
+Plus globalement le `<select>` customisable accepte de rendre n'importe quel bout de HTML dans ses `<option>` alors que le `<select>` classique récupérait uniquement le nœud textuel.
 
 #### Customiser l'élément sélectionné
 
-Souvent l'élément sélectionné a des contraintes d'affichage qui diffèrent de celles des options de la liste de choix possibles. La balise `<selectedcontent>` permet ainsi de cibler spécifiquement l'élément actuellement sélectionné et de lui appliquer ensuite des styles personnalisés.
+Souvent l'élément sélectionné a des contraintes d'affichage des options de la liste de choix. La balise `<selectedcontent>` permet ainsi de **cibler l'élément sélectionné** et de lui **appliquer des styles personnalisés**.
 
 ```html
 <select>
@@ -185,19 +185,27 @@ selectedcontent {
 }
 ```
 
-Ce `<selectedcontent>` agit comme un *slot* à l'intérieur duquel se téléporte l'`<option>` actuellement sélectionnée.
+Ce `<selectedcontent>` agit comme un emplacement libre à l'intérieur duquel se téléporte l'`<option>` sélectionnée.
 
-Essayons ainsi de reproduire **le bouton Github pour choisir le type de merge** à l'issue d'une PR où l'option sélectionnée doit présenter un aspect différent de l'option affichée dans la liste👇
+On peut ainsi facilement reproduire **le bouton Github de merge** où l'option sélectionnée doit présenter un aspect différent de sa version affichée dans la liste sans devoir créer de HTML en dehors de ses `<option>` 👇
 
 <BaseSelectGithub/>
+
+Il est également possible de **segmenter sa liste d'options en ajoutant des balises `<hr/>` pour plus de lisibilité !**
 
 
 ### Différences notables
 
-Lorsque vous passer en `appearance: base-select;` quelques différences subtiles sont à prendre en compte :
+Lorsque vous passez en `appearance: base-select;` quelques différences subtiles sont à prendre en compte lesquelles peuvent vous surprendre ou entraîner des régressions inattendues sur vos anciens `<select>`:
 
-- Le `<select>` ne prend plus automatiquement la largeur de l'`<option>` la plus longue.
-- Le `<select>` ne déclenche plus automatiquement les composants mobiles spécifiques.
+- Le `<select>` customisable ne prend plus automatiquement la largeur de l'`<option>` la plus longue ;
+- Le `<select>` customisable ne déclenche plus automatiquement les composants mobiles spécifiques pour garantir une expérience utilisateur unifiée entre toutes les plateformes.
+
+### À quand une compatibilité universelle ?
+
+Comme souvent, **Chrome passe en éclaireur pour pousser l'agenda des spécifications CSS à implémenter**. À l'heure où j'écris cet article **aucune date n'est encore annoncée pour les autres navigateurs du marché ou leurs versions mobile**.
+
+Fait intéressant, sur leur blog [Chrome for Developers](https://developer.chrome.com/blog/a-customizable-select/) il est précisé que **d'autres éléments recevront bientôt un support pour la propriété** `appearance: base-*;` ce qui permettra ainsi de désactiver complètement la feuille de style des navigateurs et d'offrir un contrôle plus fin sur leur style.
 
 <div className="useful-links">
     #### 🔗 Liens additionnels
