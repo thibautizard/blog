@@ -1,10 +1,28 @@
+"use client";
 import "./base-select-frameworks.css";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import AngularIcon from "./icons/angular";
 import ReactIcon from "./icons/react";
 import VueIcon from "./icons/vue";
+import FrameworksSelectGif from "./images/frameworks-select.gif";
+import { SelectFallback } from "./select-fallback";
 
 function BaseSelectFrameworks() {
+  const supportBaseSelect = CSS.supports("appearance", "base-select");
+  if (!supportBaseSelect)
+    return (
+      <SelectFallback>
+        {" "}
+        <Image
+          alt="Base Select"
+          className="mx-auto mt-4"
+          height={150}
+          src={FrameworksSelectGif}
+          width={250}
+        />{" "}
+      </SelectFallback>
+    );
   const optionClassname = cn(
     "flex gap-x-2",
     "animate-colors",

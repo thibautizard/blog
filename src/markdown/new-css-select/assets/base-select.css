@@ -1,7 +1,14 @@
 /* biome-ignore-all lint/correctness/noUnknownPseudoElement: experimental */
 .custom-select {
+  position: relative;
   &,
   &::picker(select) {
     appearance: base-select;
+  }
+}
+
+@supports not selector(::picker(select)) {
+  .custom-select select {
+    display: none;
   }
 }

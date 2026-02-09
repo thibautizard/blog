@@ -1,7 +1,25 @@
+"use client";
 import "./base-select-github.css";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
+import GithubSelect from "./images/github-select.gif";
+import { SelectFallback } from "./select-fallback";
 
 function BaseSelectGithub() {
+  const supportBaseSelect = CSS.supports("appearance", "base-select");
+  if (!supportBaseSelect)
+    return (
+      <SelectFallback>
+        {" "}
+        <Image
+          alt="Base Select"
+          className="mx-auto mt-4"
+          height={300}
+          src={GithubSelect}
+          width={500}
+        />{" "}
+      </SelectFallback>
+    );
   return (
     <div className="mx-auto my-10 flex max-w-50 flex-col gap-2">
       <select

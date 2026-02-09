@@ -231,6 +231,7 @@ html.dark .post-container {
       font-family: "Mona Sans", serif;
       font-size: 1rem;
       text-decoration: underline;
+      text-decoration-thickness: 1px;
     }
   }
 }

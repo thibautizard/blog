@@ -1,8 +1,27 @@
+"use client";
 import "./base-select.css";
+import Image from "next/image";
+import BaseSelectGif from "./images/base-select.gif";
+import { SelectFallback } from "./select-fallback";
 
 function BaseSelect() {
+  const supportBaseSelect = CSS.supports("appearance", "base-select");
+  if (!supportBaseSelect)
+    return (
+      <SelectFallback>
+        {" "}
+        <Image
+          alt="Base Select"
+          className="mx-auto mt-4"
+          height={150}
+          src={BaseSelectGif}
+          width={250}
+        />{" "}
+      </SelectFallback>
+    );
+
   return (
-    <div className="mx-auto my-10 flex max-w-50 flex-col gap-2">
+    <div className="custom-select mx-auto my-10 flex max-w-50 flex-col gap-2">
       <label className="font-bold text-decoration-underline" htmlFor="select">
         <span>Un {`${"<select>"}`} "basé" 🤙 </span>
       </label>
