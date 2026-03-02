@@ -73,10 +73,10 @@ html.dark .post-container {
 
 .post-container {
   p {
-    color: var(--color);
+    font-weight: 300;
 
     line-height: 1.6;
-    font-weight: 300;
+    color: var(--color);
     text-wrap-style: pretty;
   }
 

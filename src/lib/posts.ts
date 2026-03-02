@@ -4,8 +4,8 @@ import path from "node:path";
 const startDir = path.join(process.cwd(), "src", "markdown");
 
 export interface PostResume {
-  slug: string;
   path: string;
+  slug: string;
 }
 
 const markdownFileRegex = /\.mdx$/;
