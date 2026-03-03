@@ -12,7 +12,7 @@ function BaseSelect() {
       <SelectFallback>
         {" "}
         <Image
-          alt="Base Select"
+          alt="Sélecteur complètement personnalisable avec la propriété appearance: base-select"
           className="mx-auto mt-4"
           height={150}
           src={BaseSelectGif}

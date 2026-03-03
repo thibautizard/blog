@@ -136,6 +136,9 @@ html.dark .post-container {
   }
 
   ul {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
     padding-left: 20px;
     list-style: disc;
   }
@@ -213,6 +216,7 @@ html.dark .post-container {
     }
 
     ul {
+      row-gap: 5px;
       padding-left: 10px;
     }
 

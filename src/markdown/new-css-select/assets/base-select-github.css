@@ -65,10 +65,12 @@
 
   /* 📝 Option */
   & option {
+    border: 1px solid transparent;
     &:hover + option > div {
       border-color: transparent;
     }
 
+    /* ✅ Checkmark */
     &::checkmark {
       padding: 8px 0;
       margin: 0 4px;
@@ -76,23 +78,10 @@
     }
 
     &:focus-visible {
-      outline: none;
-      border-color: var(--color-emerald-500);
-      border-radius: 10px;
-
-      &[value="vue"] {
-        border-color: var(--color-emerald-500);
-      }
-      &[value="react"] {
-        border-color: var(--color-cyan-500);
-      }
-      &[value="angular"] {
-        border-color: var(--color-purple-500);
-      }
+      outline-color: #0869da;
     }
   }
 
-  /* ✅ Checkmark */
   /*option {
     }
 

@@ -25,7 +25,7 @@ function BaseSelectGithub() {
     <div className="mx-auto my-10 flex max-w-50 flex-col gap-2">
       <select
         className="custom-select-github cursor-pointer rounded-md border border-gray-300 py-1"
-        id="select"
+        id="github-select"
       >
         <button
           className="flex w-full items-center justify-between"
@@ -101,6 +101,7 @@ function Option({
           "relative",
           "border-t border-t-[#DFE4E9]",
           "group-first-of-type:border-t-transparent",
+          "group-focus-visible:border-t-transparent",
           "hover:border-t-transparent"
         )}
       >

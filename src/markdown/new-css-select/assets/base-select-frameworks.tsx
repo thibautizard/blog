@@ -16,7 +16,7 @@ function BaseSelectFrameworks() {
       <SelectFallback>
         {" "}
         <Image
-          alt="Base Select"
+          alt="Menu déroulant de stratégies de merge sur une PR GitHub en pur HTML et CSS"
           className="mx-auto mt-4"
           height={150}
           src={FrameworksSelectGif}
@@ -34,7 +34,7 @@ function BaseSelectFrameworks() {
     <div className="mx-auto my-10 flex max-w-50 flex-col gap-2">
       <select
         className="custom-select-frameworks cursor-pointer rounded-md border border-gray-300 py-1"
-        id="select"
+        id="frameworks-select"
       >
         <button
           className="flex w-full items-center justify-between"

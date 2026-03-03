@@ -1,6 +1,6 @@
 function ClassicSelect() {
   return (
-    <div className="mx-auto my-10 flex max-w-[200px] flex-col gap-2">
+    <div className="mx-auto my-10 flex max-w-50 flex-col gap-2">
       <label className="font-bold text-decoration-underline" htmlFor="select">
         <span>Un {`${"<select>"}`} classique </span>
       </label>
