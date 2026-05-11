@@ -6,7 +6,7 @@ export function formatDateForPost(dateString: string) {
 
   const DEFAULT_LOCALE = "fr-FR";
   const userBrowserLocale =
-    typeof navigator !== "undefined" ? navigator.language : null;
+    typeof navigator === "undefined" ? null : navigator.language;
   const locale = userBrowserLocale ?? DEFAULT_LOCALE;
 
   return date.toLocaleDateString(locale, {
