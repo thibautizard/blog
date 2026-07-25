@@ -19,7 +19,7 @@ const LinkWithGlimpse = async ({
 }) => {
   const data = await glimpse(url);
 
-  if (!data?.title) return null;
+  if (!data.title) return null;
 
   return (
     <Glimpse closeDelay={0} openDelay={0}>
