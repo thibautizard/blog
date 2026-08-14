@@ -19,19 +19,22 @@ const LinkWithGlimpse = async ({
 }) => {
   const data = await glimpse(url);
 
-  if (!data.title) return null;
+  const link = (
+    <a
+      href={url}
+      rel={internalLink ? undefined : "noopener"}
+      target={internalLink ? undefined : "_blank"}
+    >
+      {children}
+    </a>
+  );
+
+  // No preview available (unreachable link, no metadata): keep the plain link.
+  if (!data.title) return link;
 
   return (
     <Glimpse closeDelay={0} openDelay={0}>
-      <GlimpseTrigger asChild>
-        <a
-          href={url}
-          rel={internalLink ? undefined : "noopener"}
-          target={internalLink ? undefined : "_blank"}
-        >
-          {children}
-        </a>
-      </GlimpseTrigger>
+      <GlimpseTrigger asChild>{link}</GlimpseTrigger>
       <GlimpseContent className="w-80">
         <a href={url} rel="noopener noreferrer" target="_blank">
           {data.image && <GlimpseImage src={data.image} />}
