@@ -1,12 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
+import type { Post, PostResume } from "@/types/posts";
 
 const startDir = path.join(process.cwd(), "src", "markdown");
-
-export interface PostResume {
-  path: string;
-  slug: string;
-}
 
 const markdownFileRegex = /\.mdx$/;
 const markdownDirRegex = /^.*markdown\//;
@@ -34,4 +30,10 @@ export function getAllPosts(dir: string = startDir): PostResume[] {
   }
 
   return posts;
+}
+
+export function sortPostsByDate(post1: Post, post2: Post): number {
+  const date1 = new Date(post1.metadata.date);
+  const date2 = new Date(post2.metadata.date);
+  return date2.getTime() - date1.getTime();
 }
