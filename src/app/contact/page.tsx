@@ -21,6 +21,7 @@ export default function Page() {
 function MailIcon() {
   return (
     <HugeiconsIcon
+      className="mbs-0.5"
       color="currentColor"
       icon={MailAtSign01Icon}
       size={19}
