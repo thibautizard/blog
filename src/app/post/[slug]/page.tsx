@@ -51,14 +51,19 @@ export default async function PostView({
   const formattedDate = formatDateForPost(metadata.date);
   return (
     <div className="post-container">
-      <h2 className="font-regular text-zinc-400">
-        <Link href="/posts">/ Articles</Link>
-      </h2>
+      {/* ⬅️🔗 */}
+      <Link
+        className="breadcrumb flex gap-x-1 font-regular text-zinc-400"
+        href="/posts"
+      >
+        <span className="scale-90">/</span>
+        <span>Articles</span>
+      </Link>
       <header className="mb-4 flex flex-col gap-2">
-        <h2 className="text-balance font-bold text-3xl">{metadata.title}</h2>
-        {formattedDate && (
-          <div className="text-gray-500 text-sm">{formattedDate}</div>
-        )}
+        {/* 🆎 */}
+        <h2 className="post-title">{metadata.title}</h2>
+        {/* 📅 */}
+        {formattedDate && <div className="post-date">{formattedDate}</div>}
       </header>
       <Post {...metadata} />
     </div>
