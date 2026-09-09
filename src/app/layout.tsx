@@ -1,30 +1,31 @@
-import { Tooltip } from "@base-ui-components/react/tooltip";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { DM_Sans, Mona_Sans, Montserrat } from "next/font/google";
+import { Gluten, Space_Grotesk, Swanky_and_Moo_Moo } from "next/font/google";
+import { cn } from "src/lib/utils";
 import { Header } from "../components/header";
 
 import "./global.css";
 
-const monaSans = Mona_Sans({
-  display: "swap",
+// Site name
+const swankyAndMooMoo = Swanky_and_Moo_Moo({
+  style: "normal",
   subsets: ["latin"],
-  variable: "--font-mona-sans",
-  weight: ["400", "500", "600", "700", "900"],
+  variable: "--font-swanky-and-moo-moo",
+  weight: "400",
 });
 
-const montserrat = Montserrat({
-  display: "swap",
+// Titles
+const gluten = Gluten({
+  style: "normal",
   subsets: ["latin"],
-  variable: "--font-montserrat",
-  weight: ["400", "500", "600", "700", "900"],
+  variable: "--font-gluten",
+  weight: ["400", "500"],
 });
 
-const dmSans = DM_Sans({
-  display: "swap",
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-dm-sans",
-  weight: ["400", "500", "600", "700"],
+  variable: "--font-space-grotesk",
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -37,16 +38,19 @@ export default function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html
-      className={`${montserrat.variable} ${dmSans.variable} ${monaSans.variable}`}
+      className={`${spaceGrotesk.variable} ${gluten.variable} ${swankyAndMooMoo.variable}`}
       lang="fr"
     >
-      <body>
-        <div className="root mx-auto min-h-screen w-[90vw] max-w-[75ch] space-y-8 py-4 sm:p-8">
-          <Tooltip.Provider>
-            <Header />
-            <main className="space-y-8">{children}</main>
-          </Tooltip.Provider>
-        </div>
+      <body
+        className={cn(
+          "mx-auto min-h-screen",
+          "w-[90vw] max-w-[72ch]",
+          "space-y-12",
+          "py-4 sm:py-8"
+        )}
+      >
+        <Header />
+        <main>{children}</main>
         <Analytics />
       </body>
     </html>

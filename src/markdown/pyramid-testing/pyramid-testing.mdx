@@ -6,16 +6,16 @@ import Comparison from "./assets/comparison-pyramid-trophy.png";
 import Image from "next/image";
 
 export const metadata = {
-  title: "Comment bien tester une application frontend en 2025 ? 🧪",
+  title: "Comment bien tester une application frontend en 2025 ?",
   date: "2025-09-27",
   excerpt: "Tu ne fais que des TU à la chaîne ? Arrête.",
 };
 
 ### L'automatisation des tests
 
-Une application robuste est avant tout une **application bien testée** : pas de crash inattendu ou de régression entre chaque déploiement. 
+Une application robuste est avant tout une **application bien testée** : pas de crash inattendu ou de régression entre chaque déploiement.
 
-L'erreur étant humaine, l'industrie a su progressivement développer des outils pour **automatiser ces tests** et se passer des vérifications manuelles, fastidieuses et peu fiables. Les tests automatisés sont dorénavant **un maillon essentiel dans n'importe quelle CI/CD digne de ce nom** et **leur succès un préalable requis à toute passage en production**. 
+L'erreur étant humaine, l'industrie a su progressivement développer des outils pour **automatiser ces tests** et se passer des vérifications manuelles, fastidieuses et peu fiables. Les tests automatisés sont dorénavant **un maillon essentiel dans n'importe quelle CI/CD digne de ce nom** et **leur succès un préalable requis à toute passage en production**.
 
 ### L'approche pyramidale
 
@@ -47,10 +47,10 @@ Au pied du trophée, on trouve d'abord **une couche statique**, forme de « test
 
 #### 2️⃣ Les tests unitaires
 
-Vient ensuite une **base de tests unitaires** pour **tester notre logique en isolation**. <LinkWithGlimpse url="https://jestjs.io">Jest</LinkWithGlimpse> ou <LinkWithGlimpse url="https://vitest.dev">Vitest</LinkWithGlimpse> (compatible avec Jest mais plus rapide) font ça très bien. 
+Vient ensuite une **base de tests unitaires** pour **tester notre logique en isolation**. <LinkWithGlimpse url="https://jestjs.io">Jest</LinkWithGlimpse> ou <LinkWithGlimpse url="https://vitest.dev">Vitest</LinkWithGlimpse> (compatible avec Jest mais plus rapide) font ça très bien.
 
 <InformationBanner status="warning">
-Si c'est un reflexe sain que de chercher à tester son code, encore faut-il **se garder du travers de tout tester**, y compris les fonctions les plus triviales. **Sur-tester est certes moins dangereux que sous-tester**, mais tout aussi nocif pour la maintenabilité du code et expose à bien d'autres problèmes. Des tests trop « pointilleux » qui s'attardent sur des détails internes aux classes ou fonctions **cassent très facilement à la moindre refactorisation** et finissent immanquablement par **ralentir le développeur**. Or des tests en surnombre et trop sensibles à un certain type d'implémentation **favorisent l'inertie dans un projet car ils élèvent le coût de la réécriture** (il m'a été donné de voir des tests de composant portant sur la présence de... classes CSS, tests qu'il fallait donc reprendre dès qu'on remaniait un tant soit peu le template ou le jsx du composant 😱 ). **Inutile donc de fétichiser un certain pourcentage idéal de couverture de test comme le très ambitieux 100%** : il faut apprendre à tester ce qui gagne à l'être et laisser en dehors ce qui ne le vaut pas quitte à être un peu en dessous. En somme, il faut **privilégier la qualité des tests plutôt que leur quantité.** 
+Si c'est un reflexe sain que de chercher à tester son code, encore faut-il **se garder du travers de tout tester**, y compris les fonctions les plus triviales. **Sur-tester est certes moins dangereux que sous-tester**, mais tout aussi nocif pour la maintenabilité du code et expose à bien d'autres problèmes. Des tests trop « pointilleux » qui s'attardent sur des détails internes aux classes ou fonctions **cassent très facilement à la moindre refactorisation** et finissent immanquablement par **ralentir le développeur**. Or des tests en surnombre et trop sensibles à un certain type d'implémentation **favorisent l'inertie dans un projet car ils élèvent le coût de la réécriture** (il m'a été donné de voir des tests de composant portant sur la présence de... classes CSS, tests qu'il fallait donc reprendre dès qu'on remaniait un tant soit peu le template ou le jsx du composant 😱 ). **Inutile donc de fétichiser un certain pourcentage idéal de couverture de test comme le très ambitieux 100%** : il faut apprendre à tester ce qui gagne à l'être et laisser en dehors ce qui ne le vaut pas quitte à être un peu en dessous. En somme, il faut **privilégier la qualité des tests plutôt que leur quantité.**
 </InformationBanner>
 
 ### 3️⃣ Les tests d'intégration
@@ -70,7 +70,7 @@ Ces derniers, qui forment le sommet de plus en plus resserré du trophée, reste
 Bref, que votre structure de tests ressemble à une pyramide, un trophée ou un Barbapapa, peu importe tant qu'on s'accorde sur un point : les tests (intelligents) ne sont jamais vos ennemis 🤗 Non seulement **ils protègent votre application (et votre santé mentale)** en lui évitant de partir en production avec des mauvaises surprises pour vos utilisateurs, mais ils documentent aussi votre code avec des cas d'usage et vous forcent à anticiper les cas limites qui peuvent survenir. Une attitude de développement guidée par l'écriture des tests a également plus de chances **de vous alerter rapidement si vous faites fausse route dans votre implémentation**. La blague court souvent parmi les développeurs, pour moquer la paresse que nous inspirent les tests, que tester, c'est douter. **En réalité, bien tester, c'est ne plus douter !**
 
 <div className="useful-links">
-    #### 🔗 Liens additionnels
+    #### Liens additionnels
 
     - <LinkWithGlimpse url="https://www.franciscomoretti.com/blog/what-tests-to-write-for-react">Francisco Moretti - What tests to write for React</LinkWithGlimpse>
     - <LinkWithGlimpse url="https://martinfowler.com/bliki/TestPyramid.html">Martin Fowler - Test Pyramid</LinkWithGlimpse>

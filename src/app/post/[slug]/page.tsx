@@ -3,14 +3,13 @@ import { getAllPosts } from "@/lib/posts";
 
 import "./post.css";
 import type { Metadata } from "next";
-import Link from "next/link";
 
 // Disable dynamic params to avoid re-rendering the page for each request
 export const dynamicParams = false;
 
 // Generate static params to avoid re-rendering the page for each request
 export async function generateStaticParams() {
-  const posts = await getAllPosts();
+  const posts = getAllPosts();
   return posts.map((post) => ({
     slug: post.slug,
   }));
@@ -47,25 +46,33 @@ export default async function PostView({
   const { default: Post, metadata } = await import(
     `@/markdown/${slug}/${slug}.mdx`
   );
-
-  const formattedDate = formatDateForPost(metadata.date);
+  const { date: dateString, title } = metadata;
   return (
     <div className="post-container">
-      {/* ⬅️🔗 */}
-      <Link
-        className="breadcrumb flex gap-x-1 font-regular text-zinc-400"
-        href="/posts"
-      >
-        <span className="scale-90">/</span>
-        <span>Articles</span>
-      </Link>
-      <header className="mb-4 flex flex-col gap-2">
+      {/* 🆎📅 */}
+      <header className="mb-4">
         {/* 🆎 */}
-        <h2 className="post-title">{metadata.title}</h2>
+        <PostTitle>{title}</PostTitle>
         {/* 📅 */}
-        {formattedDate && <div className="post-date">{formattedDate}</div>}
+        <PostDate dateString={dateString} />
       </header>
+      {/* ✍️ */}
       <Post {...metadata} />
     </div>
+  );
+}
+
+// 🆎
+function PostTitle({ children }: { children: React.ReactNode }) {
+  return <h2 className="post-title">{children}</h2>;
+}
+
+// 📅
+function PostDate({ dateString }: { dateString: string }) {
+  const formattedDate = formatDateForPost(dateString);
+  return (
+    <time className="post-date" dateTime={dateString}>
+      {formattedDate}
+    </time>
   );
 }

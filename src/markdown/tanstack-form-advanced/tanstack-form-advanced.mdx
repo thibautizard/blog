@@ -5,7 +5,7 @@ import ExternalLink from "@/markdown/-components/external-link";
 import LinkWithGlimpse from "@/markdown/-components/link-with-glimpse";
 
 export const metadata = {
-  title: "Créer des formulaires modernes et type-safe avec TanStack Form 📝 [Bonus]",
+  title: "Créer des formulaires modernes et type-safe avec TanStack Form [Bonus]",
   date: "2025-08-16",
   excerpt:
     "Passer à la vitesse supérieure sur les formulaires avec TanStack Form.",
@@ -15,7 +15,7 @@ Après la <LinkWithGlimpse url="https://www.frenchdev.co/post/tanstack-form-1" i
 
 ### Tip #1 - Ajouter un délai avant validation (*debounce*)
 
-Lorsqu'on souhaite valider un *input* à la fin d'une saisie, **introduire un léger délai avant vérification** évite d'enclencher une validation prématurée inutile. Cette pause pour s'assurer que l'*input* est "stabilisé" avant de le tester permet d'optimiser notre formulaire surtout si la validation requiert un appel API. 
+Lorsqu'on souhaite valider un *input* à la fin d'une saisie, **introduire un léger délai avant vérification** évite d'enclencher une validation prématurée inutile. Cette pause pour s'assurer que l'*input* est "stabilisé" avant de le tester permet d'optimiser notre formulaire surtout si la validation requiert un appel API.
 
 Si on combine `OnChangeAsyncDebounceMs` avec `onChangeAsync` on peut ainsi trouver un **rythme de validation plus intelligent** 👇
 <br/>
@@ -35,8 +35,8 @@ Si on combine `OnChangeAsyncDebounceMs` avec `onChangeAsync` on peut ainsi trouv
       })
   }
 
-  <form.Field 
-        name="username" 
+  <form.Field
+        name="username"
         validators={
           // On prend ici pour l'exemple une validation asynchrone
           // mais on peut aussi introduire un debounce sur une validation synchrone
@@ -48,11 +48,11 @@ Si on combine `OnChangeAsyncDebounceMs` avec `onChangeAsync` on peut ainsi trouv
             }
           }
         }
-        children={({ field }) => 
-          <input 
-            id={field.id} 
+        children={({ field }) =>
+          <input
+            id={field.id}
             type="text"
-            name={field.name} 
+            name={field.name}
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
           />
@@ -66,14 +66,14 @@ Si on combine `OnChangeAsyncDebounceMs` avec `onChangeAsync` on peut ainsi trouv
 Quelle que soit la durée de la validation, n'importe quel champ peut afficher son propre indicateur de validation en regardant son `field.getMeta().isValidating`.
 
 ```tsx
-  <form.Field 
-        name="username" 
-        children={({ field }) => 
+  <form.Field
+        name="username"
+        children={({ field }) =>
           <>
-            <input 
-              id={field.id} 
+            <input
+              id={field.id}
               type="text"
-              name={field.name} 
+              name={field.name}
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
             />
@@ -85,13 +85,13 @@ Quelle que soit la durée de la validation, n'importe quel champ peut afficher s
 
 ### Tip #3 - Valider plusieurs champs en même temps
 
-Pensons à l'exemple courant d'un formulaire de création de compte comportant un champ pour entrer un mot de passe et un autre pour le confirmer en le rentrant à l'identique. Chacun de ces champs n'est valide que **si l'autre contient la même valeur**. 
+Pensons à l'exemple courant d'un formulaire de création de compte comportant un champ pour entrer un mot de passe et un autre pour le confirmer en le rentrant à l'identique. Chacun de ces champs n'est valide que **si l'autre contient la même valeur**.
 
 En précisant à `onChangeListenTo` ou `onBlurListenTo` le tableau de champs qu'on souhaite lui lier, on s'assure que **les deux champs sont toujours re-validés en même temps même si l'utilisateur n'interagit qu'avec l'un des deux**.
 
 ```tsx
-  <form.Field 
-        name="password" 
+  <form.Field
+        name="password"
         validators={{
           onChangeListenTo: ["confirmPassword"],
           onChange: ({ value, fieldApi }) => {
@@ -100,18 +100,18 @@ En précisant à `onChangeListenTo` ou `onBlurListenTo` le tableau de champs qu'
             }
           }
         }}
-        children={({ field }) => 
-            <input 
-              id={field.id} 
+        children={({ field }) =>
+            <input
+              id={field.id}
               type="password"
-              name={field.name} 
+              name={field.name}
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
             />
         }
       />
-  <form.Field 
-        name="confirmPassword" 
+  <form.Field
+        name="confirmPassword"
         validators={{
           onChangeListenTo: ["password"],
           onChange: ({ value, fieldApi }) => {
@@ -120,11 +120,11 @@ En précisant à `onChangeListenTo` ou `onBlurListenTo` le tableau de champs qu'
             }
           }
         }}
-        children={({ field }) => 
-            <input 
-              id={field.id} 
+        children={({ field }) =>
+            <input
+              id={field.id}
               type="password"
-              name={field.name} 
+              name={field.name}
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
             />
@@ -151,8 +151,8 @@ import { useForm } from "@tanstack/react-form"
 
 const PasswordSchema = z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères")
 
-  <form.Field 
-        name="password" 
+  <form.Field
+        name="password"
         validators={{
           onChange: ({ value, fieldApi }) => {
             if (value !== fieldApi.form.getFieldValue("confirmPassword")) {
@@ -160,11 +160,11 @@ const PasswordSchema = z.string().min(8, "Le mot de passe doit contenir au moins
             }
           }
         }}
-        children={({ field })> 
-            <input 
-              id={field.id} 
+        children={({ field })>
+            <input
+              id={field.id}
               type="password"
-              name={field.name} 
+              name={field.name}
               value={field.state.value}
               validatorAdapter={zodValidator}
               onChange={PasswordSchema}
@@ -185,7 +185,7 @@ const LoginSchema = z.object({
   password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères")
 })
 
-const form = useForm({ 
+const form = useForm({
   defaultValues: {
     username: "",
     password: "",
@@ -201,7 +201,7 @@ const form = useForm({
 ```
 
 <div className="useful-links">
-  #### 🔗 Liens additionnels 
+  #### Liens additionnels
   - <ExternalLink/> <LinkWithGlimpse url="https://tanstack.com/form/latest/docs/overview">Documentation officielle de TanStack Form</LinkWithGlimpse>
   - <ExternalLink/> <LinkWithGlimpse url="https://www.youtube.com/watch?v=Pf1qn35bgjs&list=PLOQjd5dsGSxInTKUWTxyqSKwZCjDIUs0Y&index=1">TanStack Form Tutorial - Balastrong</LinkWithGlimpse>
   - <ExternalLink/> <LinkWithGlimpse url="https://blog.logrocket.com/tanstack-form-vs-react-hook-form">LogRocket — TanStack Form vs. React Hook Form</LinkWithGlimpse>

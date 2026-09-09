@@ -1,11 +1,4 @@
-/** biome-ignore-all lint/style/noDescendingSpecificity: liht/dark mode */
 .post-container {
-  /* ⬅️🔗 Breadcrumb */
-  .breadcrumb {
-    font-weight: 400;
-    color: var(--color-zinc-400);
-  }
-
   /* 🆎 Title */
   .post-title {
     font-size: 2rem;
@@ -16,8 +9,12 @@
 
   /* 📅 Date */
   .post-date {
-    font-size: 0.875rem;
-    color: var(--color-zinc-500);
+    display: block;
+    margin-top: -0.1em;
+    font-family: var(--font-gluten);
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--color-gray-500);
   }
 
   /* 🔤 */
@@ -69,7 +66,7 @@
 
   :is(p, li) > code {
     padding: 2px 4px;
-    font-family: var(--font-dm-sans);
+    font-family: var(--font-space-grotesk);
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--code-color);
@@ -95,7 +92,7 @@
     position: relative;
     padding: 25px;
     margin: 40px 20px 40px 0px;
-    font-family: var(--font-montserrat);
+    font-family: var(--font-space-grotesk);
     font-weight: 700;
     color: var(--insert-foreground);
     background: var(--insert-background);
@@ -156,6 +153,7 @@
     --link-color: #60a5fa;
 
     margin-top: 40px;
+    font-family: var(--font-space-grotesk);
 
     h4 {
       margin-bottom: 10px;
@@ -175,12 +173,12 @@
       color: var(--link-color);
     }
 
+    /* biome-ignore lint/style/noDescendingSpecificity: disjoint subtree from .insert .icon-container svg */
     svg {
       width: 17px;
     }
 
     a {
-      font-family: "Mona Sans", serif;
       font-size: 1rem;
       text-decoration: underline;
       text-decoration-thickness: 1px;
@@ -222,40 +220,5 @@
     --insert-foreground: #991b1b;
     --insert-background: #fee2e2;
     --insert-border: #991b1b;
-  }
-}
-
-html.dark .post-container {
-  --color: white;
-  --link-color: #bf77ff;
-  --code-background-color: #f5f3ff;
-  --code-color: black;
-  --code-background-color-highlight: #022a4b;
-  --quote-color: gray;
-  --code-highlight-color: #c084fc;
-
-  /* 💬 Insert */
-  [data-status="info"] {
-    --insert-foreground: #ffffff;
-    --insert-background: #1d4ed8;
-    --insert-border: #7db5ff;
-  }
-
-  [data-status="success"] {
-    --insert-foreground: #dcfce7;
-    --insert-background: #16a34a;
-    --insert-border: #dcfce7;
-  }
-
-  [data-status="warning"] {
-    --insert-foreground: #fef3c7;
-    --insert-background: #92400e;
-    --insert-border: #fef3c7;
-  }
-
-  [data-status="error"] {
-    --insert-foreground: #fee2e2;
-    --insert-background: #991b1b;
-    --insert-border: #fee2e2;
   }
 }

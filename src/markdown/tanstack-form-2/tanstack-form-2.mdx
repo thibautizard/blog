@@ -5,7 +5,7 @@ import ExternalLink from "@/markdown/-components/external-link";
 import LinkWithGlimpse from "@/markdown/-components/link-with-glimpse";
 
 export const metadata = {
-  title: "Créer des formulaires modernes et type-safe avec TanStack Form 📝 [Partie 2  - La validation]",
+  title: "Créer des formulaires modernes et type-safe avec TanStack Form [Partie 2 - La validation]",
   date: "2025-08-02",
   excerpt:
     "On s'attaque ici à la validation d'un formulaire avec toutes les options qu'offre TanStack Form.",
@@ -18,7 +18,7 @@ Dans une première partie, nous avions créé un **formulaire de connexion en Re
 ```tsx
 import { useForm } from "@tanstack/react-form"
 
-const form = useForm({ 
+const form = useForm({
   defaultValues: {
     username: "",
     password: "",
@@ -35,25 +35,25 @@ const LoginForm = () => {
       e.stopPropagation();
       void form.handleSubmit();
     }}>
-      <form.Field 
-        name="username" 
-        children={({ field }) => 
-          <input 
-            id={field.id} 
+      <form.Field
+        name="username"
+        children={({ field }) =>
+          <input
+            id={field.id}
             type="text"
-            name={field.name} 
+            name={field.name}
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
           />
         }
       />
-      <form.Field 
-        name="password" 
-        children={({ field }) => 
-          <input 
-            id={field.id} 
+      <form.Field
+        name="password"
+        children={({ field }) =>
+          <input
+            id={field.id}
             type="password"
-            name={field.name} 
+            name={field.name}
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
           />
@@ -86,8 +86,8 @@ On peut la configurer **au niveau du champ concerné** en passant une fonction d
 Tout ce qui est retourné par cette fonction sera considéré comme une **erreur de validation** et automatiquement ajouté au tableau `field.state.meta.errors`. Si cette fonction ne retourne rien (`undefined`) ou `null`, le champ est considéré **comme valide**.
 
 ```tsx
-  <form.Field 
-        name="username" 
+  <form.Field
+        name="username"
         validators={{
           onChange: ({ value }) => {
             if (value.length < 3) {
@@ -95,11 +95,11 @@ Tout ce qui est retourné par cette fonction sera considéré comme une **erreur
             }
           }
         }}
-        children={({ field }) => 
-          <input 
-            id={field.id} 
+        children={({ field }) =>
+          <input
+            id={field.id}
             type="text"
-            name={field.name} 
+            name={field.name}
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
           />
@@ -113,8 +113,8 @@ Tout ce qui est retourné par cette fonction sera considéré comme une **erreur
 Lorsqu'**un champ perd son _focus_** (l'utilisateur clique en dehors de celui-ci ou se déplace sur le prochain élément _focusable_ à l'aide de son clavier), on peut déclencher une validation en passant **une fonction à la propriété** `onBlur` **des** `validators` **du champ**.
 
 ```tsx
-  <form.Field 
-        name="username" 
+  <form.Field
+        name="username"
         validators={
           onBlur: ({ value }) => {
             if (value.length < 3) {
@@ -122,11 +122,11 @@ Lorsqu'**un champ perd son _focus_** (l'utilisateur clique en dehors de celui-ci
             }
           }
         }
-        children={({ field }) => 
-          <input 
-            id={field.id} 
+        children={({ field }) =>
+          <input
+            id={field.id}
             type="text"
-            name={field.name} 
+            name={field.name}
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
           />
@@ -143,7 +143,7 @@ Si on ne souhaite éprouver la validité du formulaire qu'après que l'utilisate
 ```tsx
 import { useForm } from "@tanstack/react-form"
 
-const form = useForm({ 
+const form = useForm({
   defaultValues: {
     username: "",
     password: "",
@@ -169,7 +169,7 @@ Par exemple on peut mettre en place une validation au changement de *focus* sur 
 ```tsx
 import { useForm } from "@tanstack/react-form"
 
-const form = useForm({ 
+const form = useForm({
   defaultValues: {
     username: "",
     password: "",
@@ -193,8 +193,8 @@ const LoginForm = () => {
       e.stopPropagation();
       void form.handleSubmit();
     }}>
-      <form.Field 
-        name="username" 
+      <form.Field
+        name="username"
         validators={{
            onBlur: ({ value }) => {
             if (value.length < 3) {
@@ -202,11 +202,11 @@ const LoginForm = () => {
             }
           },
         }}
-        children={({ field }) => 
-          <input 
-            id={field.id} 
+        children={({ field }) =>
+          <input
+            id={field.id}
             type="text"
-            name={field.name} 
+            name={field.name}
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
           />
@@ -242,8 +242,8 @@ const LoginForm = () => {
       })
   }
 
-  <form.Field 
-        name="username" 
+  <form.Field
+        name="username"
         validators={
           onChangeAsync: ({ value }) => validateUsername(value),
           onChange: ({ value }) => {
@@ -252,11 +252,11 @@ const LoginForm = () => {
             }
           }
         }
-        children={({ field }) => 
-          <input 
-            id={field.id} 
+        children={({ field }) =>
+          <input
+            id={field.id}
             type="text"
-            name={field.name} 
+            name={field.name}
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
           />
@@ -265,14 +265,14 @@ const LoginForm = () => {
 ```
 
 À noter que **la validation** `onChangeAsync` **ne se déclenchera qu'<u>une fois</u> les validations** `onChange` **réussies**. En suivant cet ordre, on évite de solliciter inutilement une API car si l'input est déjà détecté comme invalide avant toute vérification extérieure, il est inutile de l'envoyer à l'API.
- 
+
  #### Afficher une erreur de validation pour un champ
 
 Pour vérifier que la validation spécifique à un champ fonctionne, on affichera le plus souvent sous notre `input` les messages d'erreur associés. Il suffit d'inspecter **la propriété** `field.state.meta.errors` **qui va nous livrer un tableau d'erreurs** (tableau vide si le champ est valide).
 
 ```tsx
-  <form.Field 
-        name="username" 
+  <form.Field
+        name="username"
         validators={
           onBlur: ({ value }) => {
             if (value.length < 3) {
@@ -280,12 +280,12 @@ Pour vérifier que la validation spécifique à un champ fonctionne, on afficher
             }
           }
         }
-        children={({ field }) => 
+        children={({ field }) =>
           <>
-            <input 
-              id={field.id} 
+            <input
+              id={field.id}
               type="text"
-              name={field.name} 
+              name={field.name}
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
             />
@@ -304,7 +304,7 @@ Si on effectue une validation globale, **c'est du côté de l'objet** `form` **q
 ```tsx
 import { useForm } from "@tanstack/react-form"
 
-const form = useForm({ 
+const form = useForm({
   defaultValues: {
     username: "",
     password: "",
@@ -332,7 +332,7 @@ const LoginForm = () => {
 }
 ```
 
-Cependant on risque de **ne pas afficher l'erreur** au moment où elle est créée ! Pourquoi ? Car par souci d'optimisation, **TanStack Form ne veut pas forcer React à rendre l'entièreté du composant contenant le formulaire à chaque modification interne du** `form`. 
+Cependant on risque de **ne pas afficher l'erreur** au moment où elle est créée ! Pourquoi ? Car par souci d'optimisation, **TanStack Form ne veut pas forcer React à rendre l'entièreté du composant contenant le formulaire à chaque modification interne du** `form`.
 
 Imaginons que le `<form>` soit pris dans un composant bien plus large : si le hook `useForm` qui retourne notre objet `form` est appelé à la hauteur de ce composant, une modification du formulaire pourrait entraîner le rendu de tous les éléments et composants enfants y compris ceux n'ont rien à voir avec la partie dédiée au formulaire. Il en résulterait **une dégradation des performances si ces changements surviennent trop fréquemment**. 🤷‍♂️
 
@@ -343,8 +343,8 @@ const LoginForm = () => {
   return (
     <form {...}>
       <form.Subscribe
-        selector={(state) => state.errors} 
-         children={({ errors }) => 
+        selector={(state) => state.errors}
+         children={({ errors }) =>
             errors.length > 0 && <div>{errors}</div>
           }/>
       <button type="submit">Login</button>
@@ -353,14 +353,14 @@ const LoginForm = () => {
 }
 ```
 
-Dans l'exemple ci-dessus, on utilise le composant `<form.Subscribe>` avec une propriété `selector` pour déterminer les informations à surveiller (ici les erreurs globales du formulaire) puis on passe à sa prop `children` une fonction prenant pour argument ce `selector` et renvoyant en échange **la portion UI qui doit réagir lorsque cette information change**. 
+Dans l'exemple ci-dessus, on utilise le composant `<form.Subscribe>` avec une propriété `selector` pour déterminer les informations à surveiller (ici les erreurs globales du formulaire) puis on passe à sa prop `children` une fonction prenant pour argument ce `selector` et renvoyant en échange **la portion UI qui doit réagir lorsque cette information change**.
 
 Voilà ! Nous disposons à présent d'un **formulaire opérationnel**. Mais on peut encore réhausser l'expérience utilisateur en ajoutant des **indicateurs de chargement ou de validation** avant l'affichage des erreurs pour rendre l'expérience bien plus fluide et agréable 🌊
 
 Ce point, ainsi que diverses améliorations que l'on peut apporter à notre formulaire grâce à TanStack Form, feront l'objet d'<LinkWithGlimpse url="https://www.frenchdev.co/post/tanstack-form-advanced" internalLink={true}>une dernière partie</LinkWithGlimpse>.
 
 <div className="useful-links">
-  #### 🔗 Liens additionnels 
+  #### Liens additionnels
   - <LinkWithGlimpse url="https://tanstack.com/form/latest/docs/overview">Documentation officielle de TanStack Form</LinkWithGlimpse>
   - <LinkWithGlimpse url="https://www.youtube.com/watch?v=Pf1qn35bgjs&list=PLOQjd5dsGSxInTKUWTxyqSKwZCjDIUs0Y&index=1">TanStack Form Tutorial - Balastrong</LinkWithGlimpse>
   - <LinkWithGlimpse url="https://blog.logrocket.com/tanstack-form-vs-react-hook-form">LogRocket — TanStack Form vs. React Hook Form</LinkWithGlimpse>

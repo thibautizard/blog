@@ -1,4 +1,3 @@
-import "./global.css";
 import { redirect } from "next/navigation";
 
 const Page = () => {

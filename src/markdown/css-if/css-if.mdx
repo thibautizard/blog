@@ -3,7 +3,7 @@ import ExternalLink from "@/markdown/-components/external-link";
 import LinkWithGlimpse from "@/markdown/-components/link-with-glimpse";
 
 export const metadata = {
-  title: "Utiliser if dans du... CSS 😱",
+  title: "Utiliser if dans du... CSS",
   date: "2025-07-14",
   excerpt: "Tous aux abris ! Il est dorénavant possible de mettre des if dans son propre CSS.",
 };
@@ -45,7 +45,7 @@ Plusieurs solutions sont possibles. Persnonellement, j'ai l'habitude de **créer
 
 <BadgeOld status="pending" />
 ```css
-.badge[data-status="pending"] { 
+.badge[data-status="pending"] {
     --color: #9333ea;
     --border-color: #f5f3ff;
 }
@@ -55,7 +55,7 @@ Plusieurs solutions sont possibles. Persnonellement, j'ai l'habitude de **créer
 
 <BadgeOld status="success" />
 ```css
-.badge[data-status="success"] { 
+.badge[data-status="success"] {
     --color: #16a34a;
     --background-color: #dcfce7;
 }
@@ -65,7 +65,7 @@ Plusieurs solutions sont possibles. Persnonellement, j'ai l'habitude de **créer
 
 <BadgeOld status="error" />
 ```css
-.badge[data-status="error"] { 
+.badge[data-status="error"] {
     --color: #ef4444;
     --background-color: #fee2e2;
 }
@@ -75,7 +75,7 @@ L'inconvénient de cette approche est que **la forme conditionnelle n'est pas fo
 
 ### Avec `if()`
 
-Grâce à cette nouvelle fonction `if()`, on peut définir tous ces changements dans le même sélecteur. 
+Grâce à cette nouvelle fonction `if()`, on peut définir tous ces changements dans le même sélecteur.
 
 On commence par définir une variable CSS custom `--status` qui récupère automatiquement la valeur de l'attribut `[data-status]` porté par l'élément :
 
@@ -93,9 +93,9 @@ Puis sur la propriété css visée on appelle la fonction `if()` pour en faire v
   --status: attr(data-status type(<custom-indent>));
 
   color: if(
-     style(--status: pending): #9333ea; 
+     style(--status: pending): #9333ea;
      style(--status: success): #16a34a;
-     style(--status: error): #ef4444; 
+     style(--status: error): #ef4444;
      else: #0ea5e9
   );
 
@@ -105,7 +105,7 @@ Puis sur la propriété css visée on appelle la fonction `if()` pour en faire v
 
 Il eût été plus intuitif d'avoir à écrire `--status == pending` pour comparer les deux valeurs mais la bonne syntaxe est bien `style(--status: pending)`.
 
-Quelle que soit la condition testée, la syntaxe générale du `if()` en css restera la même : 
+Quelle que soit la condition testée, la syntaxe générale du `if()` en css restera la même :
 
 <span className="text-center">
 `property : if(condition1: value; condition2: value; ... else: value);`
@@ -140,7 +140,7 @@ Or c'est précisément cet aspect déclaratif commun à HTML et CSS qui permet d
 À voir donc si ce surplus de logique dans le CSS ne va pas **aggraver les problèmes de rétrocompatibilité et compliquer le débuggage** puisque l'interprétation en deviendra plus délicate — même si des outils comme <LinkWithGlimpse url="https://postcss.org/">PostCSS</LinkWithGlimpse> permettent généralement de mitiger cette difficulté en transpilant le CSS moderne pour le rendre compatible avec les anciennes versions de navigateurs.
 
 <div className="useful-links">
-  #### 🔗 Liens additionnels 
+  #### Liens additionnels
   - <ExternalLink/> <LinkWithGlimpse url="https://developer.mozilla.org/en-US/docs/Web/CSS/if">Documentation MDN</LinkWithGlimpse>
   - <ExternalLink/> <LinkWithGlimpse url="https://developer.chrome.com/blog/if-article">Chrome For Developers Blog — CSS conditionals with the new if() function</LinkWithGlimpse>
   - <ExternalLink/> <LinkWithGlimpse url="https://blog.logrocket.com/css-if-function-conditional-styling/">The CSS if() function: Conditional styling will never be the same - Ikeh Akinyemi (LogRocket)</LinkWithGlimpse>

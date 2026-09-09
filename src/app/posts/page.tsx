@@ -1,5 +1,5 @@
-import { CalendarFoldIcon } from "lucide-react";
 import Link from "next/link";
+import { cn } from "src/lib/utils";
 import { formatDateForPost } from "@/lib/dates";
 import { getAllPosts, sortPostsByDate } from "@/lib/posts";
 import type { PostMetadata } from "@/types/posts";
@@ -19,12 +19,13 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* 🆎 */}
-      <h2 className="mb-6 font-bold text-5xl">Articles</h2>
       {/* 📄📄📄 */}
-      <ul className="list-none space-y-12">
+      <ul className="list-none space-y-7">
         {postsToDisplay.map(({ slug, metadata: { title, excerpt, date } }) => (
-          <li key={slug}>
+          <li
+            className="border-gray-100 border-b pb-7 last:border-none last:pb-0"
+            key={slug}
+          >
             <Link href={`/post/${slug}`}>
               <article>
                 {/* 🆎📅 */}
@@ -47,14 +48,16 @@ export default async function HomePage() {
   );
 }
 
+// 🆎
 function PostTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="mb-1 max-w-150 text-pretty font-bold text-2xl">
+    <h3 className="text-pretty font-medium text-[1.65rem] leading-none">
       {children}
     </h3>
   );
 }
 
+// 📅
 function PostDate({
   children,
   dateString,
@@ -63,13 +66,20 @@ function PostDate({
   dateString: string;
 }) {
   return (
-    <div className="flex items-center text-slate-400 text-sm capitalize empty:hidden">
-      <CalendarFoldIcon className="mr-1.5 inline-block" size={14} />
-      <time dateTime={dateString}>{children}</time>
-    </div>
+    <time
+      className={cn(
+        "mt-0.5",
+        "font-regular text-gray-500 text-sm",
+        "empty:hidden",
+        "font-gluten"
+      )}
+      dateTime={dateString}
+    >
+      {children}
+    </time>
   );
 }
 
 function PostExcerpt({ children }: { children: React.ReactNode }) {
-  return <p className="text-base text-slate-500">{children}</p>;
+  return <p className="text-base text-black">{children}</p>;
 }
