@@ -1,3 +1,5 @@
+@import "./code-snippet.css";
+
 .post-container {
   /* 🆎 Title */
   .post-title {
@@ -69,8 +71,8 @@
     font-family: var(--font-space-grotesk);
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--code-color);
-    background-color: var(--code-background-color);
+    color: #201d21;
+    background-color: #f5f3ff;
     border-radius: 4px;
   }
 
@@ -123,26 +125,6 @@
     }
   }
 
-  /* 💻 Code */
-  pre {
-    padding: 1rem 0;
-    margin: 16px 0;
-    overflow-x: auto;
-    font-size: 0.8rem;
-    border-radius: 10px;
-
-    [data-line] {
-      padding: 0 1rem;
-    }
-
-    [data-highlighted-line] {
-      display: block;
-      padding-right: 1em;
-      background-color: var(--code-background-color-highlight);
-      border-left: 6px solid var(--code-highlight-color);
-    }
-  }
-
   /* 📺 Videos */
   iframe {
     margin: 0 auto;
@@ -191,7 +173,7 @@
   --color: #201d21;
   --margin-bottom: 16px;
   --link-color: #7e22ce;
-  --code-background-color: #f5f3ff;
+  --code-background-color: #fff;
   --code-color: var(--color);
   --quote-color: gray;
   --code-highlight-color: #c084fc;

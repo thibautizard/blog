@@ -25,7 +25,7 @@ const gluten = Gluten({
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
-  weight: ["400"],
+  weight: ["400", "600"],
 });
 
 export const metadata: Metadata = {

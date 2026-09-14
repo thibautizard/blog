@@ -1,0 +1,79 @@
+/* Bright code blocks — imported by post.css */
+.post-container {
+  /* 💻 Code */
+  [data-bright-theme="blog"] {
+    /* Block */
+    --code-border-radius: 12px; /* read by Code.style in mdx-components.tsx */
+    --code-padding-block: 1.25em;
+    --gutter-width: calc(2em + 2ch); /* 1em + 2 digits + 1em */
+
+    /* Chrome */
+    --ch-0: light; /* color-scheme */
+    --ch-16: var(--code-background-color); /* background */
+    --ch-4: var(--color); /* foreground: punctuation and everything unclaimed */
+    --ch-24: var(--color-neutral-500); /* line numbers */
+    --ch-20: #ede9fe; /* selection background */
+
+    /* Tokens */
+    --ch-1: #8b8494; /* comments */
+    --ch-2: #2563eb; /* declared variable names (blue-600) */
+    --ch-3: var(--color); /* punctuation around parameters */
+    --ch-5: #9333ea; /* function, method and class names (purple-600) */
+    --ch-6: #c026d3; /* JSX & HTML tags */
+    --ch-7: #db2777; /* keywords, storage, operators (pink-600) */
+    --ch-8: #0f766e; /* strings, regexes */
+    --ch-9: #dc2626; /* invalid, errors */
+
+    /* Title bar (only used when a code block has a title) */
+    --ch-15: #8b8494; /* inactive tab text */
+    --ch-22: #f3effa; /* inactive tab background */
+    --ch-23: #e4dcf2; /* tab border */
+
+    border: 1px solid var(--color-neutral-200);
+
+    /* Line number gutter: Bright exposes no color for it, and its own
+     stylesheet is injected after this one, hence the nesting for specificity */
+    [data-bright-ln] {
+      box-sizing: content-box; /* so the padding widens the box instead of the digits */
+      width: 2ch !important; /* Bright sizes it inline per block; pin it so every
+       block shares one gutter width */
+      padding-inline: 1em;
+      margin-right: 0.75em;
+      margin-left: -1em; /* cancel the line row's inline padding */
+      font-weight: 600;
+    }
+  }
+
+  pre {
+    /* Bright inline-styles the vertical padding on <pre>; it moves down to <code>
+     so the gutter column is painted behind it, top and bottom alike */
+    padding-block: 0 !important;
+    margin: 16px 0;
+    overflow-x: auto;
+    font-size: 0.8rem;
+
+    code {
+      padding-block: var(--code-padding-block);
+      /* Gutter column plus its right border: a background, not a real border, so
+         it also spans the padding above the first and below the last line */
+      background: linear-gradient(
+        to right,
+        var(--color-neutral-50) 0 calc(var(--gutter-width) - 1px),
+        var(--color-neutral-200) calc(var(--gutter-width) - 1px)
+          var(--gutter-width),
+        transparent var(--gutter-width)
+      );
+    }
+
+    [data-line] {
+      padding: 0 1rem;
+    }
+
+    [data-highlighted-line] {
+      display: block;
+      padding-right: 1em;
+      background-color: var(--code-background-color-highlight);
+      border-left: 6px solid var(--code-highlight-color);
+    }
+  }
+}
