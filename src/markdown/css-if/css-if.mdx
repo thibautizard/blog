@@ -8,11 +8,11 @@ export const metadata = {
   excerpt: "Tous aux abris ! Il est dorénavant possible de mettre des if dans son propre CSS.",
 };
 
-Le CSS n'en finit plus de se transformer et d'**incorporer toujours plus de nouvelles fonctionnalités** qui requéraient auparavant de passer par des pré-processeurs type Sass ou Less.
+Le CSS n'en finit plus de se transformer et d'**incorporer toujours plus de nouvelles fonctionnalités** qui requéraient auparavant de passer par des pré-processeurs type [*Sass*](https://sass-lang.com/) ou [*Less*](https://lesscss.org/).
 
-C'est encore le cas avec l'arrivée de la très attendue (et inespérée !) fonction `if()` qui permet **d'exprimer directement dans notre feuille de style une logique conditionnelle** sans passer par les **divers moyens détournés** que sont les *media* ou *container queries*, les sélecteurs d'attributs ou les fonctions css `calc()` et `clamp()`.
+C'est encore le cas avec l'arrivée de la très attendue (et inespérée !) fonction `if()` qui permet **d'exprimer directement dans notre feuille de style une logique conditionnelle** sans passer par les **moyens détournés habituels** : *media* ou *container queries*, sélecteurs d'attributs ou fonctions css `calc()` et `clamp()`.
 
-Prenons un cas d'usage assez banal — styliser un élément en fonction de la valeur d'un de ses attributs — avec ces badges reflétant un statut :
+Prenons un cas d'usage assez banal avec ces badges reflétant un statut :
 
 <div className="flex flex-wrap max-w-[300px] justify-center gap-3 my-8 mx-auto">
   <BadgeOld status="pending" />
@@ -22,11 +22,11 @@ Prenons un cas d'usage assez banal — styliser un élément en fonction de la v
   <BadgeOld status="info" />
 </div>
 
-Chaque badge porte un attribut `data-status`. On souhaite alors différencier la couleur de chaque badge en fonction de la valeur passée à `data-status` (`pending`, `success`, `error`, etc.).
+Pour les styliser, chaque badge porte un attribut `data-status` qu'on peut ensuite cibler en CSS (`pending`, `success`, `error`, etc.).
 
 ### Sans `if()`
 
-Plusieurs solutions sont possibles. Persnonellement, j'ai l'habitude de **créer des variables CSS** pour contrôler les propriétés qui m'intéressent et d'en modifier ensuite les valeurs dans chaque sous-sélecteur de type `[data-status="XXX"]`.
+Jusqu'à présent, j'avais pour habitude de **créer des variables CSS** pour contrôler les propriétés qui m'intéressent (`border`, `background-color`) et d'en modifier ensuite les valeurs dans chaque sous-sélecteur de type `[data-status="XXX"]`. Ce qui donnait par exemple :
 
 ```css
 .badge {
@@ -71,11 +71,11 @@ Plusieurs solutions sont possibles. Persnonellement, j'ai l'habitude de **créer
 }
 ```
 
-L'inconvénient de cette approche est que **la forme conditionnelle n'est pas forcément explicite** et nécessite **plusieurs sélecteurs CSS** pour cibler tous les états possibles du badge.
+L'inconvénient de cette approche est que **la logique conditionnelle ne ressort pas explicitement au premier coup d'oeil** et qu'elle reste très verbeuse puisqu'elle nécessite **plusieurs sélecteurs CSS** afin de cibler tous les états possibles du badge.
 
 ### Avec `if()`
 
-Grâce à cette nouvelle fonction `if()`, on peut définir tous ces changements dans le même sélecteur.
+Grâce à cette nouvelle fonction `if()`, on peut dorénavant définir tous ces changements **au sein d'un même sélecteur** !
 
 On commence par définir une variable CSS custom `--status` qui récupère automatiquement la valeur de l'attribut `[data-status]` porté par l'élément :
 
@@ -86,7 +86,7 @@ On commence par définir une variable CSS custom `--status` qui récupère autom
   /* ... */
 }
 ```
-Puis sur la propriété css visée on appelle la fonction `if()` pour en faire varier la valeur suivant celle de `--status` :
+Puis on appelle la fonction `if()` pour tester contre `--status` différentes valeurs :
 
 ```css
 .badge {
@@ -103,14 +103,14 @@ Puis sur la propriété css visée on appelle la fonction `if()` pour en faire v
 }
 ```
 
-Il eût été plus intuitif d'avoir à écrire `--status == pending` pour comparer les deux valeurs mais la bonne syntaxe est bien `style(--status: pending)`.
+Sûrement aurait-il été plus intuitif d'écrire `--status == pending` mais la bonne syntaxe est bien `style(--status: pending)`.
 
 Quelle que soit la condition testée, la syntaxe générale du `if()` en css restera la même :
 
 <span className="text-center">
 `property : if(condition1: value; condition2: value; ... else: value);`
 </span>
-Au final, c'est un poil moins verbeux 🤏 et surtout bien plus clair dans l'intention.
+Au final, c'est un poil moins long 🤏 et surtout bien plus clair dans l'intention.
 
 ### Compatibilité avec les navigateurs
 
@@ -133,11 +133,11 @@ Plutôt, dans la mesure où on peut régler de **façon bien plus élégante** e
   />
 </div>
 
-Le revers de la médaille cependant avec ces syntaxes plus "programmatiques" qui émergent c'est qu'elles tendent à **éloigner le CSS de sa nature très déclarative** et à le rapprocher d'un langage de programmation avec un coût d'entrée et de maîtrise de plus en plus élevé.
+Le revers de la médaille cependant avec ces syntaxes plus "programmatiques" qui émergent est qu'elles tendent à **éloigner le CSS de sa nature très déclarative** et à le rapprocher d'un langage de programmation avec un coût d'entrée et de maîtrise de plus en plus élevé.
 
-Or c'est précisément cet aspect déclaratif commun à HTML et CSS qui permet de limiter la casse lorsqu'on envoyait du CSS trop récent dans des navigateurs avec des versions anciennes puisqu'**il suffit à l'interpréteur de zapper les propriétés ou valeurs inconnues** — là où un compilateur Javascript crashe méchamment s'il croise une syntaxe inconnue postérieur à sa version maximum supportée.
+Or c'est précisément cet aspect déclaratif commun à HTML et CSS qui permet de limiter la casse lorsqu'on envoyait du CSS trop récent dans des navigateurs avec des versions anciennes puisqu'**il suffit à l'interpréteur de zapper les propriétés ou valeurs inconnues** — là où un compilateur Javascript crashe s'il croise une syntaxe inconnue postérieur à sa version maximum supportée.
 
-À voir donc si ce surplus de logique dans le CSS ne va pas **aggraver les problèmes de rétrocompatibilité et compliquer le débuggage** puisque l'interprétation en deviendra plus délicate — même si des outils comme <LinkWithGlimpse url="https://postcss.org/">PostCSS</LinkWithGlimpse> permettent généralement de mitiger cette difficulté en transpilant le CSS moderne pour le rendre compatible avec les anciennes versions de navigateurs.
+À voir donc si ce surplus de logique dans le CSS ne va pas **aggraver les problèmes de rétrocompatibilité et compliquer le débuggage** puisque l'interprétation en deviendra plus délicate, même si des outils comme <LinkWithGlimpse url="https://postcss.org/">PostCSS</LinkWithGlimpse> permettent généralement de mitiger cette difficulté en transpilant le CSS moderne pour le rendre compatible avec les anciennes versions de navigateurs.
 
 <div className="useful-links">
   #### Liens additionnels
