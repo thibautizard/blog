@@ -8,6 +8,7 @@ import "./global.css";
 
 // Site name
 const swankyAndMooMoo = Swanky_and_Moo_Moo({
+  fallback: ["cursive"],
   style: "normal",
   subsets: ["latin"],
   variable: "--font-swanky-and-moo-moo",
