@@ -6,5 +6,9 @@ export default function BaselineStatus({ featureId }: { featureId: string }) {
     import("baseline-status");
   }, []);
 
-  return <baseline-status featureId={featureId} />;
+  return (
+    <div className="my-4 rounded-md border border-slate-300 px-6 py-5">
+      <baseline-status featureId={featureId} />
+    </div>
+  );
 }
