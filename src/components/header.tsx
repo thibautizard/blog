@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import shiba from "@/assets/shiba.svg";
+import shiba from "public/assets/shiba.svg";
 
 // 🐕🆎
 //----------------------
@@ -16,7 +16,7 @@ export function Header() {
 // 🐕
 //----------------------
 function ShibaLogo() {
-  return <Image alt="Shiba" priority src={shiba} width={50} />;
+  return <Image alt="" height={50} priority src={shiba} width={50} />;
 }
 
 // 🆎

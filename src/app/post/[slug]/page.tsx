@@ -1,40 +1,17 @@
+import Image from "next/image";
 import { formatDateForPost } from "@/lib/dates";
 import { getAllPosts } from "@/lib/posts";
 
 import "./post.css";
 import type { Metadata } from "next";
 
-// Disable dynamic params to avoid re-rendering the page for each request
 export const dynamicParams = false;
 
-// Generate static params to avoid re-rendering the page for each request
 export async function generateStaticParams() {
   const posts = getAllPosts();
   return posts.map((post) => ({
     slug: post.slug,
   }));
-}
-
-// Generate metadata for each post
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
-  const { slug } = await params;
-  const { metadata } = await import(`@/markdown/${slug}/${slug}.mdx`);
-  const title = `${metadata.title} - Thibaut Izard`;
-
-  return {
-    description: metadata.excerpt,
-    openGraph: {
-      description: metadata.excerpt,
-      publishedTime: metadata.date,
-      title,
-      type: "article",
-    },
-    title,
-  };
 }
 
 export default async function PostView({
@@ -46,15 +23,20 @@ export default async function PostView({
   const { default: Post, metadata } = await import(
     `@/markdown/${slug}/${slug}.mdx`
   );
-  const { date: dateString, title } = metadata;
+  const { date: dateString, title, illustration } = metadata;
   return (
     <div className="post-container">
-      {/* 🆎📅 */}
-      <header className="mb-4">
-        {/* 🆎 */}
-        <PostTitle>{title}</PostTitle>
-        {/* 📅 */}
-        <PostDate dateString={dateString} />
+      {/* 🆎📅 🖼️ */}
+      <header className="mb-4 flex items-center gap-x-6">
+        {/* 🆎📅 */}
+        <div>
+          {/* 🆎 */}
+          <PostTitle>{title}</PostTitle>
+          {/* 📅 */}
+          <PostDate dateString={dateString} />
+        </div>
+        {/* 🖼️ */}
+        <PostIllustration illustration={illustration} />
       </header>
       {/* ✍️ */}
       <Post {...metadata} />
@@ -75,4 +57,36 @@ function PostDate({ dateString }: { dateString: string }) {
       {formattedDate}
     </time>
   );
+}
+
+// 🖼️
+function PostIllustration({ illustration }: { illustration?: string }) {
+  if (!illustration) return null;
+  return (
+    <div className="hidden shrink-0 sm:block">
+      <Image alt="" height={60} src={`/assets/${illustration}`} width={60} />
+    </div>
+  );
+}
+
+// 💻
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const { metadata } = await import(`@/markdown/${slug}/${slug}.mdx`);
+  const title = `${metadata.title} - Thibaut Izard`;
+
+  return {
+    description: metadata.excerpt,
+    openGraph: {
+      description: metadata.excerpt,
+      publishedTime: metadata.date,
+      title,
+      type: "article",
+    },
+    title,
+  };
 }

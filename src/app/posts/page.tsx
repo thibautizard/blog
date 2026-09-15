@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "src/lib/utils";
 import { formatDateForPost } from "@/lib/dates";
@@ -6,6 +7,8 @@ import type { PostMetadata } from "@/types/posts";
 
 export default async function HomePage() {
   const posts = getAllPosts();
+
+  // 📦
   const postsWithMetadata = await Promise.all(
     posts.map(async (post) => {
       const { metadata } = (await import(
@@ -21,28 +24,38 @@ export default async function HomePage() {
     <div>
       {/* 📄📄📄 */}
       <ul className="list-none space-y-7">
-        {postsToDisplay.map(({ slug, metadata: { title, excerpt, date } }) => (
-          <li
-            className="border-gray-100 border-b pb-7 last:border-none last:pb-0"
-            key={slug}
-          >
-            <Link href={`/post/${slug}`}>
-              <article>
-                {/* 🆎📅 */}
-                <header className="mb-2">
-                  {/* 🆎 */}
-                  <PostTitle>{title}</PostTitle>
-                  {/* 📅 */}
-                  <PostDate dateString={date}>
-                    {formatDateForPost(date)}
-                  </PostDate>
-                </header>
-                {/* 🔡 */}
-                <PostExcerpt>{excerpt}</PostExcerpt>
-              </article>
-            </Link>
-          </li>
-        ))}
+        {postsToDisplay.map(
+          ({ slug, metadata: { title, excerpt, date, illustration } }) => (
+            <li
+              className={cn(
+                "border-gray-100 border-b last:border-none",
+                "pb-7 last:pb-0"
+              )}
+              key={slug}
+            >
+              <Link href={`/post/${slug}`}>
+                <article className="flex items-start justify-between gap-x-6">
+                  {/* ⬅️🆎📅🔡 */}
+                  <div>
+                    {/* 🆎📅 */}
+                    <header className="mb-2">
+                      {/* 🆎 */}
+                      <PostTitle>{title}</PostTitle>
+                      {/* 📅 */}
+                      <PostDate dateString={date}>
+                        {formatDateForPost(date)}
+                      </PostDate>
+                    </header>
+                    {/* 🔡 */}
+                    <PostExcerpt>{excerpt}</PostExcerpt>
+                  </div>
+                  {/* ➡️🖼️ */}
+                  <PostIllustration illustration={illustration} />
+                </article>
+              </Link>
+            </li>
+          )
+        )}
       </ul>
     </div>
   );
@@ -80,6 +93,17 @@ function PostDate({
   );
 }
 
+// 🔡
 function PostExcerpt({ children }: { children: React.ReactNode }) {
   return <p className="text-base text-black">{children}</p>;
+}
+
+// 🖼️
+function PostIllustration({ illustration }: { illustration?: string }) {
+  if (!illustration) return null;
+  return (
+    <div className="hidden sm:block">
+      <Image alt="" height={50} src={`/assets/${illustration}`} width={50} />
+    </div>
+  );
 }
