@@ -1,4 +1,5 @@
 import BadgeOld from "./-components/badge-old";
+import BaselineStatus from "@/markdown/-components/baseline-status";
 import ExternalLink from "@/markdown/-components/external-link";
 import LinkWithGlimpse from "@/markdown/-components/link-with-glimpse";
 
@@ -21,8 +22,6 @@ Prenons un cas d'usage assez banal avec ces badges reflétant un statut :
   <BadgeOld status="warning" />
   <BadgeOld status="info" />
 </div>
-
-Pour les styliser, chaque badge porte un attribut `data-status` qu'on peut ensuite cibler en CSS (`pending`, `success`, `error`, etc.).
 
 ### Sans `if()`
 
@@ -71,7 +70,7 @@ Jusqu'à présent, j'avais pour habitude de **créer des variables CSS** pour co
 }
 ```
 
-L'inconvénient de cette approche est que **la logique conditionnelle ne ressort pas explicitement au premier coup d'oeil** et qu'elle reste très verbeuse puisqu'elle nécessite **plusieurs sélecteurs CSS** afin de cibler tous les états possibles du badge.
+L'inconvénient de cette approche est que **la logique conditionnelle ne ressort pas explicitement au premier coup d'oeil**. Surtout elle reste très verbeuse puisqu'elle nécessite **plusieurs sélecteurs CSS** afin de cibler tous les états possibles du badge.
 
 ### Avec `if()`
 
@@ -86,7 +85,7 @@ On commence par définir une variable CSS custom `--status` qui récupère autom
   /* ... */
 }
 ```
-Puis on appelle la fonction `if()` pour tester contre `--status` différentes valeurs :
+Puis on appelle la fonction `if()` pour tester différentes valeurs de `--status` :
 
 ```css
 .badge {
@@ -103,7 +102,7 @@ Puis on appelle la fonction `if()` pour tester contre `--status` différentes va
 }
 ```
 
-Sûrement aurait-il été plus intuitif d'écrire `--status == pending` mais la bonne syntaxe est bien `style(--status: pending)`.
+Oui il aurait été plus intuitif d'écrire `--status == pending` mais la bonne syntaxe est bien `style(--status: pending)`...
 
 Quelle que soit la condition testée, la syntaxe générale du `if()` en css restera la même :
 
@@ -114,11 +113,17 @@ Au final, c'est un poil moins long 🤏 et surtout bien plus clair dans l'intent
 
 ### Compatibilité avec les navigateurs
 
-Comme souvent, **c'est Chrome qui a pris les devants en termes de support** en embarquant le `if()` dès la version 137 (sortie fin mai 2025). La plupart des autres navigateurs non basés sur Chromium sont encore aux fraises sur le sujet, **la prudence est donc de mise avant d'envoyer ça en production**.
+<BaselineStatus featureId="if" />
+
+Comme souvent, **c'est Chrome qui a pris les devants en termes de support** en embarquant le `if()` dès la version 137 (sortie fin mai 2025). La plupart des autres navigateurs non basés sur Chromium sont encore aux fraises sur le sujet, **la prudence reste de mise avant d'envoyer ça en production**.
+
+
 
 ### Est-ce une si bonne idée ?
 
-Plutôt, dans la mesure où on peut régler de **façon bien plus élégante** et **maintenable** certains problèmes de layout et de style. L'exemple proposé par **<LinkWithGlimpse url="https://www.youtube.com/@UnaKravets">Una Kravets</LinkWithGlimpse>** pour classer des tickets dans différentes colonnes est particulièrement ingénieux et permet bien de sentir l'intérêt de cette nouvelle fonctionnalité 👇
+Plutôt, dans la mesure où on peut régler de **façon bien plus élégante** et **maintenable** certains problèmes traditionnels de layout et de style.
+
+L'exemple proposé par **<LinkWithGlimpse url="https://www.youtube.com/@UnaKravets">Una Kravets</LinkWithGlimpse>** pour classer des tickets dans différentes colonnes est particulièrement ingénieux et permet bien de sentir l'intérêt de cette nouvelle fonctionnalité 👇
 
 <div className="video-container">
   <iframe
@@ -133,11 +138,11 @@ Plutôt, dans la mesure où on peut régler de **façon bien plus élégante** e
   />
 </div>
 
-Le revers de la médaille cependant avec ces syntaxes plus "programmatiques" qui émergent est qu'elles tendent à **éloigner le CSS de sa nature très déclarative** et à le rapprocher d'un langage de programmation avec un coût d'entrée et de maîtrise de plus en plus élevé.
+Le revers de la médaille avec ces syntaxes **plus complexes et logiques** est qu'elles tendent à **éloigner le CSS de sa nature très déclarative** et à **le rapprocher d'un langage de programmation** avec un coût d'entrée et de maîtrise de plus en plus élevé.
 
-Or c'est précisément cet aspect déclaratif commun à HTML et CSS qui permet de limiter la casse lorsqu'on envoyait du CSS trop récent dans des navigateurs avec des versions anciennes puisqu'**il suffit à l'interpréteur de zapper les propriétés ou valeurs inconnues** — là où un compilateur Javascript crashe s'il croise une syntaxe inconnue postérieur à sa version maximum supportée.
+Or c'est précisément cet **aspect déclaratif** commun à HTML et CSS qui permet de limiter la casse lorsqu'on envoie du CSS trop récent à des navigateurs trop anciens : **il suffit à l'interpréteur de sauter les lignes aux propriétés ou valeurs inconnues**. Du CSS pris dans des syntaxes très imbriquées devient plus beaucoup plus difficile à faire fonctionner car tout ce bloc logique sera ignoré.
 
-À voir donc si ce surplus de logique dans le CSS ne va pas **aggraver les problèmes de rétrocompatibilité et compliquer le débuggage** puisque l'interprétation en deviendra plus délicate, même si des outils comme <LinkWithGlimpse url="https://postcss.org/">PostCSS</LinkWithGlimpse> permettent généralement de mitiger cette difficulté en transpilant le CSS moderne pour le rendre compatible avec les anciennes versions de navigateurs.
+À voir donc si cette complexification du CSS ne va pas **amoindrir sa portabilité**, même si des outils comme <LinkWithGlimpse url="https://postcss.org/">PostCSS</LinkWithGlimpse> permettent généralement de mitiger cette difficulté en transpilant le CSS moderne pour le rendre compatible avec les anciennes versions de navigateurs.
 
 <div className="useful-links">
   #### Liens additionnels
