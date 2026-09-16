@@ -9,9 +9,9 @@ export const metadata = {
   excerpt: "Tous aux abris ! Il est dorénavant possible de mettre des if dans son propre CSS.",
 };
 
-Le CSS n'en finit plus de se transformer et d'**incorporer toujours plus de nouvelles fonctionnalités** qui requéraient auparavant de passer par des pré-processeurs type [*Sass*](https://sass-lang.com/) ou [*Less*](https://lesscss.org/).
+Le CSS n'en finit plus de se transformer et d'**incorporer de nouvelles fonctionnalités** qui requéraient auparavant de passer par des pré-processeurs type [*Sass*](https://sass-lang.com/) ou [*Less*](https://lesscss.org/).
 
-C'est encore le cas avec l'arrivée de la très attendue (et inespérée !) fonction `if()` qui permet **d'exprimer directement dans notre feuille de style une logique conditionnelle** sans passer par les **moyens détournés habituels** : *media* ou *container queries*, sélecteurs d'attributs ou fonctions css `calc()` et `clamp()`.
+C'est encore le cas avec l'arrivée de la très attendue (et inespérée !) fonction `if()` qui permet **d'exprimer directement dans notre feuille de style une logique conditionnelle** sans les **moyens détournés habituels** : *media* ou *container queries*, sélecteurs d'attributs ou fonctions css `calc()` et `clamp()`.
 
 Prenons un cas d'usage assez banal avec ces badges reflétant un statut :
 
@@ -25,7 +25,7 @@ Prenons un cas d'usage assez banal avec ces badges reflétant un statut :
 
 ### Sans `if()`
 
-Jusqu'à présent, j'avais pour habitude de **créer des variables CSS** pour contrôler les propriétés qui m'intéressent (`border`, `background-color`) et d'en modifier ensuite les valeurs dans chaque sous-sélecteur de type `[data-status="XXX"]`. Ce qui donnait par exemple :
+Jusqu'à présent, j'avais pour habitude de **créer des variables CSS** pour contrôler les propriétés qui m'intéressent (`border`, `background-color`) et d'en modifier ensuite les valeurs dans chaque sous-sélecteur de type `[data-status="XXX"]`. Ce qui donnait :
 
 ```css
 .badge {
@@ -74,9 +74,9 @@ L'inconvénient de cette approche est que **la logique conditionnelle ne ressort
 
 ### Avec `if()`
 
-Grâce à cette nouvelle fonction `if()`, on peut dorénavant définir tous ces changements **au sein d'un même sélecteur** !
+Grâce à cette nouvelle fonction `if()`, on peut dorénavant centraliser toutes ces variations **au sein d'un même sélecteur** !
 
-On commence par définir une variable CSS custom `--status` qui récupère automatiquement la valeur de l'attribut `[data-status]` porté par l'élément :
+On commence par définir une variable CSS custom `--status` qui récupère automatiquement la valeur de `[data-status]` à l'aide de la fonction `attr()` :
 
 ```css
 .badge {
@@ -97,12 +97,10 @@ Puis on appelle la fonction `if()` pour tester différentes valeurs de `--status
      style(--status: error): #ef4444;
      else: #0ea5e9
   );
-
-  /* Même logique pour la propriété background-color */
 }
 ```
 
-Oui il aurait été plus intuitif d'écrire `--status == pending` mais la bonne syntaxe est bien `style(--status: pending)`...
+Certes il aurait été plus intuitif d'écrire `--status == pending` mais la bonne syntaxe est bien `style(--status: pending)`.
 
 Quelle que soit la condition testée, la syntaxe générale du `if()` en css restera la même :
 
@@ -140,13 +138,13 @@ L'exemple proposé par **<LinkWithGlimpse url="https://www.youtube.com/@UnaKrave
 
 Le revers de la médaille avec ces syntaxes **plus complexes et logiques** est qu'elles tendent à **éloigner le CSS de sa nature très déclarative** et à **le rapprocher d'un langage de programmation** avec un coût d'entrée et de maîtrise de plus en plus élevé.
 
-Or c'est précisément cet **aspect déclaratif** commun à HTML et CSS qui permet de limiter la casse lorsqu'on envoie du CSS trop récent à des navigateurs trop anciens : **il suffit à l'interpréteur de sauter les lignes aux propriétés ou valeurs inconnues**. Du CSS pris dans des syntaxes très imbriquées devient plus beaucoup plus difficile à faire fonctionner car tout ce bloc logique sera ignoré.
+Or c'est précisément cet **aspect déclaratif** commun à HTML et CSS qui permet de limiter la casse lorsqu'on envoie du CSS trop récent à des navigateurs trop anciens : **il suffit à l'interpréteur de sauter les lignes aux propriétés ou valeurs inconnues**. Du CSS pris dans des syntaxes très imbriquées devient plus beaucoup plus difficile à faire fonctionner car tout ce bloc logique sera ignoré par un moteur de rendu trop ancien.
 
-À voir donc si cette complexification du CSS ne va pas **amoindrir sa portabilité**, même si des outils comme <LinkWithGlimpse url="https://postcss.org/">PostCSS</LinkWithGlimpse> permettent généralement de mitiger cette difficulté en transpilant le CSS moderne pour le rendre compatible avec les anciennes versions de navigateurs.
+À voir donc si cette complexification du CSS ne va pas **amoindrir sa portabilité**, même si des outils comme <LinkWithGlimpse url="https://postcss.org/">PostCSS</LinkWithGlimpse> permettent généralement de mitiger cette difficulté en transpilant le CSS moderne pour le rendre compatible avec d'anciennes versions de navigateur.
 
 <div className="useful-links">
   #### Liens additionnels
-  - <ExternalLink/> <LinkWithGlimpse url="https://developer.mozilla.org/en-US/docs/Web/CSS/if">Documentation MDN</LinkWithGlimpse>
-  - <ExternalLink/> <LinkWithGlimpse url="https://developer.chrome.com/blog/if-article">Chrome For Developers Blog — CSS conditionals with the new if() function</LinkWithGlimpse>
-  - <ExternalLink/> <LinkWithGlimpse url="https://blog.logrocket.com/css-if-function-conditional-styling/">The CSS if() function: Conditional styling will never be the same - Ikeh Akinyemi (LogRocket)</LinkWithGlimpse>
+  - <ExternalLink> <LinkWithGlimpse url="https://developer.mozilla.org/en-US/docs/Web/CSS/if">Documentation MDN</LinkWithGlimpse> </ExternalLink>
+  - <ExternalLink> <LinkWithGlimpse url="https://developer.chrome.com/blog/if-article">Chrome For Developers Blog — CSS conditionals with the new if() function</LinkWithGlimpse> </ExternalLink>
+  - <ExternalLink> <LinkWithGlimpse url="https://blog.logrocket.com/css-if-function-conditional-styling/">The CSS if() function: Conditional styling will never be the same - Ikeh Akinyemi (LogRocket)</LinkWithGlimpse> </ExternalLink>
 </div>
