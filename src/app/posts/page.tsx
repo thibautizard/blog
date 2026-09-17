@@ -102,8 +102,12 @@ function PostExcerpt({ children }: { children: React.ReactNode }) {
 function PostIllustration({ illustration }: { illustration?: string }) {
   if (!illustration) return null;
   return (
-    <div className="hidden sm:block">
-      <Image alt="" height={50} src={`/assets/${illustration}`} width={50} />
-    </div>
+    <Image
+      alt=""
+      className="hidden size-[50px] shrink-0 object-contain sm:block"
+      height={50}
+      src={`/assets/${illustration}`}
+      width={50}
+    />
   );
 }

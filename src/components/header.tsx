@@ -16,7 +16,7 @@ export function Header() {
 // 🐕
 //----------------------
 function ShibaLogo() {
-  return <Image alt="" height={50} priority src={shiba} width={50} />;
+  return <Image alt="" priority src={shiba} width={50} />;
 }
 
 // 🆎

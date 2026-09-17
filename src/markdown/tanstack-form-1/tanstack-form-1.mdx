@@ -3,61 +3,51 @@ import Image from "next/image"
 import InformationBanner from "@/markdown/-components/information-banner";
 import ExternalLink from "@/markdown/-components/external-link";
 import LinkWithGlimpse from "../-components/link-with-glimpse";
+import BigFormInTown from "./assets/images/big-form-in-town.webp";
 
 export const metadata = {
     title: "Créer des formulaires modernes et type-safe avec TanStack Form [Partie 1 - Introduction]",
     date: "2025-07-28",
     excerpt:
         "Votre tech lead va l'adorer.",
+    illustration: "form-kawai.svg",
 };
 
 ### L'enfer du développeur est pavé de mauvais formulaires
 
-**Les formulaires sont un cauchemar incontournable dans le développement web et mobile** : validation synchrone et asynchrone, récupération et affichage des erreurs, contraintes multiples, accessibilité, sérialisation et déserialisation des valeurs, responsivité, sauvegarde de l'état etc.
+**Les formulaires sont un cauchemar incontournable dans le développement web et mobile** : validation synchrone et asynchrone, récupération et affichage des erreurs, accessibilité, sérialisation et déserialisation des valeurs, responsivité, sauvegarde de l'état etc.
 
-À ces impondérables s'ajoutent les **différentes décisions UX à prendre** : faut-il **révéler les erreurs à mesure que l'utilisateur tape** afin d'être le plus réactif possible au risque de le frustrer s'il n'est pas allé au bout de sa saisie ? Ajouter **un délai avant de lancer la validation** ? Doit-on plutôt attendre **qu'il sorte du champ pour les lui signaler** ? Ou n'engager **une validation globale qu'au moment de la soumission du formulaire** — quitte à faire apparaître soudainement à l'écran une flopée d'erreurs avertissant l'utilisateur qu'il doit tout reprendre depuis le début au moment même où il pensait en avoir fini ? 💀
+À ces impondérables s'ajoutent les **différentes décisions UX à prendre** : faut-il **révéler les erreurs à mesure que l'utilisateur tape** afin d'être le plus réactif possible au risque de le frustrer s'il n'est pas allé au bout de sa saisie ? Ajouter **un délai avant de lancer la validation** ? Doit-on plutôt attendre **qu'il sorte du champ pour les lui signaler** ? Ou **une validation globale à la soumission du formulaire** quitte à faire apparaître soudainement à l'écran une flopée d'erreurs alors qu'il pense en avoir fini ?
 
-D'autant que pour s'épargner la création de certains composants complexes, **on aura tôt fait de s'en remettre à des librairies UI** avec tout un travail additionnel pour **assurer la bonne connexion de ces composantsavec notre propre logique de validation et de gestion des erreurs**. On tombe alors rapidement sur **des cas particuliers** qui nous obligent à tordre dans tous les sens une logique de validation d'abord simple et *in fine* à alourdir le code.
+D'autant que pour s'épargner la création de certains composants complexes, **il est souvent préférable de s'en remettre à des librairies UI** avec derrière tout un travail pour **assurer la bonne connexion de ces composants avec notre propre logique de validation et de gestion des erreurs**.
 
-Bref, dès qu'on veut adresser toute la complexité inhérente aux formulaires on se retrouve vite embourbé dans **des implémentations verbeuses et peu maintenables en raison de leur forte spécificité** : chaque développeur crée son petit système de gestion de formulaires adapté au contexte de son site ou de son application.
+Dès qu'on veut adresser toute la complexité inhérente aux formulaires on se retrouve vite avec dans **des implémentations verbeuses et peu maintenables en raison de leur forte spécificité** : chaque développeur recrée son petit système de gestion de formulaires.
 
 Dès lors, quelles qualités devrait présenter une **librairie de formulaires digne de ce nom** pour remplacer notre implémentation maison qui se transforme vite en foutoir ?
 
 - 👉 **Standardisation** : facilement réutilisable d'un projet à un autre
-- 👉 **Flexibilité et robustesse** : couvrir tous les cas d'usage sans perdre en lisibilité ni rien sacrifier sur le plan des performances
+- 👉 **Flexibilité et robustesse** : couvrir les cas d'usage sans perdre en lisibilité ni sacrifier les performances
 - 👉 **Facile à apprendre**
 
-La bonne nouvelle ? Un sérieux candidat vient de rentrer en lice pour devenir votre prochain couteau suisse dans la gestion de formulaires 😁 !
+La bonne nouvelle ? Un sérieux candidat vient de rentrer en lice pour devenir votre prochain couteau suisse dans la gestion de formulaires !
 
-### *The new kid in town*
+### *The new form in town*
 
-Si jusqu'à présent ce terrain était dominé par **<LinkWithGlimpse url="https://react-hook-form.com/">React Hook Form</LinkWithGlimpse>** et **<LinkWithGlimpse url="https://formik.org/">Formik</LinkWithGlimpse>**, une nouvelle librairie Typescriptvenue de la galaxie TanStack vient de se faire une place avec des promesses attrayantes : **<LinkWithGlimpse url="https://tanstack.com/form/latest">TanStack Form</LinkWithGlimpse>**.
+<Image src={BigFormInTown} alt="BigFormInTown" className="mx-auto my-8 w-125" width={400} height={300} />
+
+Terrain jusqu'à présent dominé par **<LinkWithGlimpse url="https://react-hook-form.com/">React Hook Form</LinkWithGlimpse>** et **<LinkWithGlimpse url="https://formik.org/">Formik</LinkWithGlimpse>**, une nouvelle librairie Typescript sortie de la galaxie TanStack vient de bousculer ce petit monde : **<LinkWithGlimpse url="https://tanstack.com/form/latest">TanStack Form</LinkWithGlimpse>**.
 
 
 
-Compatible avec React, Vue, Solid — et bien d'autres frameworks et technologies front —, **<LinkWithGlimpse url="https://tanstack.com/form/latest/docs/overview">TanStack Form</LinkWithGlimpse>** offre **un typage intégral de votre formulaire** qui sécurise et accélère le développement.
+Compatible avec tous les frameworks frontend, **<LinkWithGlimpse url="https://tanstack.com/form/latest/docs/overview">TanStack Form</LinkWithGlimpse>** offre **un typage intégral de votre formulaire** qui sécurise et accélère le développement.
 
-Porté à l'échelle de plus grosses applications, il offre la possiblité particulièrement intéressante de "composer" ses **formulaires** à l'aide d'options et de composants réutilisables entre différents formulaires.
+Porté à l'échelle de plus grosses applications, il offre la possiblité particulièrement intéressante de **"composer" ses formulaires** à l'aide d'options et de composants réutilisables. On peut ainsi **créer notre propre fabrique de formulaires** avec des abstractions choisies mais toujours adossée à la librairie de base pour une **personnalisation encore plus fine**.
 
-On peut ainsi **créer notre propre fabrique de formulaires** avec des abstractions choisies mais toujours adossée à la librairie de base pour une **personnalisation encore plus fine**.
+### Créer son formulaire avec TanStack Form
 
-### Créer son formulaire de login avec TanStack Form
+Trêve de bavardages, **passons aux travaux pratiques** !
 
-Trêve de bavardages, **passons aux travaux pratiques 🧑‍🎨** ! Créons un simple formulaire de connexion pour une application React.
-
-<InformationBanner>
-  Pour démarrer rapidement une nouvelle application React, on peut passer par Vite avec la commande `npm create vite@latest my-app -- --template react` puis installer TanStack Form avec `npm install @tanstack/react-form`.
-</InformationBanner>
-
-On initialise un formulaire **<LinkWithGlimpse url="https://tanstack.com/form/latest/docs/overview">TanStack Form</LinkWithGlimpse>** de la façon suivante :
-
-```tsx
-import { useForm } from "@tanstack/react-form"
-
-const form = useForm({ ... })
-```
-
-Ce hook `useForm` va prendre plusieurs options dont **les valeurs par défaut des différents champs de notre formulaire**.
+On initialise un formulaire **<LinkWithGlimpse url="https://tanstack.com/form/latest/docs/overview">TanStack Form</LinkWithGlimpse>** de la façon suivante en React :
 
 ```tsx
 import { useForm } from "@tanstack/react-form"
@@ -69,6 +59,8 @@ const form = useForm({
   },
  })
 ```
+
+C'est à partir de ces `defaultValues` que **TanStack Form va automatiquement inférer les types des champs du formulaire** sans nécessiter de définition séparée.
 
 Tout aussi important, **une fonction** `onSubmit` qui sera appelée à chaque tentative de validation.
 
@@ -86,9 +78,11 @@ const form = useForm({
  })
 ```
 
-Le `form` renvoyé va ensuite pouvoir être **consommé par notre composant front** pour bâtir le formulaire. Ce `form` contient à la fois des **composants tels que** `form.Field` **qui vont venir envelopper nos inputs pour les contrôler** mais aussi des **informations sur l'état actuel de notre formulaire** (est-il valide ? quelles sont les erreurs en cours ? a-t-il été altéré depuis le chargement de la page ? etc.).
+Le `form` renvoyé par le hook va ensuite pouvoir être **consommé par notre composant front** pour bâtir le formulaire côté UI.
 
-Première brique donc à poser : **le composant** `form.Field` dont l'attribut `name` se liera automatiquement à l'un des champs du formulaire déclarés dans `useForm()`.
+Ce `form` contient à la fois des **composants tels que** `form.Field` **qui vont venir envelopper nos inputs pour les contrôler** mais aussi des **informations sur l'état actuel de notre formulaire** (est-il valide ? quelles sont les erreurs en cours ? a-t-il été altéré depuis le chargement de la page ? etc.).
+
+Première brique donc à poser : **le composant** `form.Field` dont l'attribut `name` se liera automatiquement à l'un des champs du formulaire déclarés plus haut.
 
 ```tsx
 import { useForm } from "@tanstack/react-form"
@@ -134,9 +128,7 @@ const LoginForm = () => {
 }
 ```
 
-Plutôt que de lui passer un `children`sous la forme `<form.Field>{children}</form.Field>`, on recourt ici à la bonne vieille technique des `renderProps`. Cela nous permet d'utiliser **une fonction de rendu plutôt que le composant déjà rendu** afin d'exploiter le `field` spécifique à chaque champ qu'on récupère comme argument.
-
-Dernière étape pour assurer la validation du formulaire : **désactiver le comportement par défaut du bouton de soumission qui survient lorsqu'un bouton** `<button type="submit">` se trouve dans un élément `<form>`.
+Dernière étape pour assurer la validation du formulaire : **désactiver le comportement par défaut du bouton de soumission qui survient sur** `<button type="submit">` car TanStack Form gère ça pour nous.
 
 <InformationBanner>
   Cette précaution est cruciale pour empêcher le rechargement de la page, comportement qu'on souhaite éviter dans le cadre d'une SPA car il nous ferait sortir de notre routing et court-circuiterait les opérations de TanStack Form.
@@ -246,7 +238,7 @@ const LoginForm = () => {
 }
 ```
 
-Voilà en deux coups de cuillère à pot un bon début de formulaire de connexion 😋
+Voilà en deux coups de cuillère à pot un bon début de formulaire de connexion.
 
 Ne reste plus qu'à **ajouter la validation des champs** et **gérer les erreurs**, des étapes que nous verrons dans <LinkWithGlimpse url="https://www.frenchdev.co/post/tanstack-form-2">la partie suivante</LinkWithGlimpse>.
 

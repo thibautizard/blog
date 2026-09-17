@@ -63,9 +63,13 @@ function PostDate({ dateString }: { dateString: string }) {
 function PostIllustration({ illustration }: { illustration?: string }) {
   if (!illustration) return null;
   return (
-    <div className="hidden shrink-0 sm:block">
-      <Image alt="" height={60} src={`/assets/${illustration}`} width={60} />
-    </div>
+    <Image
+      alt=""
+      className="hidden size-[60px] shrink-0 object-contain sm:block"
+      height={60}
+      src={`/assets/${illustration}`}
+      width={60}
+    />
   );
 }
 
