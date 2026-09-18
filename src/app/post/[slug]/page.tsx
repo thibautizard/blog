@@ -27,7 +27,7 @@ export default async function PostView({
   return (
     <div className="post-container">
       {/* 🆎📅 🖼️ */}
-      <header className="mb-4 flex items-center gap-x-6">
+      <header className="mb-4 flex items-center justify-between gap-x-6">
         {/* 🆎📅 */}
         <div>
           {/* 🆎 */}
