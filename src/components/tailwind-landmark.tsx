@@ -3,8 +3,7 @@ import { cn } from "@/lib/utils";
 export function TailwindLandmark() {
   if (process.env.NODE_ENV !== "development") return;
   return (
-    <div className="fixed top-5 left-5 z-999 rounded-sm bg-black/80 px-4 py-2 text-sm text-white">
-      <TailwindXs />
+    <div className="fixed top-5 left-5 z-999 hidden rounded-sm bg-black/80 px-4 py-2 text-sm text-white sm:block">
       <TailwindSm />
       <TailwindMd />
       <TailwindLg />
@@ -14,9 +13,6 @@ export function TailwindLandmark() {
   );
 }
 
-function TailwindXs() {
-  return <span className="xs:inline hidden sm:hidden">XS</span>;
-}
 function TailwindSm() {
   return <span className="hidden sm:inline md:hidden">SM</span>;
 }
