@@ -68,12 +68,13 @@ const ExternalLink = forwardRef<ExternalLinkHandle, ExternalLinkProps>(
 
     return (
       <button
-        className={cn(className, "flex items-center gap-x-1.5")}
+        className={cn(className, "flex max-w-full items-center gap-x-1.5")}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         {...props}
       >
         <svg
+          className="shrink-0"
           fill="none"
           height={size}
           stroke="currentColor"
@@ -91,7 +92,7 @@ const ExternalLink = forwardRef<ExternalLinkHandle, ExternalLinkProps>(
             <path d="M10 14 21 3" />
           </motion.g>
         </svg>
-        {children}
+        <span className="truncate">{children}</span>
       </button>
     );
   }
