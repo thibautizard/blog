@@ -5,6 +5,7 @@ import { cn } from "src/lib/utils";
 import { Header } from "../components/header";
 
 import "./global.css";
+import { TailwindLandmark } from "src/components/tailwind-landmark";
 
 // Site name
 const swankyAndMooMoo = Swanky_and_Moo_Moo({
@@ -52,8 +53,17 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       >
         <Header />
         <main>{children}</main>
+
+        {/* 🔧 */}
+        <Helpers />
+        {/* 📊 */}
         <Analytics />
       </body>
     </html>
   );
+}
+
+/* 🔧 */
+function Helpers() {
+  return <TailwindLandmark />;
 }
