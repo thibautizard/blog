@@ -4,7 +4,6 @@ export function TailwindLandmark() {
   if (process.env.NODE_ENV !== "development") return;
   return (
     <div className="fixed top-5 left-5 z-999 rounded-sm bg-black/80 px-4 py-2 text-sm text-white">
-      <TailwindBelowXs />
       <TailwindXs />
       <TailwindSm />
       <TailwindMd />
@@ -15,9 +14,6 @@ export function TailwindLandmark() {
   );
 }
 
-function TailwindBelowXs() {
-  return <span className="xs:hidden">Below XS</span>;
-}
 function TailwindXs() {
   return <span className="xs:inline hidden sm:hidden">XS</span>;
 }
