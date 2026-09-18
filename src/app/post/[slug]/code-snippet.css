@@ -44,6 +44,41 @@
     }
   }
 
+  /* Wraps Bright's root so the copy button sits outside the scrolling <pre> */
+  .code-block {
+    position: relative;
+  }
+
+  .copy-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: grid;
+    place-items: center;
+    padding: 0.4rem;
+    color: var(--color-neutral-500);
+    cursor: pointer;
+    background-color: var(--code-background-color);
+    opacity: 0;
+    transition:
+      opacity 150ms ease,
+      color 150ms ease;
+
+    &[data-copied] {
+      color: #16a34a;
+    }
+
+    /* No hover on touch screens: keep it visible */
+    @media (hover: none) {
+      opacity: 1;
+    }
+  }
+
+  .code-block:hover .copy-button,
+  .code-block:focus-within .copy-button {
+    opacity: 1;
+  }
+
   pre {
     /* Bright inline-styles the vertical padding on <pre>; it moves down to <code>
      so the gutter column is painted behind it, top and bottom alike */

@@ -1,6 +1,7 @@
 import githubFromCss from "@code-hike/lighter/theme/github-from-css.mjs";
 import { Code } from "bright";
 import type { MDXComponents } from "mdx/types";
+import CodeBlock from "@/markdown/-components/code-block";
 
 /**
  * `github-from-css` maps every color to a `--ch-*` CSS variable, so the palette
@@ -56,6 +57,6 @@ Code.displayName = "test";
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     ...components,
-    pre: Code,
+    pre: CodeBlock,
   };
 }
