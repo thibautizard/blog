@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "src/lib/utils";
+import { PageFade } from "@/components/page-fade";
 import { formatDateForPost } from "@/lib/dates";
 import { getAllPosts, sortPostsByDate } from "@/lib/posts";
 import type { PostMetadata } from "@/types/posts";
@@ -21,43 +22,45 @@ export default async function HomePage() {
   const postsToDisplay = postsWithMetadata.sort(sortPostsByDate);
 
   return (
-    <div>
-      {/* 📄📄📄 */}
-      <ul className="list-none space-y-7">
-        {postsToDisplay.map(
-          ({ slug, metadata: { title, excerpt, date, illustration } }) => (
-            <li
-              className={cn(
-                "border-gray-100 border-b last:border-none",
-                "pb-7 last:pb-0"
-              )}
-              key={slug}
-            >
-              <Link href={`/post/${slug}`}>
-                <article className="flex items-start justify-between gap-x-6">
-                  {/* ⬅️🆎📅🔡 */}
-                  <div>
-                    {/* 🆎📅 */}
-                    <header className="mb-2">
-                      {/* 🆎 */}
-                      <PostTitle>{title}</PostTitle>
-                      {/* 📅 */}
-                      <PostDate dateString={date}>
-                        {formatDateForPost(date)}
-                      </PostDate>
-                    </header>
-                    {/* 🔡 */}
-                    <PostExcerpt>{excerpt}</PostExcerpt>
-                  </div>
-                  {/* ➡️🖼️ */}
-                  <PostIllustration illustration={illustration} />
-                </article>
-              </Link>
-            </li>
-          )
-        )}
-      </ul>
-    </div>
+    <PageFade>
+      <div>
+        {/* 📄📄📄 */}
+        <ul className="list-none space-y-7">
+          {postsToDisplay.map(
+            ({ slug, metadata: { title, excerpt, date, illustration } }) => (
+              <li
+                className={cn(
+                  "border-gray-100 border-b last:border-none",
+                  "pb-7 last:pb-0"
+                )}
+                key={slug}
+              >
+                <Link href={`/post/${slug}`}>
+                  <article className="flex items-start justify-between gap-x-6">
+                    {/* ⬅️🆎📅🔡 */}
+                    <div>
+                      {/* 🆎📅 */}
+                      <header className="mb-2">
+                        {/* 🆎 */}
+                        <PostTitle>{title}</PostTitle>
+                        {/* 📅 */}
+                        <PostDate dateString={date}>
+                          {formatDateForPost(date)}
+                        </PostDate>
+                      </header>
+                      {/* 🔡 */}
+                      <PostExcerpt>{excerpt}</PostExcerpt>
+                    </div>
+                    {/* ➡️🖼️ */}
+                    <PostIllustration illustration={illustration} />
+                  </article>
+                </Link>
+              </li>
+            )
+          )}
+        </ul>
+      </div>
+    </PageFade>
   );
 }
 
@@ -104,7 +107,7 @@ function PostIllustration({ illustration }: { illustration?: string }) {
   return (
     <Image
       alt=""
-      className="hidden size-[50px] shrink-0 object-contain sm:block"
+      className={cn("hidden sm:block", "size-12.5 shrink-0 object-contain")}
       height={50}
       src={`/assets/${illustration}`}
       width={50}

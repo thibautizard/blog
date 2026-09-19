@@ -1,7 +1,7 @@
 import Image from "next/image";
+import { PageFade } from "@/components/page-fade";
 import { formatDateForPost } from "@/lib/dates";
 import { getAllPosts } from "@/lib/posts";
-
 import "./post.css";
 import type { Metadata } from "next";
 
@@ -25,22 +25,24 @@ export default async function PostView({
   );
   const { date: dateString, title, illustration } = metadata;
   return (
-    <div className="post-container">
-      {/* 🆎📅 🖼️ */}
-      <header className="mb-4 flex items-center justify-between gap-x-6">
-        {/* 🆎📅 */}
-        <div>
-          {/* 🆎 */}
-          <PostTitle>{title}</PostTitle>
-          {/* 📅 */}
-          <PostDate dateString={dateString} />
-        </div>
-        {/* 🖼️ */}
-        <PostIllustration illustration={illustration} />
-      </header>
-      {/* ✍️ */}
-      <Post {...metadata} />
-    </div>
+    <PageFade>
+      <div className="post-container">
+        {/* 🆎📅 🖼️ */}
+        <header className="mb-4 flex items-center justify-between gap-x-6">
+          {/* 🆎📅 */}
+          <div>
+            {/* 🆎 */}
+            <PostTitle>{title}</PostTitle>
+            {/* 📅 */}
+            <PostDate dateString={dateString} />
+          </div>
+          {/* 🖼️ */}
+          <PostIllustration illustration={illustration} />
+        </header>
+        {/* ✍️ */}
+        <Post {...metadata} />
+      </div>
+    </PageFade>
   );
 }
 
