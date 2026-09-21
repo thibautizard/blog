@@ -41,6 +41,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html
       className={`${spaceGrotesk.variable} ${gluten.variable} ${swankyAndMooMoo.variable}`}
+      data-scroll-behavior="smooth"
       lang="fr"
     >
       <body

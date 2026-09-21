@@ -12,7 +12,7 @@ export const metadata = {
 
 Le **monorepo a le vent en poupe depuis plusieurs années**. Certaines grandes boîtes comme Google, Meta ou Microsoft l'ont même adopté de longue date pour centraliser leurs différents projets **en un seul dépôt Git**. L'apparition d'**outils dédiés à leur gestion** facilite aujourd'hui grandement leur utilisation et permettent de tirer un maximum profit de cette organisation tout en **contrebalançant certains de leurs défauts**.
 
-### Un monorepo, qu'est-ce que c'est ?
+## Un monorepo, qu'est-ce que c'est ?
 
 À mesure qu'un projet se développe et se complexifie, on se retrouve à **devoir travailler sur une multitude de composantes couplées entre elles** : un serveur backend, de multiples interfaces web ou mobiles, des scripts de déploiement, des outils de gestion de contenu, des API REST ou GraphQL, des bases de données, des tests, des librairies, des configurations en pagaille, des pipelines CI/CD, etc.
 
@@ -22,7 +22,7 @@ Bien d'autres **tâches rébarbatives tendent également à se répéter d'un d�
 
 Et s'il existait un moyen **de se délester en grande partie de ce travail fastidieux** et de s'assurer que **différentes composantes interconnectées de notre projet restent parfaitement synchronisées en temps réel sans avoir à recharger une nouvelle version de telle ou telle librairie** ? Pour que nos préférences et nos configurations **s'appliquent universellement sans devoir être répétées** entre chaque dépôt apparenté ? Cette solution a un nom : le <u>**monorepo**</u>.
 
-### La recette d'un bon monorepo 🧑‍🍳
+## La recette d'un bon monorepo 🧑‍🍳
 
 Tout dépôt contenant plusieurs composantes (librairies ou applications) peut être considéré comme un monorepo. La différence cruciale va plutôt se jouer sur **la manière de gérer ces composantes et leurs interactions entre eux**. On peut en effet se contenter d'entasser ces composantes dans un seul dépôt et de profiter de leur voisinage pour importer directement en interne les parties qui intéressent chacun d'entre eux. Mais ce serait passer à côté des gains de productivité et de gestion simplifiée que peut apporter un monorepo correctement orchestré.
 
@@ -36,24 +36,24 @@ Cependant, une modification de l'app #1 ou de l'app #2 **n'aura aucun impact sur
 
 Si vous laissez donc grossir votre monorepo sans outils capable de mettre en cache et de paralléliser les tâches récurrentes, vous risquez de voir celui-ci devenir un amas de code mal organisé et **de rapidement constater une dégradation des performances et une augmentation des temps de _build_**. Cela exige **un travail de configuration supplémentaire** mais qui se révèlera très vite payant. En écartant ce risque inhérent aux monorepo non orchestré, vous pouvez à présent savourer pleinement ses avantages 😎
 
-### L'alignement des dépendances (_Single Version Policy_)
+## L'alignement des dépendances (_Single Version Policy_)
 
 L'un des aspects les plus importants dans un projet bien trop souvent négligé est **celui de la gestion des dépendances externes et de leurs montées de version**. Beaucoup de projets manquent de cette discipline dans les mises à jour et se retrouvent progressivement **bloqués par des versions obsolètes de dépendances externes qui ouvrent des failles de sécurité et interdisent de profiter des dernières améliorations**.
 
 La raison de cette négligence si répandue tient moins à l'ignorance de la gravité des risques qu'encourt une application aux dépendances externes insuffisamment actualisées et dont certaines fonctionnalités cessent d'être supportées en raison de la dépréciation de celles-ci, qu'à **la paresse naturelle qui saisit tout et chacun devant le travail de mise à niveau** qui exige parfois de se replonger dans le code pour rattraper certains _breaking changes_ introduits par des changements de versions majeures. Le monorepo peut largement atténuer ce problème de motivation en permettant de **traiter en un seul coup l'ensemble des dépendances externes de toutes les composantes d'un projet** ou en **forçant l'adoption de versions identiques pour les librairies les plus importantes**. On peut par exemple s'assurer que toutes nos librairies utilitaires utilisent la même version de Typescript ou que nos applications front s'en tiennent à la même version de React.
 
-### Un _commit_ pour tous vos changements (_Atomic Changes_)
+## Un _commit_ pour tous vos changements (_Atomic Changes_)
 
 Dans le cas d'un monorepo contenant une API consommée par une seule application frontend, l'approche monorepo vous permet de **modifier chaque extrémité de cette chaîne de communication et de tester simultanément cette combinaison avant de tout sauvegarder en un seul** `commit`. Au contraire, si votre projet est divisé en plusieurs dépôts, notamment pour la partie front et back, il vous faudra **attendre de devoir récupérer une modification faite sur un côté avant de pouvoir entamer l'autre** ce qui vous impose des allers-retours entre les différents dépôts. L'évolution recherchée ne pourra apparaître qu'au terme d'une série de `commits` répartis sur différents dépôts. Au contraire,un monorepo vous donne la capacité de stocker **l'intégralité des changements liés à une fonctionnalité dans un seul `commit`** ce qui favorise la lisibilité et la maintenance de votre code, surtout en cas de `git revert` ou pour faciliter la relecture d'une _pull request_.
 
-### Des configurations harmonisées
+## Des configurations harmonisées
 
 **L'outillage des projets frontend moderne est généralement toujours le même** : un linter comme ESLint ou Biome, un formatter comme Prettier, un type checker comme Typescript, des hooks de pré-commit ou pré-pull comme Husky, une configuration Postcss ou Tailwind etc. Chacun de ces outils dispose de son propre fichier de configuration pour activer ou désactiver certains réglages placé à la racine du dépôt dans le cas d'un dépôt simple. Mais si on dispose de plusieurs applications React, par exemple, **ces configurations tendent à être les mêmes d'un dépôt à un autre**. En fonctionnant avec des dépôts séparés, on risque de **voir progressivement apparaître et se creuser des écarts alors qu'une même équipe travaille sur cette famille d'applications**.
 
 Quand tous ces projets sont rassemblés dans un monorepo, il devient **plus aisé de placer une configuration de base commune à tous les projets ou à certains sous-ensembles (toutes les applications de type React par exemple) afin de maintenir une plus forte cohérence**. Cela n'interdit pas des adaptations spécifiques : la plupart de ces outils **autorise des fichiers de configuration complémentaires pour chaque composante** qui viennent étendre la configuration de base partagée en ajoutant ou en surchargeant certains réglages.
 
 <div className="useful-links">
-    #### Liens additionnels
+    ### Liens additionnels
 
     - <ExternalLink> <LinkWithGlimpse url="https://monorepo.tools">monorepo.tools</LinkWithGlimpse> </ExternalLink>
 </div>

@@ -19,7 +19,7 @@ export const metadata = {
     illustration: "ghost.svg"
     }
 
-### That old pal
+## That old pal
 
 
 Tout développeur front **connaît comme sa poche le** `<select>` **pour créer un menu déroulant** 👇
@@ -93,7 +93,7 @@ Parce que rien n'est moins simple ! Bien des difficultés vous attendent en rais
 😮‍💨
 </span>
 
-### Chrome notre sauveur (again)
+## Chrome notre sauveur (again)
 
 Mais voilà que depuis peu, avec Chrome et les navigateurs basés sur Chromium comme Edge, on peut enfin **styliser un** `<select>` **jusque dans ses moindres détails** tout en profitant de ses fonctionnalités natives !
 
@@ -129,7 +129,7 @@ Certes rien de renversant à première vue... Celui-ci paraît même moins esth�
 Explorons-en quelques-unes ! 🎒
 </center>
 
-#### Insérer des images ou des SVG
+### Insérer des images ou des SVG
 
 En utilisant donc cette nouvelle propriété `appearance: base-select`, il est désormais possible **d'insérer dans nos** `<option>` **des éléments visuels (images, SVG, etc.)** qui étaient jusqu'à présent ignorés par le *parser* du navigateur. Exemple avec ce sélecteur de frameworks JavaScript 👇
 
@@ -156,7 +156,7 @@ En utilisant donc cette nouvelle propriété `appearance: base-select`, il est d
 
 Le `<select>` customisable **accepte de rendre n'importe quel bout de HTML dans ses** `<option>` quand le `<select>` classique récupérait uniquement le premier nœud de texte qu'il trouvait, faisant fi du reste.
 
-#### Customiser l'élément sélectionné
+### Customiser l'élément sélectionné
 
 Bien souvent, la valeur d'un `<select>` change d'apparence une fois sélectionnée. La nouvelle balise `<selectedcontent>` permet de **cibler l'élément lorsqu'il est sélectionné** et de lui **appliquer un style spécifique**.
 
@@ -203,7 +203,7 @@ Pour l'exemple, on peut reproduire **le bouton GitHub de merge** où l'option s�
 
 Il est également possible de glisser entre nos `<option>` du code additionel comme ici **avec des balises `<hr/>` intermédiaires entre les options pour plus de lisibilité.**
 
-#### S'affranchir du menu déroulant
+### S'affranchir du menu déroulant
 
 Cette flexibilité accrue dans la customisation des selects permet de plus **des compositions plus originales qui sortent du seul menu déroulant !** On peut par exemple envisager de créer un sélecteur de réactions semblable à celui de Facebook en pur HTML et CSS 👇
 
@@ -246,21 +246,21 @@ select:open::picker(select) {
 
 Beaucoup de magie noire par rapport à du CSS classique... Mais réjouissons-nous mes frères ! Car **c'est une nouvelle barrière qui vient de tomber entre le rendu du navigateur natif et le pouvoir d'expression du CSS qui croît à grande vitesse depuis quelques années**. Le plus tôt nous nous familiarisons avec ces syntaxes, plus rapidement nous évoluerons avec facilité dans le web du futur (si l'IA ne nous met pas au chômage avant...).
 
-### Quelques différences notables...
+## Quelques différences notables...
 
 Lorsque vous passez en `appearance: base-select;` même à titre d'amélioration progressive, quelques différences subtiles sont à prendre en compte sans quoi vous risquez des surprises voire des régressions inattendues sur vos anciens `<select>`:
 
 - Le `<select>` customisable ne prend plus automatiquement la largeur de l'`<option>` la plus longue ;
 - Le `<select>` customisable **ne déclenche plus automatiquement les composants mobiles spécifiques** — ce qui est cohérent avec l'objectif de garantir une expérience utilisateur unifiée entre toutes les plateformes pour lequel ce type de `<select>` a été mis en place.
 
-### À quand une compatibilité universelle ?
+## À quand une compatibilité universelle ?
 
 Comme souvent, **Chrome passe en éclaireur pour pousser l'agenda des spécifications CSS à implémenter**. Au moment de la parution de cet article, **aucune date n'est encore annoncée pour les autres navigateurs du marché ou leurs versions mobiles**.
 
 Fait intéressant, sur leur blog [Chrome for Developers](https://developer.chrome.com/blog/a-customizable-select/) il est précisé que **d'autres éléments HTML bénéficieront bientôt de cette propriété** `appearance: base-*;`. Il y a fort à parier que celle-ci devienne la propriété CSS standard pour désactiver complètement la feuille de style des navigateurs et **offrir un contrôle plus fin sur des éléments historiquement assez verrouillés comme les checkboxes ou les boutons radio**.
 
 <div className="useful-links">
-    #### Liens additionnels
+    ### Liens additionnels
     - <ExternalLink> <LinkWithGlimpse url="https://developer.chrome.com/blog/a-customizable-select">Chrome for Developers - The &lt;select&gt; element can now be customized with CSS</LinkWithGlimpse> </ExternalLink>
     - <ExternalLink> <LinkWithGlimpse url="https://una.im/select-updates/">Updates to the customizable select API</LinkWithGlimpse> </ExternalLink>
     - <ExternalLink> <LinkWithGlimpse url="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Customizable_select">MDN - Customizable select elements</LinkWithGlimpse> </ExternalLink>

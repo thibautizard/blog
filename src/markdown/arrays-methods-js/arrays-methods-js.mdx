@@ -9,7 +9,7 @@ export const metadata = {
     illustration: "array.svg",
 };
 
-### Les méthodes natives de JavaScript pour manipuler des tableaux
+## Les méthodes natives de JavaScript pour manipuler des tableaux
 
 Historiquement, JavaScript offre son lot de méthodes natives pour manipuler des tableaux, mais **toutes ne se comportent pas de la même manière**.
 
@@ -45,7 +45,7 @@ console.log(numbers)
 
 On constate ainsi que certaines méthodes **modifient le tableau original** (on les appelle **mutables**), tandis que d'autres **retournent une copie modifiée sans toucher à l'original** (elles sont **immuables**).
 
-### Le risque des méthodes mutables
+## Le risque des méthodes mutables
 
 Et c'est grave docteur ? 😱
 
@@ -64,7 +64,7 @@ Pourquoi est-ce un problème ? Car si une autre partie de votre code sans rappor
 
 Cette incohérence dans le comportement des méthodes de tableau en JavaScript a longtemps été une **source de confusion** qui n'a clairement pas joué en faveur de la réputation de ce langage.
 
-### Des alternatives modernes
+## Des alternatives modernes
 
 Heureusement, _JavaScript is healing 🌈_ Depuis ES2023 nous pouvons dorénavant compter sur des méthodes immutables qui nous permettent de **créer un nouveau tableau sans modifier l'original** :
 

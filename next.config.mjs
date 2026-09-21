@@ -5,6 +5,8 @@ const nextConfig = {
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
 };
 
-const withMDX = createMDX();
+const withMDX = createMDX({
+  options: { rehypePlugins: ["rehype-slug"] }, // Create id for headings
+});
 
 export default withMDX(nextConfig);

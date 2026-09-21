@@ -24,7 +24,7 @@ Prenons un cas d'usage assez banal avec ces badges reflétant un statut :
   <BadgeOld status="info" />
 </div>
 
-### Sans `if()`
+## Sans `if()`
 
 Jusqu'à présent, j'avais pour habitude de **créer des variables CSS** pour contrôler les propriétés qui m'intéressent (`border`, `background-color`) et d'en modifier ensuite les valeurs dans chaque sous-sélecteur de type `[data-status="XXX"]`. Ce qui donnait :
 
@@ -73,7 +73,7 @@ Jusqu'à présent, j'avais pour habitude de **créer des variables CSS** pour co
 
 L'inconvénient de cette approche est que **la logique conditionnelle ne ressort pas explicitement au premier coup d'oeil**. Surtout elle reste très verbeuse puisqu'elle nécessite **plusieurs sélecteurs CSS** afin de cibler tous les états possibles du badge.
 
-### Avec `if()`
+## Avec `if()`
 
 Grâce à cette nouvelle fonction `if()`, on peut dorénavant centraliser toutes ces variations **au sein d'un même sélecteur** !
 
@@ -110,7 +110,7 @@ Quelle que soit la condition testée, la syntaxe générale du `if()` en css res
 </span>
 Au final, c'est un poil moins long 🤏 et surtout bien plus clair dans l'intention.
 
-### Compatibilité avec les navigateurs
+## Compatibilité avec les navigateurs
 
 <BaselineStatus featureId="if" />
 
@@ -118,7 +118,7 @@ Comme souvent, **c'est Chrome qui a pris les devants en termes de support** en e
 
 
 
-### Est-ce une si bonne idée ?
+## Est-ce une si bonne idée ?
 
 Plutôt, dans la mesure où on peut régler de **façon bien plus élégante** et **maintenable** certains problèmes traditionnels de layout et de style.
 
@@ -144,7 +144,7 @@ Or c'est précisément cet **aspect déclaratif** commun à HTML et CSS qui perm
 À voir donc si cette complexification du CSS ne va pas **amoindrir sa portabilité**, même si des outils comme <LinkWithGlimpse url="https://postcss.org/">PostCSS</LinkWithGlimpse> permettent généralement de mitiger cette difficulté en transpilant le CSS moderne pour le rendre compatible avec d'anciennes versions de navigateur.
 
 <div className="useful-links">
-  #### Liens additionnels
+  ### Liens additionnels
   - <ExternalLink> <LinkWithGlimpse url="https://developer.mozilla.org/en-US/docs/Web/CSS/if">Documentation MDN</LinkWithGlimpse> </ExternalLink>
   - <ExternalLink> <LinkWithGlimpse url="https://developer.chrome.com/blog/if-article">Chrome For Developers Blog — CSS conditionals with the new if() function</LinkWithGlimpse> </ExternalLink>
   - <ExternalLink> <LinkWithGlimpse url="https://blog.logrocket.com/css-if-function-conditional-styling/">The CSS if() function: Conditional styling will never be the same - Ikeh Akinyemi (LogRocket)</LinkWithGlimpse> </ExternalLink>

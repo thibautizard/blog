@@ -2,8 +2,9 @@ import Image from "next/image";
 import { PageFade } from "@/components/page-fade";
 import { formatDateForPost } from "@/lib/dates";
 import { getAllPosts } from "@/lib/posts";
-import "./post.css";
+import "./_style/post.css";
 import type { Metadata } from "next";
+import { PostSummary } from "./_components/post-summary";
 
 export const dynamicParams = false;
 
@@ -23,9 +24,11 @@ export default async function PostView({
   const { default: Post, metadata } = await import(
     `@/markdown/${slug}/${slug}.mdx`
   );
+
   const { date: dateString, title, illustration } = metadata;
   return (
     <PageFade>
+      <PostSummary />
       <div className="post-container">
         {/* 🆎📅 🖼️ */}
         <header className="mb-4 flex items-center justify-between gap-x-6">
@@ -48,7 +51,7 @@ export default async function PostView({
 
 // 🆎
 function PostTitle({ children }: { children: React.ReactNode }) {
-  return <h2 className="post-title">{children}</h2>;
+  return <h1 className="post-title">{children}</h1>;
 }
 
 // 📅

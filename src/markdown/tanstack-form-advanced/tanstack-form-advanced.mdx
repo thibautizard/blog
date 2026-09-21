@@ -14,7 +14,7 @@ export const metadata = {
 
 Après la <LinkWithGlimpse url="https://www.frenchdev.co/post/tanstack-form-1" internalLink={true}>mise en place d'un formulaire TanStack Form (partie 1)</LinkWithGlimpse> puis <LinkWithGlimpse url="https://www.frenchdev.co/post/tanstack-form-2" internalLink={true}>l'ajout de validations et l'affichage d'erreurs (partie 2)</LinkWithGlimpse>, voici quelques **idées d'amélioration faciles dont peuvent bénéficier la plupart des formulaires et faciles à mettre en œuvre avec TanStack Form**.
 
-### Tip #1 - Ajouter un délai avant validation (*debounce*)
+## Tip #1 - Ajouter un délai avant validation (*debounce*)
 
 Lorsqu'on souhaite valider un *input* à la fin d'une saisie, **introduire un léger délai avant vérification** évite d'enclencher une validation prématurée inutile. Cette pause pour s'assurer que l'*input* est "stabilisé" avant de le tester permet d'optimiser notre formulaire surtout si la validation requiert un appel API.
 
@@ -62,7 +62,7 @@ Si on combine `OnChangeAsyncDebounceMs` avec `onChangeAsync` on peut ainsi trouv
 ```
 
 
-### Tip #2 - Ajouter un indicateur de validation en cours
+## Tip #2 - Ajouter un indicateur de validation en cours
 
 Quelle que soit la durée de la validation, n'importe quel champ peut afficher son propre indicateur de validation en regardant son `field.getMeta().isValidating`.
 
@@ -84,7 +84,7 @@ Quelle que soit la durée de la validation, n'importe quel champ peut afficher s
       />
 ```
 
-### Tip #3 - Valider plusieurs champs en même temps
+## Tip #3 - Valider plusieurs champs en même temps
 
 Pensons à l'exemple courant d'un formulaire de création de compte comportant un champ pour entrer un mot de passe et un autre pour le confirmer en le rentrant à l'identique. Chacun de ces champs n'est valide que **si l'autre contient la même valeur**.
 
@@ -135,7 +135,7 @@ En précisant à `onChangeListenTo` ou `onBlurListenTo` le tableau de champs qu'
 
 On remarquera au passage que nous pouvons récupérer au niveau du `field` n'importe quelle valeur du `form` grâce à `fieldApi.form.getFieldValue()` 🤓
 
-### Tip #4 - Utiliser une librairie de validation externe
+## Tip #4 - Utiliser une librairie de validation externe
 
 Plutôt que de définir notre logique de validation à l'aide de fonctions passées dans les `validators` du formulaire ou du champ, **TanStack Form laisse la possibilité d'utiliser des schémas de validation** de <LinkWithGlimpse url="https://zod.dev/">Zod</LinkWithGlimpse>, <LinkWithGlimpse url="https://valibot.dev/">Valibot</LinkWithGlimpse>, <LinkWithGlimpse url="https://arktype.io/">ArkType</LinkWithGlimpse> et autres librairies pour définir nos règles.
 
@@ -202,7 +202,7 @@ const form = useForm({
 ```
 
 <div className="useful-links">
-  #### Liens additionnels
+  ### Liens additionnels
   - <ExternalLink> <LinkWithGlimpse url="https://tanstack.com/form/latest/docs/overview">Documentation officielle de TanStack Form</LinkWithGlimpse> </ExternalLink>
   - <ExternalLink> <LinkWithGlimpse url="https://www.youtube.com/watch?v=Pf1qn35bgjs&list=PLOQjd5dsGSxInTKUWTxyqSKwZCjDIUs0Y&index=1">TanStack Form Tutorial - Balastrong</LinkWithGlimpse> </ExternalLink>
   - <ExternalLink> <LinkWithGlimpse url="https://blog.logrocket.com/tanstack-form-vs-react-hook-form">LogRocket — TanStack Form vs. React Hook Form</LinkWithGlimpse> </ExternalLink>

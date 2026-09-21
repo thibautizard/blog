@@ -15,7 +15,7 @@ Hérité le plus souvent d'un `create-something-app` et façonné par un collèg
 
 Et c'est bien dommage ! Car ce fichier incontournable **recèle des secrets et des pouvoirs surpuissants, pour certains insoupçonnés** 🧙 Il peut nettoyer un dossier de build, compiler votre code, lancer un serveur de développement, publier une version, et **même exécuter des scripts personnalisés**, le tout **sans installer le moindre _task runner_**.
 
-### Pouvoir #1 : Créer des commandes personnalisées
+## Pouvoir #1 : Créer des commandes personnalisées
 
 _First things first_, la section `scripts` permet de créer des alias pour exécuter **une commande complète sur votre projet**. Par convention, on y trouve souvent les mêmes (`dev`, `build`, `typecheck`, `test`) mais n'importe quel nom peut être utilisé.
 
@@ -47,7 +47,7 @@ C'est là que rentre en jeu un premier implicite qui explique pourquoi vous n'av
 
 Ainsi taper `vite` échouera probablement mais dans un script cela fonctionne il y désigne l'exécutable **installé localement dans le projet, à la version verrouillée par votre lockfile**. Vos scripts sont donc, par construction, reproductibles d'une machine à l'autre : **tout le monde exécute la même version du même outil.**
 
-### Pouvoir #2 : Les hooks `pre` et `post`
+## Pouvoir #2 : Les hooks `pre` et `post`
 
 C'est ici que les choses deviennent réellement magiques. Lorsque vous lancez un script `build`, npm va **spontanément chercher deux scripts au nom conventionnel** : `prebuild` et `postbuild`. S'ils existent, il exécute `prebuild`, puis `build`, puis `postbuild`, **sans que vous ayez rien demandé**.
 
@@ -74,7 +74,7 @@ Une seule commande, trois étapes, dans le bon ordre. La convention vaut pour **
 Ce comportement automatique est **une spécificité de npm**, et c'est le genre de détail que les tutoriels oublient soigneusement de préciser. <LinkWithGlimpse url="https://pnpm.io/settings#enableprepostscripts">pnpm ne les exécute pas par défaut</LinkWithGlimpse> et exige un `enable-pre-post-scripts=true` explicite, tandis que <LinkWithGlimpse url="https://yarnpkg.com/advanced/lifecycle-scripts">Yarn Berry a purement et simplement refusé de les supporter</LinkWithGlimpse>. Le motif invoqué par les deux est le même et il est difficile à balayer : **ces étapes implicites rendent le flux d'exécution invisible**, et un nouvel arrivant qui lit `"build": "vite build"` n'a aucun moyen de deviner que deux autres commandes s'exécutent autour. Même remarque pour `node --run build`, introduit avec Node 22, qui exécute vos scripts sans passer par npm — et **sans déclencher les hooks `pre` et `post`**. Le confort est donc réel, mais il se paie en portabilité : si votre projet peut changer de gestionnaire de paquets, mieux vaut assumer un `"build": "npm run clean && vite build"` un peu plus verbeux mais parfaitement lisible.
 </InformationBanner>
 
-### L'autre visage des scripts : ceux que vous n'avez pas écrits
+## L'autre visage des scripts : ceux que vous n'avez pas écrits
 
 Il existe une seconde famille de scripts, autrement plus dangereuse : **les scripts de cycle de vie que npm déclenche tout seul à l'installation**. `preinstall`, `install` et `postinstall` s'exécutent en effet non seulement pour votre projet, mais **pour chacune des dépendances que vous installez**.
 
@@ -88,7 +88,7 @@ npm approve-scripts --allow-scripts-pending
 
 npm rejoint ainsi pnpm, Yarn et Bun, qui bloquaient déjà ces scripts par défaut. Attendez-vous donc à voir **quelques pipelines CI casser** le jour de la montée de version : c'est précisément le moment de découvrir combien de dépendances de votre projet exécutaient du code chez vous à votre insu.
 
-### Pouvoir #3 : Passer des arguments et lire l'environnement
+## Pouvoir #3 : Passer des arguments et lire l'environnement
 
 Un script n'est pas condamné à rester figé. Tout ce que vous placez après `--` est **transmis tel quel à la commande sous-jacente** :
 
@@ -118,7 +118,7 @@ Pratique pour tagger une image Docker ou nommer une archive sans jamais duplique
 }
 ```
 
-### Pouvoir #4 : Orchestrer plusieurs tâches
+## Pouvoir #4 : Orchestrer plusieurs tâches
 
 Les projets réels enchaînent rarement une seule action. Le shell offre déjà deux opérateurs pour les articuler :
 
@@ -152,7 +152,7 @@ Pour du parallélisme fiable, la communauté s'appuie sur deux petits outils dé
 Le mode *watch* — ce processus qui reste actif, surveille vos fichiers et ne recompile **que ce qui a réellement changé** — n'a lui non plus plus besoin du moindre outil externe. <LinkWithGlimpse url="https://vite.dev">Vite</LinkWithGlimpse>, <LinkWithGlimpse url="https://esbuild.github.io">esbuild</LinkWithGlimpse> et <LinkWithGlimpse url="https://bun.com">Bun</LinkWithGlimpse> l'embarquent nativement, et Node lui-même dispose désormais d'un `node --watch`. Une bonne partie de ce que les task runners d'hier justifiaient a tout simplement été **absorbée par les outils de build modernes**.
 </InformationBanner>
 
-### Pouvoir #5 : Quand une ligne de commande ne suffit plus
+## Pouvoir #5 : Quand une ligne de commande ne suffit plus
 
 Le côté droit d'un script est un espace très étroit. Dès que vous avez besoin d'une condition (« supprimer ce dossier *seulement s'il existe* »), d'une boucle ou d'une gestion d'erreur, **la commande en une ligne devient un enfer illisible** — et cesse de fonctionner à l'identique d'un système d'exploitation à l'autre.
 
@@ -171,7 +171,7 @@ Un dossier `tools/`, un fichier par tâche, chacun assumant **une responsabilit�
 
 Le cas d'école reste la publication d'une version. Incrémenter le numéro, mettre à jour le *changelog*, lancer le build, poser un tag Git : **une séquence que l'on connaît par cœur et que l'on rate systématiquement à 23h un vendredi**. Un seul fichier `tools/release.js` et un `npm run release` plus tard, la routine s'exécute de la même manière à chaque fois.
 
-### Pouvoir #6 : Offrir sa propre CLI avec le champ `bin`
+## Pouvoir #6 : Offrir sa propre CLI avec le champ `bin`
 
 Voilà le champ qui fait entrer un projet dans la cour des grands, et **le grand oublié de la plupart des `package.json`**. Premier point de vigilance : `bin` **n'est pas dans `scripts`**, c'est un champ de premier niveau à part entière.
 
@@ -203,7 +203,7 @@ monprojet new component Button
 
 C'est exactement de cette manière que Vite, ESLint ou Prisma vous mettent une commande entre les mains. **Rien ne vous empêche d'en faire autant** : vos coéquipiers récupèrent la même commande sans rien installer de plus, et votre dépôt embarque désormais **sa propre CLI**, cohérente avec ses conventions.
 
-### Pouvoir #7 : Les champs oubliés au-delà des scripts
+## Pouvoir #7 : Les champs oubliés au-delà des scripts
 
 La section `scripts` monopolise l'attention, mais quelques autres champs méritent largement le détour :
 
@@ -225,7 +225,7 @@ La section `scripts` monopolise l'attention, mais quelques autres champs mérite
 
 - **`workspaces`**, enfin, transforme votre dépôt en monorepo et fait le lien avec <LinkWithGlimpse url="https://www.frenchdev.co/post/monorepo-1" internalLink={true}>les avantages d'un monorepo</LinkWithGlimpse>.
 
-### Un workflow que toute l'équipe comprend
+## Un workflow que toute l'équipe comprend
 
 Reste le critère qui sépare le script qui marche sur votre machine du workflow auquel une équipe entière peut se fier. Deux réflexes suffisent à faire l'essentiel du chemin.
 
@@ -233,7 +233,7 @@ D'abord, **écrire ses scripts pour la personne qui arrivera lundi prochain** : 
 
 Ensuite, **ne jamais présumer du système d'exploitation d'en face**. Chaque `rm -rf`, chaque `VAR=valeur`, chaque `&` est une petite bombe à retardement pour le collègue sous Windows. Un `cross-env` ici, un script Node là, et le problème disparaît définitivement.
 
-### Faut-il jeter les gros outils pour autant ?
+## Faut-il jeter les gros outils pour autant ?
 
 Il serait malhonnête de conclure que le `package.json` remplace tout. Sur un monorepo conséquent, **la mise en cache des tâches, leur parallélisation intelligente et l'exploitation du graphe de dépendances** — ce que font <LinkWithGlimpse url="https://turbo.build">Turborepo</LinkWithGlimpse> ou <LinkWithGlimpse url="https://nx.dev">Nx</LinkWithGlimpse> — restent hors de portée d'une section `scripts`, et le sont de plus en plus à mesure que le projet grossit.
 
@@ -257,7 +257,7 @@ Pour une plongée complète dans le sujet, la vidéo de **<LinkWithGlimpse url="
 </div>
 
 <div className="useful-links">
-  #### Liens additionnels
+  ### Liens additionnels
 
   - <ExternalLink> <LinkWithGlimpse url="https://docs.npmjs.com/cli/v11/using-npm/scripts">Documentation npm — Scripts</LinkWithGlimpse> </ExternalLink>
   - <ExternalLink> <LinkWithGlimpse url="https://docs.npmjs.com/cli/v11/configuring-npm/package-json">Documentation npm — package.json</LinkWithGlimpse> </ExternalLink>
