@@ -6,8 +6,8 @@ import BaseSelectFacebook from "./assets/base-select-facebook";
 import LinkWithGlimpse from "@/markdown/-components/link-with-glimpse";
 import BaselineStatus from "@/markdown/-components/baseline-status";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./assets/shadcn-select";
-import SpidermanSelect from "./assets/images/spiderman-select.jpg";
-import ScoobyDooSelect from "./assets/images/scooby-doo-select.jpg";
+import TwoPeoplePointingEachOtherMeme from "./assets/images/two-people-pointing-each-other-meme.webp";
+import DemasquerMeme from "./assets/images/demasquer_meme.webp";
 import Image from "next/image";
 import ExternalLink from "@/markdown/-components/external-link";
 import InformationBanner from "@/markdown/-components/information-banner";
@@ -67,7 +67,7 @@ Jetons un œil par exemple au `select` de la librairie <LinkWithGlimpse url="htt
 
 Même fonctionnement, même apparence. On croirait un vrai ! 🪞✨
 
-<Image src={SpidermanSelect} alt="Spiderman select" className="mx-auto my-8 w-125" width={400} height={300} />
+<Image src={TwoPeoplePointingEachOtherMeme} alt="Two identical people pointing at each other" className="mx-auto my-8 w-150 max-w-full"/>
 
 À la lecture du code source, on réalise toutefois qu'**il n'y a aucun** `<select>` **en vue** mais seulement un `<button>` bardé d'attributs et qui requiert **d'importer une librairie JavaScript** (ici `@radix-ui/react-select`) pour pouvoir fonctionner comme un `<select>` natif...
 
@@ -77,7 +77,7 @@ import * as SelectPrimitive from "@radix-ui/react-select"; // who tf are you ?!
 
 En quoi est-ce problématique ? D'abord parce qu'en **s'en remettant à l'API d'un composant externe**, **on perd le bénéfice d'une implémentation native et performante** du composant `<select>` optimisée pour le navigateur. Ces implémentations alternatives **requièrent toute une série d'attributs pour satisfaire les standards d'accessibilité**. Ensuite parce que cela **nous contraint à ajouter une dépendance à notre projet** pour émuler un comportement déjà existant à la seule fin de contourner des limitations stylistiques...
 
-<Image src={ScoobyDooSelect} alt="Le select est enfin dévoilé : il s'agit d'un bouton" className="mx-auto my-8 h-125" width={400} height={300} />
+<Image src={DemasquerMeme} alt="Le select est enfin dévoilé : il s'agit d'un bouton" className="mx-auto my-8" className="mx-auto my-8 w-175 max-w-full"/>
 
 Quitte à devoir utiliser des `<button>` et des `<div>` pour contrefaire notre `<select>`, **pourquoi ne pas tenter une implémentation personnelle afin de ne pas se reposer sur une librairie externe pour un composant aussi essentiel ?**
 
