@@ -1,7 +1,14 @@
 import githubFromCss from "@code-hike/lighter/theme/github-from-css.mjs";
-import { Code } from "bright";
+import { Code, type Extension } from "bright";
 import type { MDXComponents } from "mdx/types";
 import CodeBlock from "@/markdown/-components/code-block";
+
+const mark: Extension = {
+  MultilineAnnotation: ({ children }) => (
+    <div data-highlighted-line>{children}</div>
+  ),
+  name: "mark",
+};
 
 /**
  * `github-from-css` maps every color to a `--ch-*` CSS variable, so the palette
@@ -50,6 +57,7 @@ Code.theme = {
 };
 
 Code.lineNumbers = true;
+Code.extensions = [mark];
 /* Merged last into Bright's inline style on the wrapper, which defaults to 4px */
 Code.style = { borderRadius: "var(--code-border-radius)" };
 Code.displayName = "test";

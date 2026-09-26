@@ -182,8 +182,6 @@
   --code-background-color: #fff;
   --code-color: var(--color);
   --quote-color: gray;
-  --code-highlight-color: #c084fc;
-  --code-background-color-highlight: #022a4b;
 
   /* 💬 Insert */
   [data-status="info"] {

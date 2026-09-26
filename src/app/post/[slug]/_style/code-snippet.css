@@ -12,7 +12,8 @@
     --ch-16: var(--code-background-color); /* background */
     --ch-4: var(--color); /* foreground: punctuation and everything unclaimed */
     --ch-24: var(--color-neutral-500); /* line numbers */
-    --ch-20: #ede9fe; /* selection background */
+    --ch-20: #ede9fe; /* selection background, also marked lines */
+    --code-mark-color: #a855f7; /* marked lines: gutter border and number (purple-500) */
 
     /* Tokens */
     --ch-1: #8b8494; /* comments */
@@ -104,11 +105,22 @@
       padding: 0 1rem;
     }
 
+    /* Lines marked with `// mark` (Bright extension in mdx-components.tsx):
+       a purple bar on the gutter's left edge, then the code tinted with the
+       selection color, starting after the gutter so its background stays */
     [data-highlighted-line] {
-      display: block;
-      padding-right: 1em;
-      background-color: var(--code-background-color-highlight);
-      border-left: 6px solid var(--code-highlight-color);
+      background:
+        linear-gradient(var(--code-mark-color), var(--code-mark-color)) left /
+        3px 100% no-repeat,
+        linear-gradient(
+          to right,
+          transparent var(--gutter-width),
+          var(--ch-20) var(--gutter-width)
+        );
+
+      [data-bright-ln] {
+        color: var(--code-mark-color);
+      }
     }
   }
 }
