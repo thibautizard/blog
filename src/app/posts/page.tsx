@@ -3,23 +3,10 @@ import Link from "next/link";
 import { cn } from "src/lib/utils";
 import { PageFade } from "@/components/page-fade";
 import { formatDateForPost } from "@/lib/dates";
-import { getAllPosts, sortPostsByDate } from "@/lib/posts";
-import type { PostMetadata } from "@/types/posts";
+import { getSortedPostsWithMetadata } from "@/lib/posts";
 
 export default async function HomePage() {
-  const posts = getAllPosts();
-
-  // 📦
-  const postsWithMetadata = await Promise.all(
-    posts.map(async (post) => {
-      const { metadata } = (await import(
-        `@/markdown/${post.slug}/${post.slug}.mdx`
-      )) as { metadata: PostMetadata };
-      return { ...post, metadata };
-    })
-  );
-
-  const postsToDisplay = postsWithMetadata.sort(sortPostsByDate);
+  const postsToDisplay = await getSortedPostsWithMetadata();
 
   return (
     <PageFade>

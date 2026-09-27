@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Post, PostResume } from "@/types/posts";
+import type { Post, PostMetadata, PostResume } from "@/types/posts";
 
 const startDir = path.join(process.cwd(), "src", "markdown");
 
@@ -36,4 +36,17 @@ export function sortPostsByDate(post1: Post, post2: Post): number {
   const date1 = new Date(post1.metadata.date);
   const date2 = new Date(post2.metadata.date);
   return date2.getTime() - date1.getTime();
+}
+
+export async function getSortedPostsWithMetadata(): Promise<Post[]> {
+  const posts = await Promise.all(
+    getAllPosts().map(async (post) => {
+      const { metadata } = (await import(
+        `@/markdown/${post.slug}/${post.slug}.mdx`
+      )) as { metadata: PostMetadata };
+      return { ...post, metadata };
+    })
+  );
+
+  return posts.sort(sortPostsByDate);
 }
