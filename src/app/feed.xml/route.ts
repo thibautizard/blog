@@ -18,6 +18,7 @@ function escapeXml(value: string) {
 export async function GET() {
   const posts = await getSortedPostsWithMetadata();
   const feedUrl = `${site.url}/feed.xml`;
+  const iconUrl = `${site.url}/feed-icon.png`;
   const lastBuildDate = posts[0]
     ? new Date(posts[0].metadata.date).toUTCString()
     : new Date().toUTCString();
@@ -37,7 +38,7 @@ export async function GET() {
     .join("\n");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:webfeeds="http://webfeeds.org/rss/1.0">
   <channel>
     <title>${escapeXml(site.title)}</title>
     <link>${site.url}</link>
@@ -45,6 +46,15 @@ export async function GET() {
     <language>${site.language}</language>
     <lastBuildDate>${lastBuildDate}</lastBuildDate>
     <atom:link href="${feedUrl}" rel="self" type="application/rss+xml"/>
+    <image>
+      <url>${iconUrl}</url>
+      <title>${escapeXml(site.title)}</title>
+      <link>${site.url}</link>
+      <width>144</width>
+      <height>144</height>
+    </image>
+    <webfeeds:icon>${iconUrl}</webfeeds:icon>
+    <webfeeds:logo>${site.url}/icon.svg</webfeeds:logo>
 ${items}
   </channel>
 </rss>`;
