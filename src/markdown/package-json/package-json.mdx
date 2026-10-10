@@ -1,6 +1,9 @@
 import ExternalLink from "@/markdown/-components/external-link";
 import InformationBanner from "@/markdown/-components/information-banner";
 import LinkWithGlimpse from "@/markdown/-components/link-with-glimpse";
+import ISeeDeadScriptsImage from "./assets/images/i-see-dead-scripts.avif";
+import WindowsLinuxMacos from "./assets/images/windows-linux-macos.avif";
+import Image from "next/image";
 
 export const metadata = {
   title: "Les pouvoirs insoupçonnés de package.json",
@@ -9,32 +12,15 @@ export const metadata = {
   illustration: "ring.svg"
 };
 
-Il y a dans chacun de nos projets **un fichier bien familier que l'on ouvre uniquement pour y ajouter une dépendance** avant de le refermer aussitôt : le `package.json`.
+Il y a dans chacun de nos projets **ce fichier bien familier que l'on ouvre uniquement pour y ajouter une dépendance ou en modifier une commande** avant de le refermer aussitôt, _el famoso_ `package.json`.
 
-Hérité le plus souvent d'un `create-something-app` et façonné par un collègue fondateur parti depuis bien longtemps, **on n'y touche plus qu'à de rares occasions** en se contentant de lancer rituellement les commandes qu'il contient (`npm run dev`, `npm run build`) tel que le préconise le `README` sans chercher à en déchiffrer le contenu parfois.. sibyllin.
+Et c'est bien dommage ! Car ce fichier incontournable **recèle des secrets et des pouvoirs surpuissants voire pour certains insoupçonnés**.
 
-Et c'est bien dommage ! Car ce fichier incontournable **recèle des secrets et des pouvoirs surpuissants, pour certains insoupçonnés** 🧙 Il peut nettoyer un dossier de build, compiler votre code, lancer un serveur de développement, publier une version, et **même exécuter des scripts personnalisés**, le tout **sans installer le moindre _task runner_**.
+Avec seulement quelques retouches, il peut nettoyer un dossier de build, compiler votre code, lancer un serveur de développement, publier une version et **même exécuter des scripts personnalisés**. Bref, tout ce qui requérait auparavant **d'installer un _task runner_ comme Grunt ou Gulp** est dorénavant possible depuis ce seul fichier json.
 
 ## Pouvoir #1 : Créer des commandes personnalisées
 
-_First things first_, la section `scripts` permet de créer des alias pour exécuter **une commande complète sur votre projet**. Par convention, on y trouve souvent les mêmes (`dev`, `build`, `typecheck`, `test`) mais n'importe quel nom peut être utilisé.
-
-```json
-{
-  "scripts": {
-    "hello": "echo 'Bonjour 👋'"
-  }
-}
-```
-
-```bash
-npm run hello
-# Bonjour 👋
-```
-
-Bien souvent, ce nom sert d'alias pour une commande complexe ou qui invoque des librairies référencées par ce même `package.json` (`npm run dev` peut ainsi toujours servir à lancer un serveur de développement, soit avec Next soit avec Vite ou tout autre, selon le projet).
-
-C'est là que rentre en jeu un premier implicite qui explique pourquoi vous n'avez jamais eu besoin d'installer `vite`globalement sur votre machine : **avant d'exécuter votre commande, votre gestionnaire de paquets ajoute temporairement le** `node_modules/.bin` de votre projet au `PATH` de votre session afin d'accéder à ses dépendances.
+L'entrée `scripts` du `package.json` permet de créer des alias servant de raccourci pour exécuter plus simplement **des commandes récurrentes dans notre projet** tels que `dev`, `build`, `typecheck`, `test`.
 
 ```json
 {
@@ -45,52 +31,55 @@ C'est là que rentre en jeu un premier implicite qui explique pourquoi vous n'av
 }
 ```
 
-Ainsi taper `vite` échouera probablement mais dans un script cela fonctionne il y désigne l'exécutable **installé localement dans le projet, à la version verrouillée par votre lockfile**. Vos scripts sont donc, par construction, reproductibles d'une machine à l'autre : **tout le monde exécute la même version du même outil.**
+Vous êtes-vous déjà demandé comment ces alias pouvait invoquer des librairies comme `vite` ou `next` que vous n'avez pourtant pas installées globalement ? Car **avant d'exécuter votre commande, votre gestionnaire de paquets ajoute temporairement le** `node_modules/.bin` de votre projet au `PATH` de votre session afin d'accéder à toutes ses dépendances.
+
+Taper `vite` échouera probablement mais dans un script cela fonctionne car notre package manager se réfèrera à l'exécutable installé localement dans le projet et défini par votre lockfile.
+
+L'avantage immédiat est que vos scripts sont reproductibles d'une machine à l'autre : **tout le monde exécute ainsi la même version du même outil** lors du lancement du script. Pas de risque par exemple qu'un `typescript` 7 installé globalement sur votre machine tourne lors d'un typecheck quand votre collègue utiliserait de son côté un `typescript` 6. Seules font foi les **dépendances explicitement listées dans votre `package.json`**.
 
 ## Pouvoir #2 : Les hooks `pre` et `post`
 
-C'est ici que les choses deviennent réellement magiques. Lorsque vous lancez un script `build`, npm va **spontanément chercher deux scripts au nom conventionnel** : `prebuild` et `postbuild`. S'ils existent, il exécute `prebuild`, puis `build`, puis `postbuild`, **sans que vous ayez rien demandé**.
+Bon, même si les alias de commande dans la section `scripts` ne sont pas toujours utilisées à leur plein potentiel ils sont malgré tout banals dans n'importe quel projet Javascript ou Typescript. Plus méconnus sont en revanche les hooks `pre` et `post`.
+
+Lorsque vous lancez un script `build`, npm va **spontanément chercher deux autres scripts** : `prebuild` et `postbuild`. S'ils existent, le séquence d'exécution sera `prebuild`, puis `build`, puis `postbuild`, **sans que vous ayez rien demandé**.
 
 ```json
 {
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "vite build",
-    "postbuild": "node tools/report-size.js"
+    "prebuild": "rimraf dist", /* le dossier dist est supprimé */
+    "build": "vite build", /* le site est compilé */
+    "postbuild": "node tools/report-size.js" /* la taille du bundle est affichée */
   }
 }
 ```
 
-```bash
-npm run build
-# 1. le dossier dist est supprimé
-# 2. le site est compilé
-# 3. la taille du bundle est affichée
-```
-
-Une seule commande, trois étapes, dans le bon ordre. La convention vaut pour **n'importe quel nom de script** (`pretest`, `postdeploy`, `prerelease`…) et permet d'attacher proprement des étapes de préparation ou de nettoyage sans les empiler à coups de `&&`.
+Cette convention vaut pour **n'importe quel nom de script** (`pretest`, `postdeploy`, `prerelease`…) et permet d'attacher proprement des étapes de préparation ou de nettoyage autour d'une commande sans la bourrer de `&&`. Une façon bien plus propre d'écrire et de séparer les responsabilités au sein de vos scripts.
 
 <InformationBanner status="warning">
-Ce comportement automatique est **une spécificité de npm**, et c'est le genre de détail que les tutoriels oublient soigneusement de préciser. <LinkWithGlimpse url="https://pnpm.io/settings#enableprepostscripts">pnpm ne les exécute pas par défaut</LinkWithGlimpse> et exige un `enable-pre-post-scripts=true` explicite, tandis que <LinkWithGlimpse url="https://yarnpkg.com/advanced/lifecycle-scripts">Yarn Berry a purement et simplement refusé de les supporter</LinkWithGlimpse>. Le motif invoqué par les deux est le même et il est difficile à balayer : **ces étapes implicites rendent le flux d'exécution invisible**, et un nouvel arrivant qui lit `"build": "vite build"` n'a aucun moyen de deviner que deux autres commandes s'exécutent autour. Même remarque pour `node --run build`, introduit avec Node 22, qui exécute vos scripts sans passer par npm — et **sans déclencher les hooks `pre` et `post`**. Le confort est donc réel, mais il se paie en portabilité : si votre projet peut changer de gestionnaire de paquets, mieux vaut assumer un `"build": "npm run clean && vite build"` un peu plus verbeux mais parfaitement lisible.
+Ce comportement automatique est **une spécificité de npm** : <LinkWithGlimpse url="https://pnpm.io/settings#enableprepostscripts">pnpm ne les exécute pas par défaut</LinkWithGlimpse> et exige un `enable-pre-post-scripts=true` explicite, tandis que <LinkWithGlimpse url="https://yarnpkg.com/advanced/lifecycle-scripts">Yarn Berry a purement et simplement refusé de les supporter</LinkWithGlimpse>. La motivation derrière cette limitation est au fond raisonnable : **ces étapes implicites rendent le flux d'exécution invisible**, et un nouvel arrivant qui lit `"build": "vite build"` n'a aucun moyen de deviner que d'autres commandes s'exécutent autour.
 </InformationBanner>
 
-## L'autre visage des scripts : ceux que vous n'avez pas écrits
+## D'autres scripts cachés encore...
 
 Il existe une seconde famille de scripts, autrement plus dangereuse : **les scripts de cycle de vie que npm déclenche tout seul à l'installation**. `preinstall`, `install` et `postinstall` s'exécutent en effet non seulement pour votre projet, mais **pour chacune des dépendances que vous installez**.
 
-Cette mécanique a une raison d'être légitime — compiler un module natif, télécharger un binaire — mais elle revient à **exécuter du code arbitraire sur votre machine à chaque `npm install`**, et elle a été le vecteur privilégié de la vague d'attaques de la chaîne d'approvisionnement de ces dernières années.
+<Image width={500} src={ISeeDeadScriptsImage} alt="A child saying 'I see dead scripts'" className="mx-auto my-12 w-150 max-w-full"/>
 
-D'où le grand virage de 2026 : **npm v12 désactive l'exécution des scripts d'installation des dépendances par défaut**. Les paquets qui en ont réellement besoin doivent désormais être **explicitement autorisés**, ce que l'on inventorie avec :
+Historiquement il s'agissait de permettre à certaines librairies de compiler des modules natifs ou de télécharger un binaire pour leur fonctionnement.
+
+Mais elle revient surtout à **exécuter du code arbitraire sur votre machine à chaque `npm install`** ce qui en a fait le vecteur privilégié d'une série d'attaques de la chaîne d'approvisionnement (_supply chain attacks_) <LinkWithGlimpse url="https://securitylabs.datadoghq.com/articles/shai-hulud-2.0-npm-worm/">dans l'écosystème npm ces dernières années</LinkWithGlimpse>.
+
+Conscient du problème et imitant pnpm, Yarn et Bun qui bloquaient déjà ces scripts, **npm v12 désactive dorénavant leur exécution par défaut**.
+
+Les paquets qui en ont réellement besoin doivent désormais être **explicitement autorisés** avec la commande suivante :
 
 ```bash
 npm approve-scripts --allow-scripts-pending
 ```
 
-npm rejoint ainsi pnpm, Yarn et Bun, qui bloquaient déjà ces scripts par défaut. Attendez-vous donc à voir **quelques pipelines CI casser** le jour de la montée de version : c'est précisément le moment de découvrir combien de dépendances de votre projet exécutaient du code chez vous à votre insu.
-
 ## Pouvoir #3 : Passer des arguments et lire l'environnement
 
-Un script n'est pas condamné à rester figé. Tout ce que vous placez après `--` est **transmis tel quel à la commande sous-jacente** :
+Un script n'est pas condamné à rester figé et peut recevoir des arguments pour en moduler le comportement. Par exemple, tout ce que vous placez après `--` est **transmis tel quel à la commande sous-jacente** :
 
 ```bash
 npm run test -- --watch
@@ -108,7 +97,9 @@ Vos scripts ont par ailleurs accès à **une série de variables d'environnement
 }
 ```
 
-Pratique pour tagger une image Docker ou nommer une archive sans jamais dupliquer le numéro de version. Attention en revanche à la définition de variables : la syntaxe `MA_VAR=valeur ma-commande` **fonctionne sur macOS et Linux, et échoue sur Windows**. C'est là qu'intervient <LinkWithGlimpse url="https://github.com/kentcdodds/cross-env">`cross-env`</LinkWithGlimpse>, minuscule utilitaire qui uniformise le comportement :
+Pratique pour tagger une image Docker ou nommer une archive sans jamais dupliquer le numéro de version !
+
+Attention en revanche à la définition de variables : la syntaxe `MA_VAR=valeur ma-commande` **fonctionne sur macOS et Linux, et échoue sur Windows**. C'est là qu'intervient <LinkWithGlimpse url="https://github.com/kentcdodds/cross-env">`cross-env`</LinkWithGlimpse>, minuscule utilitaire qui uniformise le comportement :
 
 ```json
 {
@@ -131,9 +122,12 @@ Les projets réels enchaînent rarement une seule action. Le shell offre déjà 
 }
 ```
 
-Le `&&` **enchaîne les commandes en séquence** et interrompt tout dès qu'une étape échoue — exactement ce que l'on veut dans une CI. Le `&` simple **les lance en parallèle**… et retombe dans le même piège que précédemment : **il n'existe pas sous Windows**, où il se comporte tout autrement.
+Le `&&` **enchaîne les commandes en séquence** et interrompt tout dès qu'une étape échoue — généralement ce que l'on recherche dans une CI. Le `&` simple **les lance en parallèle**… avec la même limite que celle vue précédemment pour les variables d'environnement personnalisées : **il n'existe pas vraiment sous Windows qui lui donne une autre signification** \*_windows fatigue intensifies_\*.
 
-Pour du parallélisme fiable, la communauté s'appuie sur deux petits outils dédiés : <LinkWithGlimpse url="https://github.com/bcomnes/npm-run-all2">`npm-run-all2`</LinkWithGlimpse> (le fork maintenu de l'historique `npm-run-all`) et <LinkWithGlimpse url="https://github.com/open-cli-tools/concurrently">`concurrently`</LinkWithGlimpse>. Le premier a le bon goût de comprendre les jokers :
+<Image width={500} src={WindowsLinuxMacos} alt="Three dragon heads, two labeled MacOS and Linux, and the third stupid Windows" className="mx-auto my-12 w-150 max-w-full"/>
+
+
+Pour du parallélisme fiable entre toutes les plateformes, deux outils dédiés ont fait leurs preuves : <LinkWithGlimpse url="https://github.com/bcomnes/npm-run-all2">`npm-run-all2`</LinkWithGlimpse> (le fork maintenu de l'historique `npm-run-all`) et <LinkWithGlimpse url="https://github.com/open-cli-tools/concurrently">`concurrently`</LinkWithGlimpse> :
 
 ```json
 {
@@ -146,10 +140,10 @@ Pour du parallélisme fiable, la communauté s'appuie sur deux petits outils dé
 }
 ```
 
-`run-p` pour *parallel*, `run-s` pour *sequential*, et un `dev:*` qui ramasse automatiquement tous les scripts partageant le même préfixe. **Un seul `npm run dev` et tout l'environnement de développement se réveille d'un coup.** On est très loin de la lourdeur d'un Gulp ou d'un Grunt : ce sont des dépendances à but unique, pas des écosystèmes de plugins à entretenir.
+`run-p` pour *parallel*, `run-s` pour *sequential*, et un `dev:*` qui ramasse automatiquement tous les scripts partageant le même préfixe. **Un seul `npm run dev` et tout l'environnement de développement se réveille d'un coup.**
 
 <InformationBanner>
-Le mode *watch* — ce processus qui reste actif, surveille vos fichiers et ne recompile **que ce qui a réellement changé** — n'a lui non plus plus besoin du moindre outil externe. <LinkWithGlimpse url="https://vite.dev">Vite</LinkWithGlimpse>, <LinkWithGlimpse url="https://esbuild.github.io">esbuild</LinkWithGlimpse> et <LinkWithGlimpse url="https://bun.com">Bun</LinkWithGlimpse> l'embarquent nativement, et Node lui-même dispose désormais d'un `node --watch`. Une bonne partie de ce que les task runners d'hier justifiaient a tout simplement été **absorbée par les outils de build modernes**.
+Le mode *watch* — ce processus qui reste actif, surveille vos fichiers et ne recompile **que ce qui a réellement changé** — n'a lui non plus plus besoin du moindre outil externe. <LinkWithGlimpse url="https://vite.dev">Vite</LinkWithGlimpse>, <LinkWithGlimpse url="https://esbuild.github.io">esbuild</LinkWithGlimpse> et <LinkWithGlimpse url="https://bun.com">Bun</LinkWithGlimpse> l'embarquent nativement, et Node lui-même dispose désormais d'un `node --watch`. Une bonne partie de ce que les task runners d'hier justifiaient a tout simplement été **absorbée par nos outils de build modernes**.
 </InformationBanner>
 
 ## Pouvoir #5 : Quand une ligne de commande ne suffit plus
