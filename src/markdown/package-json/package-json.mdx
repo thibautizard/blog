@@ -12,15 +12,15 @@ export const metadata = {
   illustration: "ring.svg"
 };
 
-Il y a dans chacun de nos projets **ce fichier bien familier que l'on ouvre uniquement pour y ajouter une dépendance ou en modifier une commande** avant de le refermer aussitôt, _el famoso_ `package.json`.
+Dans chacun de nos projets se trouve **ce fichier familier que l'on ouvre qu'en de rares occasions** avant de le refermer aussitôt : _el famoso_ `package.json`.
 
-Et c'est bien dommage ! Car ce fichier incontournable **recèle des secrets et des pouvoirs surpuissants voire pour certains insoupçonnés**.
+Et c'est fort dommage, car cet incontournable des stacks web **recèle quelques secrets et des pouvoirs insoupçonnés** par la plupart des devs.
 
-Avec seulement quelques retouches, il peut nettoyer un dossier de build, compiler votre code, lancer un serveur de développement, publier une version et **même exécuter des scripts personnalisés**. Bref, tout ce qui requérait auparavant **d'installer un _task runner_ comme Grunt ou Gulp** est dorénavant possible depuis ce seul fichier json.
+Faisons un point sur toutes les possibilités qu'offre le `package.json` pour doper votre workflow !
 
-## Pouvoir #1 : Créer des commandes personnalisées
+## Les commandes personnalisées
 
-L'entrée `scripts` du `package.json` permet de créer des alias servant de raccourci pour exécuter plus simplement **des commandes récurrentes dans notre projet** tels que `dev`, `build`, `typecheck`, `test`.
+Balayons un fait assez connu : la section `scripts` permet de créer des alias tels que `dev`, `build`, `typecheck`, `test` servant de raccourci pour exécuter **des commandes récurrentes dans notre projet**.
 
 ```json
 {
@@ -31,17 +31,17 @@ L'entrée `scripts` du `package.json` permet de créer des alias servant de racc
 }
 ```
 
+<InformationBanner status="info">
 Vous êtes-vous déjà demandé comment ces alias pouvait invoquer des librairies comme `vite` ou `next` que vous n'avez pourtant pas installées globalement ? Car **avant d'exécuter votre commande, votre gestionnaire de paquets ajoute temporairement le** `node_modules/.bin` de votre projet au `PATH` de votre session afin d'accéder à toutes ses dépendances.
-
+<br/>
 Taper `vite` échouera probablement mais dans un script cela fonctionne car notre package manager se réfèrera à l'exécutable installé localement dans le projet et défini par votre lockfile.
-
+<br/>
 L'avantage immédiat est que vos scripts sont reproductibles d'une machine à l'autre : **tout le monde exécute ainsi la même version du même outil** lors du lancement du script. Pas de risque par exemple qu'un `typescript` 7 installé globalement sur votre machine tourne lors d'un typecheck quand votre collègue utiliserait de son côté un `typescript` 6. Seules font foi les **dépendances explicitement listées dans votre `package.json`**.
+</InformationBanner>
 
-## Pouvoir #2 : Les hooks `pre` et `post`
+Plus méconnus sont en revanche les hooks `pre` et `post` qui ajoutent encore plus de flexibilité à ces commandes.
 
-Bon, même si les alias de commande dans la section `scripts` ne sont pas toujours utilisées à leur plein potentiel ils sont malgré tout banals dans n'importe quel projet Javascript ou Typescript. Plus méconnus sont en revanche les hooks `pre` et `post`.
-
-Lorsque vous lancez un script `build`, npm va **spontanément chercher deux autres scripts** : `prebuild` et `postbuild`. S'ils existent, le séquence d'exécution sera `prebuild`, puis `build`, puis `postbuild`, **sans que vous ayez rien demandé**.
+Qu'est-ce donc ? Lorsque vous lancez un script `build`, par exemple, npm va **spontanément chercher deux autres scripts** : `prebuild` et `postbuild`. S'ils existent, `prebuild` sera exécuté avant `build` et `postbuild` juste après.
 
 ```json
 {
@@ -53,40 +53,42 @@ Lorsque vous lancez un script `build`, npm va **spontanément chercher deux autr
 }
 ```
 
-Cette convention vaut pour **n'importe quel nom de script** (`pretest`, `postdeploy`, `prerelease`…) et permet d'attacher proprement des étapes de préparation ou de nettoyage autour d'une commande sans la bourrer de `&&`. Une façon bien plus propre d'écrire et de séparer les responsabilités au sein de vos scripts.
+Cette convention vaut pour **n'importe quel nom de script** (on peut ainsi avoir des `pretest`, `postdeploy`, `prerelease`…) et permet d'attacher proprement des étapes de préparation ou de nettoyage autour d'une commande sans bourrer celle-ci de `&&` et perdre en lisibilité.
+
+Une façon bien plus propre d'écrire et de séparer les responsabilités au sein de vos scripts !
 
 <InformationBanner status="warning">
-Ce comportement automatique est **une spécificité de npm** : <LinkWithGlimpse url="https://pnpm.io/settings#enableprepostscripts">pnpm ne les exécute pas par défaut</LinkWithGlimpse> et exige un `enable-pre-post-scripts=true` explicite, tandis que <LinkWithGlimpse url="https://yarnpkg.com/advanced/lifecycle-scripts">Yarn Berry a purement et simplement refusé de les supporter</LinkWithGlimpse>. La motivation derrière cette limitation est au fond raisonnable : **ces étapes implicites rendent le flux d'exécution invisible**, et un nouvel arrivant qui lit `"build": "vite build"` n'a aucun moyen de deviner que d'autres commandes s'exécutent autour.
+Ce comportement automatique est **une spécificité de npm** : <LinkWithGlimpse url="https://pnpm.io/settings#enableprepostscripts">pnpm ne les exécute pas par défaut</LinkWithGlimpse> et exige un `enable-pre-post-scripts=true` explicite, tandis que <LinkWithGlimpse url="https://yarnpkg.com/advanced/lifecycle-scripts">Yarn Berry a purement et simplement refusé de les supporter</LinkWithGlimpse>. Derrière cette limitation se trouve une motivation raisonnable : **ces étapes implicites peuvent aussi obscurcir le flux d'exécution** : un nouvel arrivant sur un projet qui lit `"build": "vite build"` n'a aucun moyen de deviner que d'autres commandes s'exécutent autour.
 </InformationBanner>
 
 ## D'autres scripts cachés encore...
 
-Il existe une seconde famille de scripts, autrement plus dangereuse : **les scripts de cycle de vie que npm déclenche tout seul à l'installation**. `preinstall`, `install` et `postinstall` s'exécutent en effet non seulement pour votre projet, mais **pour chacune des dépendances que vous installez**.
+Il existe une seconde famille de scripts, autrement plus dangereuse : **les scripts de cycle de vie que npm va déclencher tout seul à l'installation d'une dépendance**. `preinstall`, `install` et `postinstall` s'exécutent en effet non seulement pour votre projet, mais **pour chacune des dépendances que vous installez**.
 
 <Image width={500} src={ISeeDeadScriptsImage} alt="A child saying 'I see dead scripts'" className="mx-auto my-12 w-150 max-w-full"/>
 
-Historiquement il s'agissait de permettre à certaines librairies de compiler des modules natifs ou de télécharger un binaire pour leur fonctionnement.
+Historiquement il s'agissait de permettre à certaines librairies de **compiler des modules natifs** ou de **télécharger un binaire utile à leur bon fonctionnement**.
 
-Mais elle revient surtout à **exécuter du code arbitraire sur votre machine à chaque `npm install`** ce qui en a fait le vecteur privilégié d'une série d'attaques de la chaîne d'approvisionnement (_supply chain attacks_) <LinkWithGlimpse url="https://securitylabs.datadoghq.com/articles/shai-hulud-2.0-npm-worm/">dans l'écosystème npm ces dernières années</LinkWithGlimpse>.
+Mais cette facilité permet également à des librairies malveillantes **exécuter du code arbitraire sur votre machine à chaque `npm install`** ce qui en a fait le vecteur privilégié d'une série d'attaques de la chaîne d'approvisionnement (_supply chain attacks_) <LinkWithGlimpse url="https://securitylabs.datadoghq.com/articles/shai-hulud-2.0-npm-worm/">dans l'écosystème npm ces dernières années</LinkWithGlimpse>.
 
-Conscient du problème et imitant pnpm, Yarn et Bun qui bloquaient déjà ces scripts, **npm v12 désactive dorénavant leur exécution par défaut**.
+Conscient du problème et imitant en cela pnpm, Yarn et Bun qui bloquaient déjà ces scripts, **npm v12 désactive dorénavant leur exécution par défaut**.
 
-Les paquets qui en ont réellement besoin doivent désormais être **explicitement autorisés** avec la commande suivante :
+Les paquets ayant réellement besoin de ces scripts pre ou post installation doivent désormais être **explicitement autorisés** avec la commande suivante :
 
 ```bash
 npm approve-scripts --allow-scripts-pending
 ```
 
-## Pouvoir #3 : Passer des arguments et lire l'environnement
+## Passer des arguments et lire l'environnement
 
-Un script n'est pas condamné à rester figé et peut recevoir des arguments pour en moduler le comportement. Par exemple, tout ce que vous placez après `--` est **transmis tel quel à la commande sous-jacente** :
+Un script n'est pas toujours une commande figée et peut parfaitement recevoir des arguments pour en modifier le comportement. Par exemple, tout ce qui est placé après un double dash `--` est **transmis tel quel à la commande qui le précède** :
 
 ```bash
 npm run test -- --watch
 npm run build -- --mode staging
 ```
 
-Vos scripts ont par ailleurs accès à **une série de variables d'environnement générées à la volée**, à commencer par les champs du `package.json` lui-même :
+Vos scripts peuvent également accéder à **des variables d'environnement** à commencer par les champs du `package.json` lui-même :
 
 ```json
 {
@@ -99,7 +101,8 @@ Vos scripts ont par ailleurs accès à **une série de variables d'environnement
 
 Pratique pour tagger une image Docker ou nommer une archive sans jamais dupliquer le numéro de version !
 
-Attention en revanche à la définition de variables : la syntaxe `MA_VAR=valeur ma-commande` **fonctionne sur macOS et Linux, et échoue sur Windows**. C'est là qu'intervient <LinkWithGlimpse url="https://github.com/kentcdodds/cross-env">`cross-env`</LinkWithGlimpse>, minuscule utilitaire qui uniformise le comportement :
+<InformationBanner status="warning">
+Attention en revanche à la définition de variables : la syntaxe `MA_VAR=valeur ma-commande` **fonctionne sur macOS et Linux, et échoue sur Windows**. C'est là qu'intervient un utilitaire comme <LinkWithGlimpse url="https://github.com/kentcdodds/cross-env">`cross-env`</LinkWithGlimpse> avec une syntaxe unique fonctionnant pour toutes les plateformes :
 
 ```json
 {
@@ -108,10 +111,11 @@ Attention en revanche à la définition de variables : la syntaxe `MA_VAR=valeur
   }
 }
 ```
+</InformationBanner>
 
-## Pouvoir #4 : Orchestrer plusieurs tâches
+## Orchestrer plusieurs tâches parallèlement
 
-Les projets réels enchaînent rarement une seule action. Le shell offre déjà deux opérateurs pour les articuler :
+Les projets réels enchaînent rarement une seule action. Le shell offre déjà deux opérateurs pour les articuler, le `&`et le `&&` :
 
 ```json
 {
@@ -122,10 +126,12 @@ Les projets réels enchaînent rarement une seule action. Le shell offre déjà 
 }
 ```
 
-Le `&&` **enchaîne les commandes en séquence** et interrompt tout dès qu'une étape échoue — généralement ce que l'on recherche dans une CI. Le `&` simple **les lance en parallèle**… avec la même limite que celle vue précédemment pour les variables d'environnement personnalisées : **il n'existe pas vraiment sous Windows qui lui donne une autre signification** \*_windows fatigue intensifies_\*.
+Le `&&` **enchaîne les commandes en séquence** qui s'interrompt totalement si l'une des étapes échoue. Le `&` simple **les lance en parallèle**…
 
-<Image width={500} src={WindowsLinuxMacos} alt="Three dragon heads, two labeled MacOS and Linux, and the third stupid Windows" className="mx-auto my-12 w-150 max-w-full"/>
 
+<InformationBanner status="warning">
+Le `&` présente la même limite que celle vue précédemment pour les variables d'environnement personnalisées : **il n'existe pas vraiment sous Windows qui lui donne une autre signification** \*_windows fatigue intensifies_\*.
+<Image width={500} src={WindowsLinuxMacos} alt="Three dragon heads, two labeled MacOS and Linux, and the third stupid Windows" className="mx-auto my-8 w-150 max-w-full"/>
 
 Pour du parallélisme fiable entre toutes les plateformes, deux outils dédiés ont fait leurs preuves : <LinkWithGlimpse url="https://github.com/bcomnes/npm-run-all2">`npm-run-all2`</LinkWithGlimpse> (le fork maintenu de l'historique `npm-run-all`) et <LinkWithGlimpse url="https://github.com/open-cli-tools/concurrently">`concurrently`</LinkWithGlimpse> :
 
@@ -140,17 +146,15 @@ Pour du parallélisme fiable entre toutes les plateformes, deux outils dédiés 
 }
 ```
 
-`run-p` pour *parallel*, `run-s` pour *sequential*, et un `dev:*` qui ramasse automatiquement tous les scripts partageant le même préfixe. **Un seul `npm run dev` et tout l'environnement de développement se réveille d'un coup.**
-
-<InformationBanner>
-Le mode *watch* — ce processus qui reste actif, surveille vos fichiers et ne recompile **que ce qui a réellement changé** — n'a lui non plus plus besoin du moindre outil externe. <LinkWithGlimpse url="https://vite.dev">Vite</LinkWithGlimpse>, <LinkWithGlimpse url="https://esbuild.github.io">esbuild</LinkWithGlimpse> et <LinkWithGlimpse url="https://bun.com">Bun</LinkWithGlimpse> l'embarquent nativement, et Node lui-même dispose désormais d'un `node --watch`. Une bonne partie de ce que les task runners d'hier justifiaient a tout simplement été **absorbée par nos outils de build modernes**.
+`run-p` pour *parallel*, `run-s` pour *sequential*, et un `dev:*` qui ramasse automatiquement tous les scripts partageant le même préfixe.
 </InformationBanner>
 
-## Pouvoir #5 : Quand une ligne de commande ne suffit plus
 
-Le côté droit d'un script est un espace très étroit. Dès que vous avez besoin d'une condition (« supprimer ce dossier *seulement s'il existe* »), d'une boucle ou d'une gestion d'erreur, **la commande en une ligne devient un enfer illisible** — et cesse de fonctionner à l'identique d'un système d'exploitation à l'autre.
+## Exécuter du javascript avec une commande
 
-La bonne réponse est aussi la plus simple : **pointer le script vers un vrai fichier JavaScript**.
+Les alias de commande peuvent vite devenir limités dès que vous avez besoin d'une condition (« supprimer ce dossier *seulement s'il existe* »), d'une boucle ou d'une gestion d'erreur. Non seulement **la commande en une ligne devient un enfer illisible** mais elle peut ne pas fonctionner à l'identique d'un système d'exploitation à l'autre.
+
+Dans ce cas, il est préférable de **faire pointer votre alias vers un vrai fichier JavaScript contenant toute la logique d'exécution**.
 
 ```json
 {
@@ -161,24 +165,22 @@ La bonne réponse est aussi la plus simple : **pointer le script vers un vrai fi
 }
 ```
 
-Un dossier `tools/`, un fichier par tâche, chacun assumant **une responsabilité unique**. Vous récupérez au passage `if`, `try/catch`, les modules Node et **un comportement rigoureusement identique sur macOS, Linux et Windows** — ce qui règle au passage la question des `rm -rf` et autres `cp` qui n'existent pas sous PowerShell.
+J'utilise par exemple souvent un script personnalisé de lint qui vient toiletter mes fichiers de traduction en les réordonnant, vérifier que chaque fichier de langue est exhaustif et qui repère les clefs de traduction mortes lorsque la librairie que j'utilise n'offre pas de telles fonctionnalités.
 
-Le cas d'école reste la publication d'une version. Incrémenter le numéro, mettre à jour le *changelog*, lancer le build, poser un tag Git : **une séquence que l'on connaît par cœur et que l'on rate systématiquement à 23h un vendredi**. Un seul fichier `tools/release.js` et un `npm run release` plus tard, la routine s'exécute de la même manière à chaque fois.
+## Ajouter sa propre CLI
 
-## Pouvoir #6 : Offrir sa propre CLI avec le champ `bin`
-
-Voilà le champ qui fait entrer un projet dans la cour des grands, et **le grand oublié de la plupart des `package.json`**. Premier point de vigilance : `bin` **n'est pas dans `scripts`**, c'est un champ de premier niveau à part entière.
+Et là on rentre carrément dans les arcanes du `package.json` là où peu s'aventurent. Avec un champ `bin`, vous pouvez **associer un nom de commande à un fichier exécutable**.
 
 ```json
 {
   "name": "@monprojet/tooling",
   "bin": {
-    "monprojet": "./tools/cli.js"
+    "exec": "./tools/cli.js"
   }
 }
 ```
 
-Il associe **un nom de commande que vous inventez** à **un fichier exécutable**. Une seule condition à ne pas oublier, sous peine de messages d'erreur incompréhensibles : le fichier ciblé doit commencer par un *shebang*.
+Le fichier ciblé doit commencer par un *shebang* pour préciser le `runtime`.
 
 ```js
 #!/usr/bin/env node
@@ -191,13 +193,15 @@ const [command, ...args] = process.argv.slice(2);
 Une fois le lien établi, la commande devient disponible **comme n'importe quel outil installé** :
 
 ```bash
-monprojet new component Button
+exec new component Button
 # ✨ src/components/button/button.tsx créé
 ```
 
-C'est exactement de cette manière que Vite, ESLint ou Prisma vous mettent une commande entre les mains. **Rien ne vous empêche d'en faire autant** : vos coéquipiers récupèrent la même commande sans rien installer de plus, et votre dépôt embarque désormais **sa propre CLI**, cohérente avec ses conventions.
+C'est de cette manière que Vite, Angular, ESLint ou Prisma mettent à disposition leur propre CLI sans nécessiter un `npm run`.
 
-## Pouvoir #7 : Les champs oubliés au-delà des scripts
+**Rien ne vous empêche donc d'en faire autant** : vos collègues récupèreront les mêmes commandes sans rien devoir installer de plus. Votre codebase peut inclure **sa propre CLI** pour uniformiser le workflow entre ses contributeurs.
+
+## Les champs oubliés
 
 La section `scripts` monopolise l'attention, mais quelques autres champs méritent largement le détour :
 
@@ -211,50 +215,55 @@ La section `scripts` monopolise l'attention, mais quelques autres champs mérite
 }
 ```
 
-- **`engines`** et **`packageManager`** verrouillent respectivement la version de Node et celle du gestionnaire de paquets attendues par le projet. De quoi **mettre fin aux « pourtant ça marche chez moi »** provoqués par un écart de version entre deux machines.
+- **`engines`** et **`packageManager`** verrouillent respectivement la version de Node et celle du gestionnaire de paquets attendues par le projet. De quoi **mettre fin aux écarts de version entre deux machines** qui donnent des résultats différents.
 
-- **`overrides`** (son équivalent `resolutions` chez Yarn) force la version d'une dépendance transitive, ce qui reste **le seul moyen de corriger une faille de sécurité** dans un paquet que vous n'installez même pas directement.
+```json
+{
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@10.15.0"
+}
+```
 
-- **`files`** liste ce qui sera réellement embarqué lors d'une publication sur npm. Par défaut, **vous publiez bien plus que nécessaire** — tests, configurations et sources compris.
+- **`overrides`** (ou son équivalent `resolutions` chez Yarn) force la version d'une dépendance transitive, ce qui reste **le seul moyen de corriger une faille de sécurité** dans un paquet que vous n'installez même pas directement.
+
+```json
+{
+  "overrides": {
+    "cross-spawn": "^7.0.5", /* partout dans l'arbre de dépendances */
+    "vite": {
+      "esbuild": "^0.25.0" /* uniquement lorsqu'il est requis par vite */
+    }
+  }
+}
+```
+
+- **`files`** liste ce qui sera réellement embarqué lors d'une publication sur npm.
+
+```json
+{
+  "files": [
+    "dist",
+    "!dist/**/*.test.js"
+  ]
+}
+```
 
 - **`workspaces`**, enfin, transforme votre dépôt en monorepo et fait le lien avec <LinkWithGlimpse url="https://www.frenchdev.co/post/monorepo-1" internalLink={true}>les avantages d'un monorepo</LinkWithGlimpse>.
 
-## Un workflow que toute l'équipe comprend
+```json
+{
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
+```
 
-Reste le critère qui sépare le script qui marche sur votre machine du workflow auquel une équipe entière peut se fier. Deux réflexes suffisent à faire l'essentiel du chemin.
-
-D'abord, **écrire ses scripts pour la personne qui arrivera lundi prochain** : des noms prédictibles et regroupés par préfixe (`dev:*`, `build:*`, `test:*`), et pourquoi pas un petit script `help` qui liste ce que fait chaque commande. **Un workflow que personne ne comprend finit invariablement à la poubelle, réécrit par le premier qui ose y toucher.**
-
-Ensuite, **ne jamais présumer du système d'exploitation d'en face**. Chaque `rm -rf`, chaque `VAR=valeur`, chaque `&` est une petite bombe à retardement pour le collègue sous Windows. Un `cross-env` ici, un script Node là, et le problème disparaît définitivement.
-
-## Faut-il jeter les gros outils pour autant ?
+## Faut-il jeter les gros orchestrateurs pour autant ?
 
 Il serait malhonnête de conclure que le `package.json` remplace tout. Sur un monorepo conséquent, **la mise en cache des tâches, leur parallélisation intelligente et l'exploitation du graphe de dépendances** — ce que font <LinkWithGlimpse url="https://turbo.build">Turborepo</LinkWithGlimpse> ou <LinkWithGlimpse url="https://nx.dev">Nx</LinkWithGlimpse> — restent hors de portée d'une section `scripts`, et le sont de plus en plus à mesure que le projet grossit.
 
-Mais il faut reconnaître que **l'écrasante majorité des projets frontend n'en arrive jamais là**, et que la tentation est grande d'installer l'orchestrateur avant d'en avoir le besoin. Or **une dizaine de scripts bien nommés que vous comprenez intégralement vieilliront toujours mieux qu'un fichier de configuration que vous n'osez plus toucher**, dont la moitié des options ont été copiées d'un article de blog et dont une mise à jour surprise peut casser la CI un mardi matin.
-
-Le meilleur outil de build de votre projet est peut-être déjà là, dans un fichier que vous avez ouvert ce matin. **Il ne restait qu'à l'allumer.**
-
-Pour une plongée complète dans le sujet, la vidéo de **<LinkWithGlimpse url="https://www.youtube.com/@PixelGridUI">Pixel Grid UI</LinkWithGlimpse>** déroule toute la progression, du premier `npm run` jusqu'à la CLI maison 👇
-
-<div className="video-container">
-  <iframe
-    width="560"
-    height="315"
-    src="https://www.youtube.com/embed/Xgh2yqC9chc"
-    title="YouTube video player"
-    frameBorder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    allowFullScreen
-    style={{ margin: "2rem auto", maxWidth: "100%" }}
-  />
-</div>
-
-<div className="useful-links">
-  ### Liens additionnels
-
-  - <ExternalLink> <LinkWithGlimpse url="https://docs.npmjs.com/cli/v11/using-npm/scripts">Documentation npm — Scripts</LinkWithGlimpse> </ExternalLink>
-  - <ExternalLink> <LinkWithGlimpse url="https://docs.npmjs.com/cli/v11/configuring-npm/package-json">Documentation npm — package.json</LinkWithGlimpse> </ExternalLink>
-  - <ExternalLink> <LinkWithGlimpse url="https://nodejs.org/api/packages.html#subpath-imports">Documentation Node.js — Subpath imports</LinkWithGlimpse> </ExternalLink>
-  - <ExternalLink> <LinkWithGlimpse url="https://thehackernews.com/2026/07/npm-12-disables-install-scripts-by.html">npm 12 Disables Install Scripts by Default (The Hacker News)</LinkWithGlimpse> </ExternalLink>
-</div>
+Mais il faut reconnaître que **l'écrasante majorité des projets frontend n'en arrive jamais là**, et que la tentation est grande d'installer l'orchestrateur avant d'en avoir le besoin. Or **une dizaine de scripts bien nommés que vous comprenez intégralement vieilliront toujours mieux qu'un fichier de configuration que vous n'osez plus toucher**, dont la moitié des options ont été copiées d'un article de blog et dont une mise à jour surprise peut casser la CI du jour au lendemain.
